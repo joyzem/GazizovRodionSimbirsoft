@@ -1,5 +1,8 @@
 package com.example.androidpractice.kotlintraining
 
+import java.text.NumberFormat
+import java.util.Currency
+
 /*
    Необходимо создать интерфейс Publication, у которого должно быть свойства – price и wordCount,
    а также метод getType, возвращающий строку. Создать два класса,
@@ -15,8 +18,8 @@ interface Publication {
     fun getType(): String
 }
 
-class Book(override val price: Int, override val wordCount: Int) : Publication {
 
+class Book(override val price: Int, override val wordCount: Int) : Publication {
 
     override fun getType(): String {
         val bookType = when {
@@ -34,9 +37,61 @@ class Book(override val price: Int, override val wordCount: Int) : Publication {
         }
         return bookType
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Book) return false
+
+        if (price != other.price) return false
+        if (wordCount != other.wordCount) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = price
+        result = 31 * result + wordCount
+        return result
+    }
 }
+
 
 class Magazine(override val price: Int, override val wordCount: Int) : Publication {
 
     override fun getType() = "Magazine"
+}
+
+
+/*
+   Создать два объекта класса Book и один объект Magazine. Вывести в лог для каждого объекта тип,
+   количество строк и цену в евро в отформатированном виде. У класса Book переопределить метод
+   equals и произвести сравнение сначала по ссылке, затем используя метод equals.
+   Результаты сравнений вывести в лог.
+*/
+fun publications() {
+    val publications = listOf(
+        Book(1000, 7000),
+        Book(1000, 7000),
+        Magazine(200, 1000)
+    )
+
+    val printPublicationInfo: Publication.() -> Unit = {
+        val maxWordsInLine = 10
+        val lines = wordCount / maxWordsInLine
+        val format = NumberFormat.getCurrencyInstance().apply {
+            currency = Currency.getInstance("EUR")
+        }
+        val price = format.format(price)
+        println(
+            "Тип публикации: ${getType()}\nКоличество строк: $lines\nЦена:$price"
+        )
+    }
+
+    publications.forEach(printPublicationInfo)
+
+    println(
+        "Сравнение ${publications[0]} и ${publications[1]}: \n" +
+                "По ссылке: ${publications[0] === publications[1]}\n" +
+                "Через equals: ${publications[0] == publications[1]}"
+    )
 }
