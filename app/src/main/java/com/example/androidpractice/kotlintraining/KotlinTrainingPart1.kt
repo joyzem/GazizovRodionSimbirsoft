@@ -95,3 +95,29 @@ fun publications() {
                 "Через equals: ${publications[0] == publications[1]}"
     )
 }
+
+
+/*
+   Создать метод buy, который в качестве параметра принимает Publication (notnull - значения)
+   и выводит в лог “The purchase is complete. The purchase amount was [цена издания]”.
+   Создать две переменных класса Book, в которых могут находиться null значения. Присвоить
+   одной null, а второй любое notnull значение. Используя функцию let, попробуйте вызвать
+   метод buy с каждой из переменных.
+ */
+fun buy(publication: Publication) {
+    val format = NumberFormat.getCurrencyInstance().apply {
+        currency = Currency.getInstance("EUR")
+    }
+    println("The purchase is complete. The purchase amount was ${format.format(publication.price)}")
+}
+
+fun letBuy() {
+    val firstBook: Book? = null
+    val secondBook: Book? = Book(100, 4000)
+    firstBook?.let {
+        buy(it)
+    } ?: println("The publication is null")
+    secondBook?.let {
+        buy(it)
+    } ?: println("The publication is null")
+}
