@@ -121,3 +121,18 @@ fun letBuy() {
         buy(it)
     } ?: println("The publication is null")
 }
+
+
+/*
+   Создать переменную sum и присвоить ей лямбда-выражение, которое будет складывать два переданных
+   ей числа и выводить результат в лог. Вызвать данное лямбда-выражение с произвольными параметрами.
+ */
+fun someLambda() {
+    val sum: (Int, Int) -> Unit = { first, second ->
+        val result = first + second
+        println(result)
+    }
+    sum(1, 10)
+    sum(10, -10)
+    sum(-1, -2)
+}
