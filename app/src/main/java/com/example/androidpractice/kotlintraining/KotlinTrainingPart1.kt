@@ -19,7 +19,7 @@ interface Publication {
 }
 
 
-class Book(override val price: Int, override val wordCount: Int) : Publication {
+data class Book(override val price: Int, override val wordCount: Int) : Publication {
 
     override fun getType(): String {
         val bookType = when {
@@ -37,26 +37,10 @@ class Book(override val price: Int, override val wordCount: Int) : Publication {
         }
         return bookType
     }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is Book) return false
-
-        if (price != other.price) return false
-        if (wordCount != other.wordCount) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = price
-        result = 31 * result + wordCount
-        return result
-    }
 }
 
 
-class Magazine(override val price: Int, override val wordCount: Int) : Publication {
+data class Magazine(override val price: Int, override val wordCount: Int) : Publication {
 
     override fun getType() = "Magazine"
 }
