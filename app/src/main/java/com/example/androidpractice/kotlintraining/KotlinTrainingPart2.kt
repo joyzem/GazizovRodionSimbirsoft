@@ -65,3 +65,18 @@ fun createUsers(): List<User> {
 fun getUsersWithFullType(users: List<User>): List<User> {
     return users.filter { it.type == Type.FULL }
 }
+
+
+/*
+    Преобразовать список User в список имен пользователей.
+    Получить первый и последний элементы списка и вывести их в лог.
+ */
+fun printUsersNames(users: List<User>) {
+    val names = users.map { it.name }
+    names.firstOrNull()?.let { name ->
+        println(name)
+    }
+    names.lastOrNull()?.let { name ->
+        println(name)
+    }
+}
