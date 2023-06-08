@@ -187,3 +187,34 @@ sealed class Action {
     class Login(val user: User) : Action()
     class Logout : Action()
 }
+
+
+/*
+    Реализовать метод doAction, принимающий экземпляр класса Action.
+    В зависимости от переданного действия выводить в лог текст, к примеру “Auth started”.
+    Для действия Login вызывать метод auth.
+ */
+fun doAction(action: Action) {
+    when (action) {
+        is Action.Registration -> {
+            println("Registration started")
+        }
+
+        is Action.Login -> {
+            auth(action.user, authLogCallback) {
+                println("cache is updated...")
+            }
+        }
+
+        is Action.Logout -> {
+            println("Logout")
+        }
+    }
+}
+
+fun authWithActions() {
+    val user = User("1", "John", 18, Type.FULL)
+    doAction(Action.Registration())
+    doAction(Action.Login(user))
+    doAction(Action.Logout())
+}
