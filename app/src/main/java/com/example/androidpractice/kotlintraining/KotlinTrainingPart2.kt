@@ -27,3 +27,15 @@ data class User(
         Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault())
     }
 }
+
+
+/*
+    Создать объект класса User, вывести в лог startTime данного юзера,
+    после вызвать Thread.sleep(1000) и повторно вывести в лог startTime.
+ */
+fun createUser() {
+    val user = User("id", "John", 11, Type.DEMO)
+    println(user.startType)
+    Thread.sleep(1000)
+    println(user.startType)
+}
