@@ -39,3 +39,20 @@ fun createUser() {
     Thread.sleep(1000)
     println(user.startType)
 }
+
+
+/*
+    Создать список пользователей, содержащий в себе один объект класса User.
+    Используя функцию apply, добавить ещё несколько объектов класса User в список пользователей.
+ */
+fun createUsers() {
+    val users = mutableListOf(
+        User("1", "John", 17, Type.DEMO)
+    ).apply {
+        val users = listOf(
+            User("2", "David", 18, Type.FULL),
+            User("3", "Boris", 14, Type.FULL)
+        )
+        addAll(users)
+    }
+}
