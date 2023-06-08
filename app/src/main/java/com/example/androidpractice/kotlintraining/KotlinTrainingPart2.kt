@@ -136,3 +136,43 @@ fun authWithCache() {
         println("Cache is updated at ${Clock.System.now()}")
     }
 }
+
+
+/*
+    Внутри функции auth вызвать метод коллбека authSuccess и переданный updateCache,
+    если проверка возраста пользователя произошла без ошибки. В случае получения ошибки
+    вызвать authFailed.
+ */
+inline fun auth(user: User, callback: AuthCallback, updateCache: () -> Unit) {
+    try {
+        user.isAdult()
+        callback.authSuccess()
+        updateCache()
+    } catch (e: Exception) {
+        callback.authFailed()
+    }
+}
+
+fun userAuthCallback(user: User) : AuthCallback {
+    return object : AuthCallback {
+        override fun authSuccess() {
+            println("${user.name} is authed")
+        }
+
+        override fun authFailed() {
+            println("Auth fail occurred for ${user.name}")
+        }
+    }
+}
+
+fun authWithCallbackAndCache() {
+    val john = User("1", "John", 17, Type.FULL)
+    val david = User("2", "David", 18, Type.FULL)
+
+    val updateCache = {
+        println("cache is updated...")
+    }
+
+    auth(john, userAuthCallback(john), updateCache)
+    auth(david, userAuthCallback(david), updateCache)
+}
