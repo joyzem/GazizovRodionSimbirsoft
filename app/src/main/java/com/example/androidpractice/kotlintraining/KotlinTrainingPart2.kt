@@ -121,3 +121,18 @@ fun authWithCallback() {
     authLogCallback.authSuccess()
     authLogCallback.authFailed()
 }
+
+
+/*
+    Реализовать inline функцию auth, принимающую в качестве параметра функцию updateCache.
+    Функция updateCache должна выводить в лог информацию об обновлении кэша.
+ */
+inline fun auth(updateCache: () -> Unit) {
+    updateCache()
+}
+
+fun authWithCache() {
+    auth {
+        println("Cache is updated at ${Clock.System.now()}")
+    }
+}
