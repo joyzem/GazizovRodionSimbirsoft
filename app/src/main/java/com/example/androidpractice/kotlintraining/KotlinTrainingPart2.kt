@@ -80,3 +80,17 @@ fun printUsersNames(users: List<User>) {
         println(name)
     }
 }
+
+
+/*
+    Создать функцию-расширение класса User, которая проверяет, что юзер старше 18 лет,
+    и в случае успеха выводит в лог, а в случае неуспеха возвращает ошибку.
+ */
+@Throws(Exception::class)
+fun User.isAdult() {
+    if (age >= 18) {
+        println("User is adult")
+    } else {
+        throw Exception("User is young")
+    }
+}
