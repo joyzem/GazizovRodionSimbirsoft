@@ -94,3 +94,30 @@ fun User.isAdult() {
         throw Exception("User is young")
     }
 }
+
+
+/*
+    Создать интерфейс AuthCallback с методами authSuccess, authFailed и реализовать анонимный
+    объект данного интерфейса. В методах необходимо вывести в лог информацию о статусе авторизации.
+ */
+interface AuthCallback {
+
+    fun authSuccess()
+
+    fun authFailed()
+}
+
+val authLogCallback = object : AuthCallback {
+    override fun authSuccess() {
+        println("Auth is success")
+    }
+
+    override fun authFailed() {
+        println("Auth is failed")
+    }
+}
+
+fun authWithCallback() {
+    authLogCallback.authSuccess()
+    authLogCallback.authFailed()
+}
