@@ -45,7 +45,7 @@ fun createUser() {
     Создать список пользователей, содержащий в себе один объект класса User.
     Используя функцию apply, добавить ещё несколько объектов класса User в список пользователей.
  */
-fun createUsers() {
+fun createUsers(): List<User> {
     val users = mutableListOf(
         User("1", "John", 17, Type.DEMO)
     ).apply {
@@ -55,4 +55,13 @@ fun createUsers() {
         )
         addAll(users)
     }
+    return users
+}
+
+
+/*
+    Получить список пользователей, у которых имеется полный доступ (поле type имеет значение FULL).
+ */
+fun getUsersWithFullType(users: List<User>): List<User> {
+    return users.filter { it.type == Type.FULL }
 }
