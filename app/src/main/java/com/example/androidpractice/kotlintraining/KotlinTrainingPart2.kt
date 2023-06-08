@@ -49,11 +49,8 @@ fun createUsers(): List<User> {
     val users = mutableListOf(
         User("1", "John", 17, Type.DEMO)
     ).apply {
-        val users = listOf(
-            User("2", "David", 18, Type.FULL),
-            User("3", "Boris", 14, Type.FULL)
-        )
-        addAll(users)
+        add(User("2", "David", 18, Type.FULL))
+        add(User("3", "Boris", 14, Type.FULL))
     }
     return users
 }
@@ -86,12 +83,12 @@ fun printUsersNames(users: List<User>) {
     Создать функцию-расширение класса User, которая проверяет, что юзер старше 18 лет,
     и в случае успеха выводит в лог, а в случае неуспеха возвращает ошибку.
  */
-@Throws(Exception::class)
+@Throws(IllegalStateException::class)
 fun User.isAdult() {
     if (age >= 18) {
         println("User is adult")
     } else {
-        throw Exception("User is young")
+        throw IllegalStateException("User is young")
     }
 }
 
@@ -148,7 +145,7 @@ inline fun auth(user: User, callback: AuthCallback, updateCache: () -> Unit) {
         user.isAdult()
         callback.authSuccess()
         updateCache()
-    } catch (e: Exception) {
+    } catch (e: IllegalStateException) {
         callback.authFailed()
     }
 }
@@ -183,9 +180,9 @@ fun authWithCallbackAndCache() {
     Login должен принимать в качестве параметра экземпляр класса User.
  */
 sealed class Action {
-    class Registration : Action()
+    object Registration : Action()
     class Login(val user: User) : Action()
-    class Logout : Action()
+    object Logout : Action()
 }
 
 
@@ -214,7 +211,7 @@ fun doAction(action: Action) {
 
 fun authWithActions() {
     val user = User("1", "John", 18, Type.FULL)
-    doAction(Action.Registration())
+    doAction(Action.Registration)
     doAction(Action.Login(user))
-    doAction(Action.Logout())
+    doAction(Action.Logout)
 }
