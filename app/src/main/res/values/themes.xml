@@ -3,16 +3,21 @@
     <style name="Base.Theme.AndroidPractice" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">#5D8236</item>
+        <item name="colorPrimary">@color/leaf</item>
+        <item name="colorOnPrimary">@color/white</item>
     </style>
 
-    <style name="Theme.AndroidPractice" parent="Base.Theme.AndroidPractice">
-        <item name="android:statusBarColor">@color/leaf</item>
-    </style>
+    <style name="Theme.AndroidPractice" parent="Base.Theme.AndroidPractice" />
 
     <style name="Theme.AndroidPractice.Starting" parent="Theme.SplashScreen">
+        <item name="android:statusBarColor">@color/leaf</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_icon_logo_splash</item>
-        <item name="postSplashScreenTheme">@style/Theme.AndroidPractice</item>
+        <item name="postSplashScreenTheme">@style/Theme.AndroidPractice.SplashTheme</item>
     </style>
 
+    <style name="Theme.AndroidPractice.SplashTheme" parent="Base.Theme.AndroidPractice">
+        <item name="android:statusBarColor">@color/leaf</item>
+    </style>
 
 </resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.AndroidPractice.Button">
+        <item name="backgroundColor">@color/leaf</item>
+    </style>
+
+    <style name="Theme.AndroidPractice.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorSecondary">@color/leaf</item>
+    </style>
+</resources>
