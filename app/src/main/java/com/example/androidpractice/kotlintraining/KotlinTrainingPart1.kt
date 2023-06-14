@@ -18,7 +18,6 @@ interface Publication {
     fun getType(): String
 }
 
-
 data class Book(override val price: Int, override val wordCount: Int) : Publication {
 
     override fun getType(): String {
@@ -39,12 +38,9 @@ data class Book(override val price: Int, override val wordCount: Int) : Publicat
     }
 }
 
-
 data class Magazine(override val price: Int, override val wordCount: Int) : Publication {
-
     override fun getType() = "Magazine"
 }
-
 
 /*
    Создать два объекта класса Book и один объект Magazine. Вывести в лог для каждого объекта тип,
@@ -75,11 +71,10 @@ fun publications() {
 
     println(
         "Сравнение ${publications[0]} и ${publications[1]}: \n" +
-                "По ссылке: ${publications[0] === publications[1]}\n" +
-                "Через equals: ${publications[0] == publications[1]}"
+            "По ссылке: ${publications[0] === publications[1]}\n" +
+            "Через equals: ${publications[0] == publications[1]}"
     )
 }
-
 
 /*
    Создать метод buy, который в качестве параметра принимает Publication (notnull - значения)
@@ -97,15 +92,13 @@ fun buy(publication: Publication) {
 
 fun letBuy() {
     val firstBook: Book? = null
-    val secondBook: Book? = Book(100, 4000)
+    val secondBook: Book = Book(100, 4000)
+    @Suppress("KotlinConstantConditions")
     firstBook?.let {
         buy(it)
     } ?: println("The publication is null")
-    secondBook?.let {
-        buy(it)
-    } ?: println("The publication is null")
+    buy(secondBook)
 }
-
 
 /*
    Создать переменную sum и присвоить ей лямбда-выражение, которое будет складывать два переданных

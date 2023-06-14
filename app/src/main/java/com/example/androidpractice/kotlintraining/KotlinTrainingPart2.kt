@@ -12,7 +12,6 @@ enum class Type {
     FULL
 }
 
-
 /*
     Реализовать класс данных User с полями id, name, age и type.
     У класса User создать ленивое свойство startTime, в котором получаем текущее время.
@@ -28,7 +27,6 @@ data class User(
     }
 }
 
-
 /*
     Создать объект класса User, вывести в лог startTime данного юзера,
     после вызвать Thread.sleep(1000) и повторно вывести в лог startTime.
@@ -39,7 +37,6 @@ fun createUser() {
     Thread.sleep(1000)
     println(user.startType)
 }
-
 
 /*
     Создать список пользователей, содержащий в себе один объект класса User.
@@ -55,14 +52,12 @@ fun createUsers(): List<User> {
     return users
 }
 
-
 /*
     Получить список пользователей, у которых имеется полный доступ (поле type имеет значение FULL).
  */
 fun getUsersWithFullType(users: List<User>): List<User> {
     return users.filter { it.type == Type.FULL }
 }
-
 
 /*
     Преобразовать список User в список имен пользователей.
@@ -78,20 +73,15 @@ fun printUsersNames(users: List<User>) {
     }
 }
 
-
 /*
     Создать функцию-расширение класса User, которая проверяет, что юзер старше 18 лет,
     и в случае успеха выводит в лог, а в случае неуспеха возвращает ошибку.
  */
 @Throws(IllegalStateException::class)
 fun User.isAdult() {
-    if (age >= 18) {
-        println("User is adult")
-    } else {
-        throw IllegalStateException("User is young")
-    }
+    require(age >= 18)
+    println("User is adult")
 }
-
 
 /*
     Создать интерфейс AuthCallback с методами authSuccess, authFailed и реализовать анонимный
@@ -119,7 +109,6 @@ fun authWithCallback() {
     authLogCallback.authFailed()
 }
 
-
 /*
     Реализовать inline функцию auth, принимающую в качестве параметра функцию updateCache.
     Функция updateCache должна выводить в лог информацию об обновлении кэша.
@@ -133,7 +122,6 @@ fun authWithCache() {
         println("Cache is updated at ${Clock.System.now()}")
     }
 }
-
 
 /*
     Внутри функции auth вызвать метод коллбека authSuccess и переданный updateCache,
@@ -174,7 +162,6 @@ fun authWithCallbackAndCache() {
     auth(david, userAuthCallback(david), updateCache)
 }
 
-
 /*
     Реализовать изолированный класс Action и его наследников – Registration, Login и Logout.
     Login должен принимать в качестве параметра экземпляр класса User.
@@ -184,7 +171,6 @@ sealed class Action {
     class Login(val user: User) : Action()
     object Logout : Action()
 }
-
 
 /*
     Реализовать метод doAction, принимающий экземпляр класса Action.
