@@ -1,7 +1,7 @@
 package com.example.androidpractice
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.androidpractice.databinding.ActivityMainBinding
@@ -37,16 +37,20 @@ class MainActivity : AppCompatActivity() {
                 R.id.newsNavItem -> {
                     true
                 }
+
                 R.id.searchNavItem -> {
                     true
                 }
+
                 R.id.historyNavItem -> {
                     true
                 }
+
                 R.id.profileNavItem -> {
                     navigate(ProfileFragment::class.java)
                     true
                 }
+
                 else -> {
                     false
                 }
