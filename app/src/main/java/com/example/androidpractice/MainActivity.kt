@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavView.selectedItemId = navItemId
     }
 
-    private fun navigate(fragment: Class<out Fragment>) {
+    private fun navigate(fragment: Fragment) {
         supportFragmentManager.commit {
             replace(R.id.container, fragment, null)
         }
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.profileNavItem -> {
-                    navigate(ProfileFragment::class.java)
+                    navigate(ProfileFragment.newInstance())
                     true
                 }
 

@@ -29,7 +29,7 @@ class FriendsAdapter(private var friends: List<String>) :
     }
 
     fun setFriends(friends: List<String>) {
-        this.friends = friends.toMutableList()
+        this.friends = friends
         notifyDataSetChanged()
     }
 

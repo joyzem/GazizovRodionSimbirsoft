@@ -45,4 +45,10 @@ class ProfileFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    companion object {
+        fun newInstance(): ProfileFragment {
+            return ProfileFragment()
+        }
+    }
 }
