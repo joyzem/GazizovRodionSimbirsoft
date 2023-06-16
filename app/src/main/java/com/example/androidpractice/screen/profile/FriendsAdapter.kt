@@ -1,5 +1,6 @@
 package com.example.androidpractice.screen.profile
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class FriendsAdapter(private var friends: List<String>) :
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setFriends(friends: List<String>) {
         this.friends = friends
         notifyDataSetChanged()

@@ -7,7 +7,7 @@
     tools:context=".SplashActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/logo_image_view"
+        android:id="@+id/logoImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/ic_icon_logo" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
-        android:id="@+id/progress_circular"
+        android:id="@+id/progressCircular"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="84dp"
@@ -26,7 +26,7 @@
         app:indicatorColor="@color/turtle_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/logo_image_view" />
+        app:layout_constraintTop_toBottomOf="@id/logoImageView" />
 
     <androidx.appcompat.widget.AppCompatTextView
         style="TextStyle"
@@ -36,7 +36,7 @@
         android:text="@string/loading_ellipsis"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progress_circular" />
+        app:layout_constraintTop_toBottomOf="@id/progressCircular" />
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="wrap_content"

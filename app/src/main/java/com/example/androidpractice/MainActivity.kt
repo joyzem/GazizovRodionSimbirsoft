@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import com.example.androidpractice.databinding.ActivityMainBinding
+import com.example.androidpractice.screen.help.HelpFragment
 import com.example.androidpractice.screen.profile.ProfileFragment
 
 class MainActivity : AppCompatActivity() {
@@ -18,16 +19,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         setupNavigation()
-        navigate(R.id.profileNavItem)
-    }
-
-    private fun navigate(navItemId: Int) {
-        binding.bottomNavView.selectedItemId = navItemId
+        navigate(HelpFragment.newInstance()).also {
+            binding.bottomNavView.selectedItemId = R.id.helpNavItem
+        }
     }
 
     private fun navigate(fragment: Fragment) {
         supportFragmentManager.commit {
-            replace(R.id.container, fragment, null)
+            replace(R.id.container, fragment, fragment.tag ?: fragment.javaClass.name)
         }
     }
 
@@ -58,6 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.helpButton.setOnClickListener {
             binding.bottomNavView.selectedItemId = R.id.helpNavItem
+            navigate(HelpFragment.newInstance())
         }
     }
 }

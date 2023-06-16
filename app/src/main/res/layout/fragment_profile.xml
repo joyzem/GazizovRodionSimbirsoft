@@ -8,7 +8,7 @@
     tools:context=".screen.profile.ProfileFragment">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/profile_app_bar"
+        android:id="@+id/profileAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -35,6 +35,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/profilePhotoImageView"
                 android:layout_width="match_parent"
                 android:layout_height="220dp"
                 android:scaleType="centerCrop"
@@ -138,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/spacing_l"
-                android:layout_marginBottom="@dimen/spacing_xll_2"
+                android:layout_marginBottom="@dimen/spacing_xxl_2"
                 android:text="@string/logout"
                 android:textAllCaps="false"
                 android:textAppearance="@style/TextStyle7" />
