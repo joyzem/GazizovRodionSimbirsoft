@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/container"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="?actionBarSize" />
+        android:paddingBottom="?actionBarSize"
+        />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
@@ -28,6 +29,7 @@
             app:itemTextAppearanceActive="@style/BottomNavigationViewTextAppearance"
             app:itemTextAppearanceInactive="@style/BottomNavigationViewTextAppearance"
             app:labelVisibilityMode="labeled"
+            app:itemRippleColor="@android:color/transparent"
             app:menu="@menu/bottom_navigation_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -37,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
-        android:paddingBottom="20dp"
         android:background="@android:color/transparent"
+        android:paddingBottom="20dp"
         android:src="@drawable/ic_help" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

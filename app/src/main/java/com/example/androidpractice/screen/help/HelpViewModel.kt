@@ -3,7 +3,7 @@ package com.example.androidpractice.screen.help
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.androidpractice.R
-import com.example.androidpractice.model.Category
+import com.example.androidpractice.domain.model.Category
 
 class HelpViewModel : ViewModel() {
     val categories = liveData<List<Category>> {

@@ -18,7 +18,6 @@ class FriendsAdapter(private var friends: List<String>) :
         private val imageView: ImageView
 
         init {
-            // Define click listener for the ViewHolder's View
             textView = view.findViewById(R.id.friendNameTextView)
             imageView = view.findViewById(R.id.avatarImageView)
         }

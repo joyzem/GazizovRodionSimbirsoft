@@ -2,11 +2,12 @@ package com.example.androidpractice
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import androidx.fragment.app.replace
 import com.example.androidpractice.databinding.ActivityMainBinding
 import com.example.androidpractice.screen.help.HelpFragment
 import com.example.androidpractice.screen.profile.ProfileFragment
+import com.example.androidpractice.screen.search.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,26 +19,34 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        setupNavigation()
-        navigate(HelpFragment.newInstance()).also {
-            binding.bottomNavView.selectedItemId = R.id.helpNavItem
-        }
-    }
-
-    private fun navigate(fragment: Fragment) {
         supportFragmentManager.commit {
-            replace(R.id.container, fragment, fragment.tag ?: fragment.javaClass.name)
+            setReorderingAllowed(true)
+            replace<HelpFragment>(R.id.fragmentContainer)
         }
+        binding.bottomNavView.selectedItemId = R.id.helpNavItem
+
+        setupNavigation()
     }
 
     private fun setupNavigation() {
         binding.bottomNavView.setOnItemSelectedListener { menuItem ->
+            val id = binding.bottomNavView.selectedItemId
+            supportFragmentManager.saveBackStack(id.toString())
+
             when (menuItem.itemId) {
                 R.id.newsNavItem -> {
                     true
                 }
 
                 R.id.searchNavItem -> {
+                    supportFragmentManager.restoreBackStack(R.id.searchNavItem.toString()) //FIXME: async call
+                    if (supportFragmentManager.findFragmentByTag("search") == null) {
+                        supportFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            replace<SearchFragment>(R.id.fragmentContainer, "search")
+                            addToBackStack(R.id.searchNavItem.toString())
+                        }
+                    }
                     true
                 }
 
@@ -46,7 +55,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.profileNavItem -> {
-                    navigate(ProfileFragment.newInstance())
+                    supportFragmentManager.restoreBackStack(R.id.profileNavItem.toString()) //FIXME: async call
+                    if (supportFragmentManager.findFragmentByTag("profile") == null) {
+                        supportFragmentManager.commit {
+                            setReorderingAllowed(true)
+                            replace<ProfileFragment>(R.id.fragmentContainer, "profile")
+                            addToBackStack(R.id.profileNavItem.toString())
+                        }
+                    }
                     true
                 }
 
@@ -56,8 +72,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.helpButton.setOnClickListener {
-            binding.bottomNavView.selectedItemId = R.id.helpNavItem
-            navigate(HelpFragment.newInstance())
+            val id = binding.bottomNavView.selectedItemId
+            supportFragmentManager.saveBackStack(id.toString())
+            supportFragmentManager.restoreBackStack(R.id.helpNavItem.toString())
+            binding.bottomNavView.menu.getItem(2).isChecked = true
         }
     }
 }

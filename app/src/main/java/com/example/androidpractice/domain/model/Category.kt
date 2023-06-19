@@ -1,4 +1,4 @@
-package com.example.androidpractice.model
+package com.example.androidpractice.domain.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
