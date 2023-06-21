@@ -1,5 +1,6 @@
 package com.example.androidpractice.screen.profile
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,7 +18,6 @@ class FriendsAdapter(private var friends: List<String>) :
         private val imageView: ImageView
 
         init {
-            // Define click listener for the ViewHolder's View
             textView = view.findViewById(R.id.friendNameTextView)
             imageView = view.findViewById(R.id.avatarImageView)
         }
@@ -28,8 +28,9 @@ class FriendsAdapter(private var friends: List<String>) :
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setFriends(friends: List<String>) {
-        this.friends = friends.toMutableList()
+        this.friends = friends
         notifyDataSetChanged()
     }
 

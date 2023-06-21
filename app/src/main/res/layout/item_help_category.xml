@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_grey"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/spacing_xl"
+    android:paddingVertical="@dimen/spacing_s"
+    android:layout_margin="@dimen/spacing_xxs">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/categoryImageView"
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_horizontal"
+        tools:src="@drawable/ic_children_category" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/categoryTextView"
+        style="@style/TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/spacing_s"
+        tools:text="Дети" />
+
+</LinearLayout>

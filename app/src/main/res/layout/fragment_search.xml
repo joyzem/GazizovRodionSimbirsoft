@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/searchToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:menu="@menu/search_toolbar_menu"
+            app:title="@string/search"
+            app:titleCentered="true"
+            app:titleTextAppearance="@style/TextStyle2"
+            app:titleTextColor="?colorOnPrimary" />
+
+        <include
+            android:id="@+id/searchFieldContainer"
+            layout="@layout/search_field"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_xs"
+            android:layout_marginTop="@dimen/spacing_xs"
+            android:visibility="gone"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/searchTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            app:tabIndicatorColor="@color/macaroni_and_cheese"
+            app:tabIndicatorHeight="2dp"
+            app:tabSelectedTextColor="@color/white"
+            app:tabTextAppearance="@style/TextStyle7"
+            app:tabTextColor="@color/white_70">
+
+        </com.google.android.material.tabs.TabLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/searchViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -12,4 +12,22 @@
     <string name="search">Поиск</string>
     <string name="history">История</string>
     <string name="help">Помочь</string>
+    <string name="choose_photo">Выбрать фото</string>
+    <string name="take_photo">Сделать снимок</string>
+    <string name="delete_photo">Удалить</string>
+    <string name="choose_help_category">Выберите категорию помощи</string>
+    <string name="children">Дети</string>
+    <string name="adult">Взрослые</string>
+    <string name="old_people">Пожилые</string>
+    <string name="animals">Животные</string>
+    <string name="events">Мероприятия</string>
+    <string name="by_events">По мероприятиям</string>
+    <string name="by_organizations">По НКО</string>
+    <string name="enter_organization_name">Введите наименование организации</string>
+    <plurals name="search_results">
+        <item quantity="one">Результаты поиска: %d мероприятие</item>
+        <item quantity="few">Результаты поиска: %d мероприятия</item>
+        <item quantity="many">Результаты поиска: %d мероприятий</item>
+        <item quantity="other">Результаты поиска: %d мероприятий</item>
+    </plurals>
 </resources>

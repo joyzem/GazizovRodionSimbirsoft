@@ -6,9 +6,15 @@
         <item name="android:statusBarColor">#5D8236</item>
         <item name="colorPrimary">@color/leaf</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnSurfaceVariant">@color/black_54</item>
     </style>
 
     <style name="Theme.AndroidPractice" parent="Base.Theme.AndroidPractice" />
+
+    <style name="Theme.SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColorHint">@color/black_38</item>
+    </style>
 
     <style name="Theme.AndroidPractice.Starting" parent="Theme.SplashScreen">
         <item name="android:statusBarColor">@color/leaf</item>
