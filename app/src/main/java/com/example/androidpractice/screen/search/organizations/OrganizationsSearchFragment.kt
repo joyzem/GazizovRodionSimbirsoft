@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentOrganizationsSearchBinding
 import com.example.androidpractice.screen.search.SearchResultAdapter
-
+import com.example.androidpractice.ui.LeftPaddingDivider
 
 class OrganizationsSearchFragment : Fragment() {
     private var _binding: FragmentOrganizationsSearchBinding? = null
@@ -19,7 +19,6 @@ class OrganizationsSearchFragment : Fragment() {
 
     private val adapter: SearchResultAdapter by lazy {
         SearchResultAdapter {
-
         }
     }
 
@@ -37,8 +36,10 @@ class OrganizationsSearchFragment : Fragment() {
         binding.organizationsResultsRV.adapter = adapter
         val dividerColor = requireContext().getColor(R.color.cool_grey)
         val dividerHeight = (resources.displayMetrics.density * 1).toInt()
-        val decorator = com.example.androidpractice.ui.LeftPaddingDivider(
-            dividerHeight, dividerColor, requireContext()
+        val decorator = LeftPaddingDivider(
+            dividerHeight,
+            dividerColor,
+            requireContext()
         )
         binding.organizationsResultsRV.addItemDecoration(decorator)
 

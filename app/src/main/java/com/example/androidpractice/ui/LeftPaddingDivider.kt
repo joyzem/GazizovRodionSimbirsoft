@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.androidpractice.R
 
-
 class LeftPaddingDivider(
     private val dividerHeight: Int,
     color: Int,

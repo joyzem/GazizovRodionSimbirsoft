@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_xs"
             android:layout_marginTop="@dimen/spacing_xs"
-            android:visibility="gone" />
+            android:visibility="gone"
+            app:layout_scrollFlags="scroll|enterAlways" />
 
 
         <com.google.android.material.tabs.TabLayout

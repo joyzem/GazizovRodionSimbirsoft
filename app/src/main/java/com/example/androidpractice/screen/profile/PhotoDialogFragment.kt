@@ -7,7 +7,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.androidpractice.R
 
-
 class PhotoDialogFragment : DialogFragment() {
 
     private lateinit var listener: PhotoDialogListener

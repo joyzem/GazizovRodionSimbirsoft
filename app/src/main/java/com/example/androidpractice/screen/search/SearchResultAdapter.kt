@@ -3,7 +3,6 @@ package com.example.androidpractice.screen.search
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,7 +12,7 @@ import com.example.androidpractice.domain.model.SearchResult
 
 class SearchResultAdapter(private val onClick: (SearchResult) -> Unit) :
     ListAdapter<SearchResult, SearchResultAdapter.ResultViewHolder>(
-        DIFF_UTIL
+        SearchDiffUtil
     ) {
 
     class ResultViewHolder(
@@ -46,7 +45,7 @@ class SearchResultAdapter(private val onClick: (SearchResult) -> Unit) :
         holder.bind(getItem(position))
     }
 
-    object DIFF_UTIL : DiffUtil.ItemCallback<SearchResult>() {
+    object SearchDiffUtil : DiffUtil.ItemCallback<SearchResult>() {
         override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
             return oldItem.id == newItem.id
         }

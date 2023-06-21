@@ -13,7 +13,7 @@ interface OrganizationsSearchRepo {
                 SearchResult("2", "Во имя жизни"),
                 SearchResult("3", "Благотворительный фонд В. Потанина"),
                 SearchResult("4", "Детские домики"),
-                SearchResult("5", "Мозаика счастья"),
+                SearchResult("5", "Мозаика счастья")
             )
     }
 }

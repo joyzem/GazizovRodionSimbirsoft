@@ -34,12 +34,8 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.saveBackStack(id.toString())
 
             when (menuItem.itemId) {
-                R.id.newsNavItem -> {
-                    true
-                }
-
                 R.id.searchNavItem -> {
-                    supportFragmentManager.restoreBackStack(R.id.searchNavItem.toString()) //FIXME: async call
+                    supportFragmentManager.restoreBackStack(R.id.searchNavItem.toString()) // FIXME: async call
                     if (supportFragmentManager.findFragmentByTag("search") == null) {
                         supportFragmentManager.commit {
                             setReorderingAllowed(true)
@@ -50,12 +46,13 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
 
-                R.id.historyNavItem -> {
+                R.id.helpNavItem -> {
+                    supportFragmentManager.restoreBackStack(R.id.helpNavItem.toString())
                     true
                 }
 
                 R.id.profileNavItem -> {
-                    supportFragmentManager.restoreBackStack(R.id.profileNavItem.toString()) //FIXME: async call
+                    supportFragmentManager.restoreBackStack(R.id.profileNavItem.toString()) // FIXME: async call
                     if (supportFragmentManager.findFragmentByTag("profile") == null) {
                         supportFragmentManager.commit {
                             setReorderingAllowed(true)
@@ -67,15 +64,13 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 else -> {
-                    false
+                    supportFragmentManager.restoreBackStack(id.toString())
+                    true
                 }
             }
         }
         binding.helpButton.setOnClickListener {
-            val id = binding.bottomNavView.selectedItemId
-            supportFragmentManager.saveBackStack(id.toString())
-            supportFragmentManager.restoreBackStack(R.id.helpNavItem.toString())
-            binding.bottomNavView.menu.getItem(2).isChecked = true
+            binding.bottomNavView.selectedItemId = R.id.helpNavItem
         }
     }
 }

@@ -16,5 +16,4 @@ class OrganizationsSearchViewModel : ViewModel() {
     fun search(query: String) {
         _searchResults.postValue(repo.search(query))
     }
-
 }

@@ -19,7 +19,6 @@ class EventsSearchFragment : Fragment() {
 
     private val adapter: SearchResultAdapter by lazy {
         SearchResultAdapter {
-
         }
     }
 
@@ -38,7 +37,9 @@ class EventsSearchFragment : Fragment() {
         val dividerColor = requireContext().getColor(R.color.cool_grey)
         val dividerHeight = (resources.displayMetrics.density * 1).toInt()
         val decorator = LeftPaddingDivider(
-            dividerHeight, dividerColor, requireContext()
+            dividerHeight,
+            dividerColor,
+            requireContext()
         )
         binding.eventsResultsRV.addItemDecoration(decorator)
 
