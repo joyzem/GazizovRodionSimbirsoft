@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="?actionBarSize"
+        android:name="com.example.androidpractice.screen.help.HelpFragment"
+        android:tag="help"
         />
 
     <com.google.android.material.bottomappbar.BottomAppBar

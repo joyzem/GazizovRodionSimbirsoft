@@ -1,25 +1,40 @@
 package com.example.androidpractice.screen.profile
 
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentProfileBinding
 
-class ProfileFragment : Fragment(), PhotoDialogFragment.PhotoDialogListener {
+class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
-    private val getPhoto =
+    private val takePhoto =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { photo ->
             photo?.let {
                 binding.profilePhotoImageView.setImageBitmap(it)
+            }
+        }
+
+    private val getPhoto =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+            it?.let { uri ->
+                requireContext().contentResolver.openInputStream(uri)?.use {stream ->
+                    val bitmap = BitmapFactory.decodeStream(stream)!!
+                    binding.profilePhotoImageView.setImageBitmap(bitmap)
+                }
             }
         }
 
@@ -27,6 +42,25 @@ class ProfileFragment : Fragment(), PhotoDialogFragment.PhotoDialogListener {
 
     private val adapter by lazy {
         FriendsAdapter(viewModel.friends.value ?: listOf())
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener(PhotoDialogFragment.RESULT_KEY) { requestKey: String, bundle: Bundle ->
+            when (bundle.getString(PhotoDialogFragment.ACTION_KEY)) {
+                PhotoDialogFragment.ACTION_CHOOSE -> {
+                    getPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                }
+
+                PhotoDialogFragment.ACTION_TAKE -> {
+                    takePhoto.launch(null)
+                }
+
+                PhotoDialogFragment.ACTION_DELETE -> {
+                    binding.profilePhotoImageView.setImageResource(R.drawable.ic_user_placeholder)
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -43,7 +77,7 @@ class ProfileFragment : Fragment(), PhotoDialogFragment.PhotoDialogListener {
         with(binding) {
             friendRecyclerView.adapter = adapter
             profilePhotoImageView.setOnClickListener {
-                PhotoDialogFragment.newInstance(this@ProfileFragment)
+                PhotoDialogFragment.newInstance()
                     .show(parentFragmentManager, "PhotoDialogFragment")
             }
         }
@@ -59,20 +93,6 @@ class ProfileFragment : Fragment(), PhotoDialogFragment.PhotoDialogListener {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onChoosePhotoClicked(dialog: DialogFragment) {
-        dialog.dismiss()
-    }
-
-    override fun onTakePhotoClicked(dialog: DialogFragment) {
-        getPhoto.launch(null)
-        dialog.dismiss()
-    }
-
-    override fun onDeletePhotoClicked(dialog: DialogFragment) {
-        binding.profilePhotoImageView.setImageResource(R.drawable.ic_user_placeholder)
-        dialog.dismiss()
     }
 
     companion object {
