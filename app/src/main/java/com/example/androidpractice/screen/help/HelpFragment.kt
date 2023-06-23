@@ -5,19 +5,26 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.databinding.FragmentHelpBinding
+import com.example.androidpractice.ui.getAppComponent
+import javax.inject.Inject
 
 class HelpFragment : Fragment() {
 
     private var _binding: FragmentHelpBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: HelpViewModel by viewModels()
+    @Inject
+    lateinit var viewModel: HelpViewModel
 
     private val adapter: CategoriesAdapter by lazy {
         CategoriesAdapter()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getAppComponent().inject(this)
     }
 
     override fun onCreateView(

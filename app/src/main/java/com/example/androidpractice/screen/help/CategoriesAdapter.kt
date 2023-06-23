@@ -27,7 +27,7 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHol
 
         fun bind(category: Category) {
             categoryImage.setImageResource(category.imageId)
-            title.setText(category.titleId)
+            title.setText(category.title)
         }
     }
 

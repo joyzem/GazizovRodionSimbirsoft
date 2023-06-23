@@ -2,10 +2,10 @@ package com.example.androidpractice.domain.model
 
 import androidx.annotation.DrawableRes
 
-data class Category(
+data class User(
     val id: String,
-    val title: String,
+    val name: String,
     @Transient
     @DrawableRes
-    val imageId: Int = 0 // Should be link
+    val imageId: Int
 )

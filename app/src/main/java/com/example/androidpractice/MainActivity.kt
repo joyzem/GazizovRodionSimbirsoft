@@ -14,12 +14,18 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-        navController =
-            NavController(binding.bottomNavView, supportFragmentManager, binding.helpButton, R.id.fragmentContainer)
 
+        navController =
+            NavController(
+                binding.bottomNavView,
+                supportFragmentManager,
+                binding.helpButton,
+                R.id.fragmentContainer
+            )
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
                 if (!navController.onBackPressed()) {

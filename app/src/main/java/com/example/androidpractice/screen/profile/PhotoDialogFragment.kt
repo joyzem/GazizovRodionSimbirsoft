@@ -2,7 +2,6 @@ package com.example.androidpractice.screen.profile
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
@@ -23,7 +22,7 @@ class PhotoDialogFragment : DialogFragment(), Serializable {
                 .setOnClickListener {
                     setFragmentResult(
                         RESULT_KEY,
-                        bundleOf(ACTION_KEY to ACTION_CHOOSE,"dialog" to this)
+                        bundleOf(ACTION_KEY to ACTION_CHOOSE)
                     )
                     dismiss()
                 }
@@ -39,7 +38,7 @@ class PhotoDialogFragment : DialogFragment(), Serializable {
                 .setOnClickListener {
                     setFragmentResult(
                         RESULT_KEY,
-                        bundleOf(ACTION_KEY to ACTION_DELETE, "dialog" to this)
+                        bundleOf(ACTION_KEY to ACTION_DELETE)
                     )
                     dismiss()
                 }

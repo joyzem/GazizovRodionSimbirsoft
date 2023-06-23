@@ -9,5 +9,4 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
  * @property bottomNavigationId
  * @constructor Create empty Base fragment
  */
-abstract class BaseFragment(val bottomNavigationId: Int) : Fragment() {
-}
+abstract class BaseFragment(val bottomNavigationId: Int) : Fragment()
