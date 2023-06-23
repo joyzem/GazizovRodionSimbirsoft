@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.example.androidpractice.R
 import com.example.androidpractice.screen.help.HelpFragment
+import com.example.androidpractice.screen.news.NewsFragment
 import com.example.androidpractice.screen.profile.ProfileFragment
 import com.example.androidpractice.screen.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -103,7 +104,7 @@ class NavController(
             if (newId == currentId) {
                 return@setOnItemSelectedListener false
             }
-            if (newId != NEWS_DEST && newId != HISTORY_DEST) { // TODO: Remove when implement
+            if (newId != HISTORY_DEST) { // TODO: Remove when implement
                 fragmentManager.saveBackStack(bottomNavigationView.selectedItemId.toString())
             }
             navigateToBottomDestination(newId)
@@ -116,7 +117,7 @@ class NavController(
     private fun getFragmentById(id: Int): Fragment? {
         return when (id) {
             HELP_DEST -> HelpFragment.newInstance()
-            NEWS_DEST -> null
+            NEWS_DEST -> NewsFragment.newInstance()
             SEARCH_DEST -> SearchFragment.newInstance()
             PROFILE_DEST -> ProfileFragment.newInstance()
             HISTORY_DEST -> null

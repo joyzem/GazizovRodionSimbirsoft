@@ -2,6 +2,7 @@ package com.example.androidpractice.di
 
 import android.content.Context
 import com.example.androidpractice.screen.help.HelpFragment
+import com.example.androidpractice.screen.news.NewsFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -16,4 +17,6 @@ interface AppComponent {
     }
 
     fun inject(fragment: HelpFragment)
+
+    fun inject(fragment: NewsFragment)
 }

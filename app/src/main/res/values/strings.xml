@@ -26,4 +26,12 @@
         <item quantity="many">Результаты поиска: %d мероприятий</item>
         <item quantity="other">Результаты поиска: %d мероприятий</item>
     </plurals>
+    <string name="event_certain_day">%s</string>
+    <string name="event_is_over">Мероприятие прошло (%s - %s)</string>
+    <plurals name="event_date">
+        <item quantity="zero">Сегодня последний день!</item>
+        <item quantity="one">Остался %s день (%s - %s)</item>
+        <item quantity="few">Осталось %s дня (%s - %s)</item>
+        <item quantity="many">Осталось %s дней (%s - %s)</item>
+    </plurals>
 </resources>
