@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.databinding.FragmentHelpBinding
+import com.example.androidpractice.di.ViewModelsFactoryOwner
+import com.example.androidpractice.di.getViewModel
 import com.example.androidpractice.ui.getAppComponent
 import javax.inject.Inject
 
@@ -15,7 +17,6 @@ class HelpFragment : Fragment() {
     private var _binding: FragmentHelpBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
     lateinit var viewModel: HelpViewModel
 
     private val adapter: CategoriesAdapter by lazy {
@@ -24,7 +25,7 @@ class HelpFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAppComponent().inject(this)
+        viewModel = (activity as ViewModelsFactoryOwner).getViewModel()
     }
 
     override fun onCreateView(
@@ -47,6 +48,11 @@ class HelpFragment : Fragment() {
         viewModel.categories.observe(viewLifecycleOwner) { categories ->
             adapter.setData(categories)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     companion object {

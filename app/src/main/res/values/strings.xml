@@ -28,6 +28,8 @@
     </plurals>
     <string name="event_certain_day">%s</string>
     <string name="event_is_over">Мероприятие прошло (%s - %s)</string>
+    <string name="done">Готово</string>
+    <string name="help_categories">Категории помощи</string>
     <plurals name="event_date">
         <item quantity="zero">Сегодня последний день!</item>
         <item quantity="one">Остался %s день (%s - %s)</item>

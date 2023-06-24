@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
+import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentNewsBinding
-import com.example.androidpractice.ui.getAppComponent
-import javax.inject.Inject
+import com.example.androidpractice.di.ViewModelsFactoryOwner
+import com.example.androidpractice.di.getViewModel
+import com.example.androidpractice.screen.news.filter.FiltersFragment
+import com.example.androidpractice.ui.findNavController
 
 class NewsFragment : Fragment() {
 
     private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
 
-    @Inject
     lateinit var viewModel: NewsViewModel
 
     private val adapter by lazy {
@@ -23,7 +26,7 @@ class NewsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getAppComponent().inject(this)
+        viewModel = (activity as ViewModelsFactoryOwner).getViewModel()
     }
 
     override fun onCreateView(
@@ -37,15 +40,31 @@ class NewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.newsRV.adapter = adapter
+        binding.apply {
+            newsRV.adapter = adapter
+            newsToolbar.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.newsFilterActionButton -> {
+                        findNavController().navigate(
+                            FiltersFragment.newInstance()
+                        )
+                        true
+                    }
+
+                    else -> {
+                        false
+                    }
+                }
+            }
+        }
 
         viewModel.events.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 

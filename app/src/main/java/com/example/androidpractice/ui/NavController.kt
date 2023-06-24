@@ -50,14 +50,17 @@ class NavController(
                 fragmentManager.popBackStack(currentItemId, 0)
                 bottomNavigationView.selectedItemId = backStackId
             }
+
             currentBackStackOfBottomItem != null && currentBackStackOfBottomItem.size > 1 -> {
-                // TODO: test when there will be nested navigation
+                fragmentManager.popBackStack()
                 fragmentManager.commit {
+                    setReorderingAllowed(true)
                     currentBackStackOfBottomItem.pop()
                     replace(containerId, currentBackStackOfBottomItem.last())
                 }
                 return true
             }
+
             currentBackStackOfBottomItem == null -> {
                 return false
             }
@@ -125,6 +128,10 @@ class NavController(
         }
     }
 
+    interface NavContollerOwner {
+        fun getNavController(): NavController
+    }
+
     companion object {
         private val HELP_DEST = R.id.helpNavItem
         private val NEWS_DEST = R.id.newsNavItem
@@ -134,3 +141,5 @@ class NavController(
         private const val TAG = "NavController"
     }
 }
+
+fun Fragment.findNavController() = (activity as NavController.NavContollerOwner).getNavController()

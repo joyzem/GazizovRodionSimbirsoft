@@ -1,17 +1,66 @@
 package com.example.androidpractice.screen.news
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.map
+import com.example.androidpractice.domain.repo.CategoriesRepo
 import com.example.androidpractice.domain.repo.EventsRepo
+import com.example.androidpractice.screen.news.filter.CategoryFilter
 import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(
-    private val eventsRepo: EventsRepo
-): ViewModel() {
+    private val eventsRepo: EventsRepo,
+    private val categoriesRepo: CategoriesRepo
+) : ViewModel() {
 
-    val events = liveData {
-        emit(
-            eventsRepo.getEvents()
+    init {
+        Log.i("NewsViewModel", "init NewsViewModel")
+    }
+
+    private val _filters = MutableLiveData<List<CategoryFilter>>(
+        categoriesRepo.getCategories().map { category ->
+            CategoryFilter(category, true)
+        }
+    )
+    val filters: LiveData<List<CategoryFilter>> = _filters
+
+    val events = filters.map { filters ->
+        val categories = filters.filter { it.checked }.map {
+            it.category
+        }
+        eventsRepo.getEvents().filter {
+            (it.categories intersect categories).isNotEmpty()
+        }
+    }
+
+    fun onFilterChecked(changedFilter: CategoryFilter) {
+        _filters.postValue(
+            filters.value?.map { filter ->
+                if (filter.category.id == changedFilter.category.id) {
+                    changedFilter
+                } else {
+                    filter
+                }
+            }
         )
+    }
+
+    fun onFilterChecked(categoryId: String, checked: Boolean) {
+        _filters.postValue(
+            filters.value?.map { filter ->
+                if (filter.category.id == categoryId) {
+                    filter.copy(checked = checked)
+                } else {
+                    filter
+                }
+            }
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.i("NewsViewModel", "onCleared")
     }
 }
