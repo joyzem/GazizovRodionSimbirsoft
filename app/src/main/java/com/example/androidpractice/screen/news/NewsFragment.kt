@@ -11,7 +11,7 @@ import com.example.androidpractice.databinding.FragmentNewsBinding
 import com.example.androidpractice.di.ViewModelsFactoryOwner
 import com.example.androidpractice.di.getViewModel
 import com.example.androidpractice.screen.news.filter.FiltersFragment
-import com.example.androidpractice.ui.findNavController
+import com.example.androidpractice.ui.navigation.findNavController
 
 class NewsFragment : Fragment() {
 

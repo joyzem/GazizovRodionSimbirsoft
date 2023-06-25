@@ -1,5 +1,6 @@
-package com.example.androidpractice.ui
+package com.example.androidpractice.ui.navigation
 
+import android.os.Bundle
 import android.widget.ImageButton
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import com.example.androidpractice.screen.help.HelpFragment
 import com.example.androidpractice.screen.news.NewsFragment
 import com.example.androidpractice.screen.profile.ProfileFragment
 import com.example.androidpractice.screen.search.SearchFragment
+import com.example.androidpractice.ui.BaseFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.Stack
 
@@ -20,8 +22,8 @@ class NavController(
     @IdRes private val containerId: Int
 ) {
 
-    private val backStackMap = mutableMapOf<Int, Stack<Fragment>>()
-    private val bottomNavStack = Stack<Int>()
+    private var backStackMap = mutableMapOf<Int, Stack<StackFragment>>()
+    private var bottomNavStack = Stack<Int>()
 
     init {
         initNavigation()
@@ -56,7 +58,9 @@ class NavController(
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     currentBackStackOfBottomItem.pop()
-                    replace(containerId, currentBackStackOfBottomItem.last())
+                    val fragment = currentBackStackOfBottomItem.last().fragment
+                    val args = currentBackStackOfBottomItem.last().args
+                    replace(containerId, fragment, args)
                 }
                 return true
             }
@@ -73,14 +77,37 @@ class NavController(
      *
      * @param fragment
      */
-    fun navigate(fragment: BaseFragment) {
+    fun navigate(fragment: BaseFragment, args: Bundle? = null) {
         fragmentManager.commit {
             setReorderingAllowed(true)
             replace(containerId, fragment)
             addToBackStack(fragment.bottomNavigationId.toString())
-            backStackMap[fragment.bottomNavigationId]?.push(fragment)
+            backStackMap[fragment.bottomNavigationId]?.push(
+                StackFragment(
+                    fragment::class.java,
+                    args
+                )
+            )
         }
     }
+
+    fun restoreState(bottomNavStack: Stack<Int>, backStackMap: Map<Int, Stack<StackFragment>>) {
+        this.bottomNavStack = bottomNavStack
+        this.backStackMap = backStackMap.toMutableMap()
+        val lastBottomNavItem = bottomNavStack.last()
+        val lastFragment: StackFragment = if (backStackMap.containsKey(lastBottomNavItem)) {
+            backStackMap[lastBottomNavItem]?.last() ?: return
+        } else {
+            return
+        }
+        fragmentManager.commit {
+            replace(containerId, lastFragment.fragment, lastFragment.args)
+        }
+    }
+
+    fun getBottomNavStack() = bottomNavStack
+
+    fun getBackStackMap(): Map<Int, Stack<StackFragment>> = backStackMap
 
     private fun navigateToBottomDestination(backStackId: Int): Boolean {
         bottomNavStack.push(backStackId)
@@ -93,7 +120,8 @@ class NavController(
                     setReorderingAllowed(true)
                     replace(containerId, fragment)
                     addToBackStack(backStackId.toString())
-                    backStackMap[backStackId] = Stack<Fragment>().apply { push(fragment) }
+                    backStackMap[backStackId] =
+                        Stack<StackFragment>().apply { push(StackFragment(fragment::class.java)) }
                 }
                 return true
             } ?: return false

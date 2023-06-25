@@ -11,8 +11,7 @@ import com.example.androidpractice.di.getViewModel
 import com.example.androidpractice.screen.news.NewsViewModel
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
-import com.example.androidpractice.ui.findNavController
-import javax.inject.Inject
+import com.example.androidpractice.ui.navigation.findNavController
 
 class FiltersFragment : BaseFragment(R.id.newsNavItem) {
 
