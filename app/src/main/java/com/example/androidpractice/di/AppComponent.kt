@@ -2,9 +2,6 @@ package com.example.androidpractice.di
 
 import android.content.Context
 import com.example.androidpractice.MainActivity
-import com.example.androidpractice.screen.help.HelpFragment
-import com.example.androidpractice.screen.news.NewsFragment
-import com.example.androidpractice.screen.news.filter.FiltersFragment
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton

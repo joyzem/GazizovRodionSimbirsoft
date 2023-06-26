@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity(), NavController.NavContollerOwner, ViewM
         navController = NavController(
             binding.bottomNavView,
             supportFragmentManager,
+            binding.fragmentContainer,
             binding.helpButton,
             R.id.fragmentContainer
         )

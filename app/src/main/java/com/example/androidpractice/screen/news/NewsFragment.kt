@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentNewsBinding
 import com.example.androidpractice.di.ViewModelsFactoryOwner
 import com.example.androidpractice.di.getViewModel
+import com.example.androidpractice.screen.news.details.EventDetailsFragment
 import com.example.androidpractice.screen.news.filter.FiltersFragment
 import com.example.androidpractice.ui.navigation.findNavController
 
@@ -21,7 +22,12 @@ class NewsFragment : Fragment() {
     lateinit var viewModel: NewsViewModel
 
     private val adapter by lazy {
-        NewsAdapter {}
+        NewsAdapter {
+            findNavController().navigate(
+                EventDetailsFragment.newInstance(it.id),
+                bundleOf(EventDetailsFragment.EVENT_ID to it.id)
+            )
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

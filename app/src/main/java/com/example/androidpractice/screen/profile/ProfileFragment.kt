@@ -43,7 +43,7 @@ class ProfileFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setFragmentResultListener(PhotoDialogFragment.RESULT_KEY) { requestKey: String, bundle: Bundle ->
+        setFragmentResultListener(PhotoDialogFragment.RESULT_KEY) { _: String, bundle: Bundle ->
             when (bundle.getString(PhotoDialogFragment.ACTION_KEY)) {
                 PhotoDialogFragment.ACTION_CHOOSE -> {
                     getPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))

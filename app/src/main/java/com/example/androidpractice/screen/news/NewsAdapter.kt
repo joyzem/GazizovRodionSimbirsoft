@@ -11,14 +11,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidpractice.R
 import com.example.androidpractice.domain.model.Event
-import kotlinx.datetime.Clock
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.minus
-import kotlinx.datetime.toJavaLocalDate
-import kotlinx.datetime.toLocalDateTime
-import java.text.SimpleDateFormat
-import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 class NewsAdapter(private val onClick: (Event) -> Unit) :
     ListAdapter<Event, NewsAdapter.EventViewHolder>(EventDiffUtil) {
@@ -53,43 +45,8 @@ class NewsAdapter(private val onClick: (Event) -> Unit) :
             }
             title.text = event.title
             subtitle.text = event.subtitle
-            val dateText = if (event.date.size == 1) {
-                val localDate = event.date.first().toJavaLocalDate()
-                val formatter = SimpleDateFormat("LLL d, y", Locale("ru"))
-                val formattedDate = formatter.format(java.sql.Date.valueOf(localDate.toString()))
-                    .replaceFirstChar { it.uppercase() }
-                date.resources.getString(
-                    R.string.event_certain_day,
-                    formattedDate
-                )
-            } else {
-                val dateFormatter = DateTimeFormatter.ofPattern("dd.MM")
 
-                val today =
-                    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-
-                val lastDay = event.date.last()
-                val lastDayFormatted = lastDay.toJavaLocalDate().format(dateFormatter)
-
-                val firstDay = event.date.first()
-                val firstDayFormatted = firstDay.toJavaLocalDate().format(dateFormatter)
-
-                val period = lastDay.minus(today).days
-
-                if (period >= 0) {
-                    date.resources.getQuantityString(
-                        R.plurals.event_date,
-                        period,
-                        period.toString(),
-                        firstDayFormatted,
-                        lastDayFormatted
-                    )
-                } else {
-                    date.resources.getString(R.string.event_is_over, lastDayFormatted, firstDayFormatted)
-                }
-
-            }
-            date.text = dateText
+            date.text = getEventDateText(container, event.dates)
         }
     }
 

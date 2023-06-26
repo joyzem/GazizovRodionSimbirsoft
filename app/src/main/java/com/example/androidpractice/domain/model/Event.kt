@@ -9,7 +9,8 @@ data class Event(
     val title: String,
     val subtitle: String,
     val description: String,
-    val date: List<LocalDate>,
+    val sponsor: String,
+    val dates: List<LocalDate>,
     val address: String,
     @SerializedName("phone_numbers")
     val phoneNumbers: List<String>,

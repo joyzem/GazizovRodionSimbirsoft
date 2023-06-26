@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.databinding.FragmentHelpBinding
 import com.example.androidpractice.di.ViewModelsFactoryOwner
 import com.example.androidpractice.di.getViewModel
-import com.example.androidpractice.ui.getAppComponent
-import javax.inject.Inject
 
 class HelpFragment : Fragment() {
 

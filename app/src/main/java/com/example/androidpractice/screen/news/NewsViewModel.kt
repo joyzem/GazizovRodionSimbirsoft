@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import com.example.androidpractice.domain.model.Event
 import com.example.androidpractice.domain.repo.CategoriesRepo
 import com.example.androidpractice.domain.repo.EventsRepo
 import com.example.androidpractice.screen.news.filter.CategoryFilter
@@ -47,16 +48,10 @@ class NewsViewModel @Inject constructor(
         )
     }
 
-    fun onFilterChecked(categoryId: String, checked: Boolean) {
-        _filters.postValue(
-            filters.value?.map { filter ->
-                if (filter.category.id == categoryId) {
-                    filter.copy(checked = checked)
-                } else {
-                    filter
-                }
-            }
-        )
+    fun getEventById(eventId: String): Event? {
+        return events.value?.find {
+            it.id == eventId
+        }
     }
 
     override fun onCleared() {

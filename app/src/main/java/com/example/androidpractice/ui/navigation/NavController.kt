@@ -1,14 +1,18 @@
 package com.example.androidpractice.ui.navigation
 
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageButton
 import androidx.annotation.IdRes
+import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.example.androidpractice.R
 import com.example.androidpractice.screen.help.HelpFragment
 import com.example.androidpractice.screen.news.NewsFragment
+import com.example.androidpractice.screen.news.details.EventDetailsFragment
 import com.example.androidpractice.screen.profile.ProfileFragment
 import com.example.androidpractice.screen.search.SearchFragment
 import com.example.androidpractice.ui.BaseFragment
@@ -18,6 +22,7 @@ import java.util.Stack
 class NavController(
     private val bottomNavigationView: BottomNavigationView,
     private val fragmentManager: FragmentManager,
+    private val fragmentContainer: FragmentContainerView,
     private val helpImageView: ImageButton,
     @IdRes private val containerId: Int
 ) {
@@ -28,6 +33,17 @@ class NavController(
     init {
         initNavigation()
         bottomNavigationView.selectedItemId = HELP_DEST
+        fragmentManager.addFragmentOnAttachListener { _, fragment ->
+            if (fragment is EventDetailsFragment) { // TODO: Remove hardcode
+                bottomNavigationView.visibility = View.GONE
+                helpImageView.visibility = View.GONE
+                fragmentContainer.updatePadding(bottom = 0)
+            } else {
+                bottomNavigationView.visibility = View.VISIBLE
+                helpImageView.visibility = View.VISIBLE
+                fragmentContainer.updatePadding(bottom = bottomNavigationView.height)
+            }
+        }
     }
 
     /**
