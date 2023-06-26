@@ -74,9 +74,10 @@ class NavController(
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     currentBackStackOfBottomItem.pop()
-                    val fragment = currentBackStackOfBottomItem.last().fragment
+                    val fragment =
+                        currentBackStackOfBottomItem.last().instantiateFragment()?.javaClass
                     val args = currentBackStackOfBottomItem.last().args
-                    replace(containerId, fragment, args)
+                    fragment?.let { replace(containerId, it, args) }
                 }
                 return true
             }
@@ -100,7 +101,7 @@ class NavController(
             addToBackStack(fragment.bottomNavigationId.toString())
             backStackMap[fragment.bottomNavigationId]?.push(
                 StackFragment(
-                    fragment::class.java,
+                    fragment::class.java.name,
                     args
                 )
             )
@@ -117,7 +118,13 @@ class NavController(
             return
         }
         fragmentManager.commit {
-            replace(containerId, lastFragment.fragment, lastFragment.args)
+            lastFragment.instantiateFragment()?.javaClass?.let {
+                replace(
+                    containerId,
+                    it,
+                    lastFragment.args
+                )
+            }
         }
     }
 
@@ -137,7 +144,7 @@ class NavController(
                     replace(containerId, fragment)
                     addToBackStack(backStackId.toString())
                     backStackMap[backStackId] =
-                        Stack<StackFragment>().apply { push(StackFragment(fragment::class.java)) }
+                        Stack<StackFragment>().apply { push(StackFragment(fragment::class.java.name)) }
                 }
                 return true
             } ?: return false

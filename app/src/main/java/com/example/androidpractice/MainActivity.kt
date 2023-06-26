@@ -48,8 +48,13 @@ class MainActivity : AppCompatActivity(), NavController.NavContollerOwner, ViewM
             val backStackMapKeys = state.getIntArray(BACK_STACK_MAP_KEYS) ?: intArrayOf()
             val map = mutableMapOf<Int, Stack<StackFragment>>()
             backStackMapKeys.forEach { key ->
-                map[key] =
-                    state.getSerializable("$BACK_STACK_VALUES_OF$key") as Stack<StackFragment>
+                val fragments:ArrayList<StackFragment> = state.getParcelableArrayList<StackFragment>("$BACK_STACK_VALUES_OF$key") as ArrayList<StackFragment>
+                val stack = Stack<StackFragment>().apply {
+                    fragments.forEach {
+                        push(it)
+                    }
+                }
+                map[key] = stack
             }
             navController.restoreState(bottomNavStack = bottomNavStack, backStackMap = map)
         }
@@ -66,14 +71,15 @@ class MainActivity : AppCompatActivity(), NavController.NavContollerOwner, ViewM
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putSerializable(BOTTOM_NAV_STACK, navController.getBottomNavStack())
+
         val keys = navController.getBackStackMap().keys.toIntArray()
         outState.putIntArray(BACK_STACK_MAP_KEYS, keys)
-        keys.forEach { key ->
-            outState.putSerializable(
-                "$BACK_STACK_VALUES_OF$key",
-                navController.getBackStackMap()[key]
-            )
 
+        keys.forEach { key ->
+            val stackFragments = navController.getBackStackMap()[key]?.map { stackFragment ->
+                StackFragment(stackFragment.fragmentClassName, stackFragment.args)
+            }
+            outState.putParcelableArrayList("$BACK_STACK_VALUES_OF$key", ArrayList(stackFragments))
         }
     }
 
