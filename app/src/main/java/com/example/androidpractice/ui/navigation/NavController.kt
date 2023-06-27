@@ -12,7 +12,6 @@ import androidx.fragment.app.commit
 import com.example.androidpractice.R
 import com.example.androidpractice.screen.help.HelpFragment
 import com.example.androidpractice.screen.news.NewsFragment
-import com.example.androidpractice.screen.news.details.EventDetailsFragment
 import com.example.androidpractice.screen.profile.ProfileFragment
 import com.example.androidpractice.screen.search.SearchFragment
 import com.example.androidpractice.ui.BaseFragment
@@ -34,7 +33,7 @@ class NavController(
         initNavigation()
         bottomNavigationView.selectedItemId = HELP_DEST
         fragmentManager.addFragmentOnAttachListener { _, fragment ->
-            if (fragment is EventDetailsFragment) { // TODO: Remove hardcode
+            if (fragment is BaseFragment<*> && fragment.hideBottomNavigationView) {
                 bottomNavigationView.visibility = View.GONE
                 helpImageView.visibility = View.GONE
                 fragmentContainer.updatePadding(bottom = 0)
@@ -94,10 +93,10 @@ class NavController(
      *
      * @param fragment
      */
-    fun navigate(fragment: BaseFragment, args: Bundle? = null) {
+    fun navigate(fragment: BaseFragment<*>, args: Bundle? = null) {
         fragmentManager.commit {
             setReorderingAllowed(true)
-            replace(containerId, fragment)
+            replace(containerId, fragment::class.java, args)
             addToBackStack(fragment.bottomNavigationId.toString())
             backStackMap[fragment.bottomNavigationId]?.push(
                 StackFragment(

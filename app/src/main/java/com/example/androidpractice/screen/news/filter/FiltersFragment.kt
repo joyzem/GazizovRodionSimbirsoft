@@ -1,9 +1,7 @@
 package com.example.androidpractice.screen.news.filter
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentFiltersBinding
 import com.example.androidpractice.di.ViewModelsFactoryOwner
@@ -13,12 +11,10 @@ import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
 import com.example.androidpractice.ui.navigation.findNavController
 
-class FiltersFragment : BaseFragment(R.id.newsNavItem) {
+class FiltersFragment :
+    BaseFragment<FragmentFiltersBinding>(R.id.newsNavItem, FragmentFiltersBinding::inflate) {
 
-    private var _binding: FragmentFiltersBinding? = null
-    private val binding get() = _binding!!
-
-    lateinit var viewModel: NewsViewModel
+    private lateinit var viewModel: NewsViewModel
 
     private val adapter by lazy {
         FiltersAdapter(viewModel::onFilterChecked)
@@ -27,19 +23,6 @@ class FiltersFragment : BaseFragment(R.id.newsNavItem) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (activity as ViewModelsFactoryOwner).getViewModel()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentFiltersBinding.inflate(
-            inflater,
-            container,
-            false
-        )
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,11 +59,6 @@ class FiltersFragment : BaseFragment(R.id.newsNavItem) {
         viewModel.filters.observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

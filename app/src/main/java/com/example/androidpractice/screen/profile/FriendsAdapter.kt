@@ -2,29 +2,22 @@ package com.example.androidpractice.screen.profile
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.androidpractice.R
+import com.example.androidpractice.databinding.ItemFriendBinding
 
 class FriendsAdapter(private var friends: List<String>) :
     RecyclerView.Adapter<FriendsAdapter.FriendViewHolder>() {
 
-    class FriendViewHolder(view: View) : ViewHolder(view) {
-        private val textView: TextView
-        private val imageView: ImageView
-
-        init {
-            textView = view.findViewById(R.id.friendNameTextView)
-            imageView = view.findViewById(R.id.avatarImageView)
-        }
+    class FriendViewHolder(private val binding: ItemFriendBinding) : ViewHolder(binding.root) {
 
         fun initViewHolder(name: String) {
-            textView.text = name
-            imageView.setImageResource(R.drawable.ic_friend)
+            with(binding) {
+                friendNameTextView.text = name
+                avatarImageView.setImageResource(R.drawable.ic_friend)
+            }
         }
     }
 
@@ -35,14 +28,16 @@ class FriendsAdapter(private var friends: List<String>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_friend, parent, false)
-
-        return FriendViewHolder(view)
+        val binding = ItemFriendBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return FriendViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {
-        holder.initViewHolder("Дмитрий Валерьевич")
+        holder.initViewHolder(friends[position])
     }
 
     override fun getItemCount() = friends.size

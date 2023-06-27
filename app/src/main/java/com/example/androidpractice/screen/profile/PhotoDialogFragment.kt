@@ -2,47 +2,45 @@ package com.example.androidpractice.screen.profile
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
-import com.example.androidpractice.R
+import com.example.androidpractice.databinding.PhotoDialogBinding
 import java.io.Serializable
 
 class PhotoDialogFragment : DialogFragment(), Serializable {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let { activity ->
-            val inflater = requireActivity().layoutInflater
             val builder = AlertDialog.Builder(activity)
-            val layout = inflater.inflate(R.layout.photo_dialog, null)
-
-            layout.findViewById<TextView>(R.id.choosePhotoTextView)
-                .setOnClickListener {
+            val inflater = requireActivity().layoutInflater
+            val binding = PhotoDialogBinding.inflate(inflater)
+            with(binding) {
+                choosePhotoTextView.setOnClickListener {
                     setFragmentResult(
                         RESULT_KEY,
                         bundleOf(ACTION_KEY to ACTION_CHOOSE)
                     )
                     dismiss()
                 }
-            layout.findViewById<TextView>(R.id.takePhotoTextView)
-                .setOnClickListener {
+                takePhotoTextView.setOnClickListener {
                     setFragmentResult(
                         RESULT_KEY,
                         bundleOf(ACTION_KEY to ACTION_TAKE)
                     )
                     dismiss()
                 }
-            layout.findViewById<TextView>(R.id.deletePhotoTextView)
-                .setOnClickListener {
-                    setFragmentResult(
-                        RESULT_KEY,
-                        bundleOf(ACTION_KEY to ACTION_DELETE)
-                    )
-                    dismiss()
-                }
-            builder.setView(layout)
+                deletePhotoTextView
+                    .setOnClickListener {
+                        setFragmentResult(
+                            RESULT_KEY,
+                            bundleOf(ACTION_KEY to ACTION_DELETE)
+                        )
+                        dismiss()
+                    }
+            }
+            builder.setView(binding.root)
             builder.create()
         } ?: throw IllegalStateException()
     }

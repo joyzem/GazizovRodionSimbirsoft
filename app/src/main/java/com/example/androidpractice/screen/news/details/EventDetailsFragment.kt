@@ -8,9 +8,7 @@ import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.text.buildSpannedString
 import androidx.core.text.toSpannable
@@ -24,29 +22,17 @@ import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.PhoneNumberSpan
 import com.example.androidpractice.ui.navigation.findNavController
 
-class EventDetailsFragment : BaseFragment(R.id.newsNavItem, true) {
-
-    private var _binding: FragmentEventDetailsBinding? = null
-    private val binding get() = _binding!!
+class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
+    R.id.newsNavItem,
+    FragmentEventDetailsBinding::inflate,
+    true
+) {
 
     private lateinit var viewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = (requireActivity() as ViewModelsFactoryOwner).getViewModel()
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentEventDetailsBinding.inflate(
-            inflater,
-            container,
-            false
-        )
-        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -143,11 +129,6 @@ class EventDetailsFragment : BaseFragment(R.id.newsNavItem, true) {
                 Spanned.SPAN_EXCLUSIVE_INCLUSIVE
             )
         }.toSpannable()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

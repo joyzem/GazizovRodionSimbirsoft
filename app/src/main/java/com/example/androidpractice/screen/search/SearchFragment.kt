@@ -1,41 +1,31 @@
 package com.example.androidpractice.screen.search
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.get
-import androidx.fragment.app.Fragment
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentSearchBinding
+import com.example.androidpractice.ui.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
-class SearchFragment : Fragment() {
-    private var _binding: FragmentSearchBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        _binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding.root
-    }
+class SearchFragment : BaseFragment<FragmentSearchBinding>(
+    R.id.searchNavItem,
+    FragmentSearchBinding::inflate
+) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val tabLayout = binding.searchTabLayout
-        val viewPager = binding.searchViewPager
-        viewPager.adapter = SearchPagerAdapter(this)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            if (position == 0) {
-                tab.text = getString(R.string.by_events)
-            } else {
-                tab.text = getString(R.string.by_organizations)
-            }
-        }.attach()
-        setClickListeners()
+        with(binding) {
+            searchViewPager.adapter = SearchPagerAdapter(this@SearchFragment)
+            TabLayoutMediator(searchTabLayout, searchViewPager) { tab, position ->
+                if (position == 0) {
+                    tab.text = getString(R.string.by_events)
+                } else {
+                    tab.text = getString(R.string.by_organizations)
+                }
+            }.attach()
+            setClickListeners()
+        }
     }
 
     private fun setClickListeners() {
@@ -44,11 +34,6 @@ class SearchFragment : Fragment() {
             binding.searchFieldContainer.root.visibility = View.VISIBLE
             true
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     companion object {

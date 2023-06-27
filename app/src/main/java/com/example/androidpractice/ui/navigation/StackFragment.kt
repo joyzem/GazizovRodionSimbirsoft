@@ -3,7 +3,6 @@ package com.example.androidpractice.ui.navigation
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
 import androidx.fragment.app.Fragment
 
 
@@ -18,12 +17,7 @@ data class StackFragment(
     constructor(parcel: Parcel) : this(
         parcel.readString()!!,
         parcel.readBundle(Bundle::class.java.classLoader)
-    ) {
-    }
-
-    init {
-        Log.i("StackFragment", "StackFragment class name: $fragmentClassName")
-    }
+    )
 
     fun instantiateFragment(): Fragment? {
         return try {

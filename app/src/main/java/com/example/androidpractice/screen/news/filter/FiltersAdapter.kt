@@ -1,46 +1,47 @@
 package com.example.androidpractice.screen.news.filter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.androidpractice.R
-import com.google.android.material.switchmaterial.SwitchMaterial
+import com.example.androidpractice.databinding.ItemFilterBinding
 
 class FiltersAdapter(private val onFilterChecked: (CategoryFilter) -> Unit) :
     ListAdapter<CategoryFilter, FiltersAdapter.FilterViewHolder>(FilterDiffUtil) {
 
     class FilterViewHolder(
-        private val onFilterChecked: (CategoryFilter) -> Unit, view: View
-    ) : ViewHolder(view) {
+        private val binding: ItemFilterBinding,
+        private val onFilterChecked: (CategoryFilter) -> Unit
+    ) : ViewHolder(binding.root) {
 
-        private val switch: SwitchMaterial
         private var filter: CategoryFilter? = null
 
         init {
-            switch = view.findViewById(R.id.filterSwitch)
-            switch.setOnCheckedChangeListener { _, checked ->
+            binding.filterSwitch.setOnCheckedChangeListener { _, checked ->
                 filter?.copy(checked = checked)?.let(onFilterChecked)
             }
         }
 
         fun bind(filter: CategoryFilter) {
-            switch.text = filter.category.title
-            switch.isChecked = filter.checked
             this.filter = filter
+            with(binding.filterSwitch) {
+                text = filter.category.title
+                isChecked = filter.checked
+            }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
+        val binding = ItemFilterBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return FilterViewHolder(
-            onFilterChecked,
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_filter,
-                parent,
-                false
-            )
+            binding,
+            onFilterChecked
         )
     }
 

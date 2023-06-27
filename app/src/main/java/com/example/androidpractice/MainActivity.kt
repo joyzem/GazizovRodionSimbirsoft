@@ -48,7 +48,8 @@ class MainActivity : AppCompatActivity(), NavController.NavContollerOwner, ViewM
             val backStackMapKeys = state.getIntArray(BACK_STACK_MAP_KEYS) ?: intArrayOf()
             val map = mutableMapOf<Int, Stack<StackFragment>>()
             backStackMapKeys.forEach { key ->
-                val fragments:ArrayList<StackFragment> = state.getParcelableArrayList<StackFragment>("$BACK_STACK_VALUES_OF$key") as ArrayList<StackFragment>
+                val fragments: ArrayList<StackFragment> =
+                    state.getParcelableArrayList<StackFragment>("$BACK_STACK_VALUES_OF$key") as ArrayList<StackFragment>
                 val stack = Stack<StackFragment>().apply {
                     fragments.forEach {
                         push(it)
@@ -61,9 +62,7 @@ class MainActivity : AppCompatActivity(), NavController.NavContollerOwner, ViewM
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             onBackInvokedDispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT) {
-                if (!navController.onBackPressed()) {
-                    finish()
-                }
+
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.example.androidpractice.screen.news
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,10 +14,6 @@ class NewsViewModel @Inject constructor(
     private val eventsRepo: EventsRepo,
     private val categoriesRepo: CategoriesRepo
 ) : ViewModel() {
-
-    init {
-        Log.i("NewsViewModel", "init NewsViewModel")
-    }
 
     private val _filters = MutableLiveData<List<CategoryFilter>>(
         categoriesRepo.getCategories().map { category ->
@@ -52,10 +47,5 @@ class NewsViewModel @Inject constructor(
         return events.value?.find {
             it.id == eventId
         }
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        Log.i("NewsViewModel", "onCleared")
     }
 }
