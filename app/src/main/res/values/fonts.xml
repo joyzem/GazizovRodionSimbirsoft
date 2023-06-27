@@ -162,4 +162,11 @@
         <item name="android:textSize">11sp</item>
     </style>
 
+    <style name="FadingEllipsizeTextAppearance" parent="TextStyle2">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:marqueeRepeatLimit">marquee_forever</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
 </resources>

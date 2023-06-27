@@ -2,51 +2,58 @@ package com.example.androidpractice.screen.profile
 
 import android.app.Dialog
 import android.os.Bundle
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import com.example.androidpractice.R
+import androidx.fragment.app.setFragmentResult
+import com.example.androidpractice.databinding.PhotoDialogBinding
+import java.io.Serializable
 
-class PhotoDialogFragment : DialogFragment() {
-
-    private lateinit var listener: PhotoDialogListener
+class PhotoDialogFragment : DialogFragment(), Serializable {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let { activity ->
-            val inflater = requireActivity().layoutInflater
             val builder = AlertDialog.Builder(activity)
-            val layout = inflater.inflate(R.layout.photo_dialog, null)
-
-            layout.findViewById<LinearLayout>(R.id.choosePhotoOption)
-                .setOnClickListener {
-                    listener.onChoosePhotoClicked(this)
+            val inflater = requireActivity().layoutInflater
+            val binding = PhotoDialogBinding.inflate(inflater)
+            with(binding) {
+                choosePhotoTextView.setOnClickListener {
+                    setFragmentResult(
+                        RESULT_KEY,
+                        bundleOf(ACTION_KEY to ACTION_CHOOSE)
+                    )
+                    dismiss()
                 }
-            layout.findViewById<LinearLayout>(R.id.takePhotoOption)
-                .setOnClickListener {
-                    listener.onTakePhotoClicked(this)
+                takePhotoTextView.setOnClickListener {
+                    setFragmentResult(
+                        RESULT_KEY,
+                        bundleOf(ACTION_KEY to ACTION_TAKE)
+                    )
+                    dismiss()
                 }
-            layout.findViewById<LinearLayout>(R.id.deletePhotoOption)
-                .setOnClickListener {
-                    listener.onDeletePhotoClicked(this)
-                }
-
-            builder.setView(layout)
+                deletePhotoTextView
+                    .setOnClickListener {
+                        setFragmentResult(
+                            RESULT_KEY,
+                            bundleOf(ACTION_KEY to ACTION_DELETE)
+                        )
+                        dismiss()
+                    }
+            }
+            builder.setView(binding.root)
             builder.create()
         } ?: throw IllegalStateException()
     }
 
-    interface PhotoDialogListener {
-        fun onChoosePhotoClicked(dialog: DialogFragment)
-        fun onTakePhotoClicked(dialog: DialogFragment)
-        fun onDeletePhotoClicked(dialog: DialogFragment)
-    }
-
     companion object {
-        fun newInstance(listener: PhotoDialogListener): PhotoDialogFragment {
-            val dialog = PhotoDialogFragment().apply {
-                this.listener = listener
-            }
-            return dialog
+        const val ACTION_CHOOSE = "choose"
+        const val ACTION_DELETE = "delete"
+        const val ACTION_TAKE = "take"
+        const val ACTION_KEY = "action"
+        const val RESULT_KEY = "photo_dialog"
+
+        fun newInstance(): PhotoDialogFragment {
+            return PhotoDialogFragment()
         }
     }
 }

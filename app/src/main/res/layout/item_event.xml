@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/eventContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="4dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="4dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/eventImageView"
+            android:layout_width="match_parent"
+            android:layout_height="222dp"
+            android:foreground="@drawable/fade_overlay"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearance="@style/Theme.AndroidPractice.RoundedImage2Dp"
+            tools:srcCompat="@drawable/img_event" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/eventTitleTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_xl"
+            android:layout_marginTop="208dp"
+            android:fontFamily="@font/officina_sans_scc_extrabold"
+            android:gravity="center_horizontal"
+            android:textColor="@color/blue_grey"
+            android:textSize="21sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/eventImageView"
+            app:lineHeight="23sp"
+            tools:text="Спонсоры отремонтируют школу-интернат" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/decorImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xs"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/eventTitleTextView"
+            app:srcCompat="@drawable/ic_event_decor" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/eventSubtitleTextView"
+            style="@style/TextStyle10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_xl"
+            android:layout_marginTop="@dimen/spacing_s"
+            android:ellipsize="end"
+            android:maxLines="3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/decorImageView"
+            tools:text="Дубовская школа-интернат для детей с ограниченными возможностями здоровья стала первой в области" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_m"
+            android:background="@color/turtle_green"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@id/eventSubtitleTextView">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/eventDateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginVertical="@dimen/spacing_xxs"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:lineSpacingExtra="4sp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:drawableLeftCompat="@drawable/ic_calendar"
+                tools:text="Осталось 13 дней (21.09 – 20.10)" />
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

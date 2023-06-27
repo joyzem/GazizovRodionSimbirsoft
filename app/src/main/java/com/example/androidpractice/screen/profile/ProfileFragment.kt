@@ -1,41 +1,63 @@
 package com.example.androidpractice.screen.profile
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentProfileBinding
+import com.example.androidpractice.ui.BaseFragment
 
-class ProfileFragment : Fragment(), PhotoDialogFragment.PhotoDialogListener {
+class ProfileFragment : BaseFragment<FragmentProfileBinding>(
+    bottomNavigationId = R.id.bottomNavView,
+    FragmentProfileBinding::inflate
+) {
 
-    private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
-
-    private val getPhoto =
+    private val takePhoto =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { photo ->
             photo?.let {
                 binding.profilePhotoImageView.setImageBitmap(it)
             }
         }
 
+    private val getPhoto =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
+            it?.let { uri ->
+                requireContext().contentResolver.openInputStream(uri)?.use { stream ->
+                    val bitmap = BitmapFactory.decodeStream(stream)!!
+                    binding.profilePhotoImageView.setImageBitmap(bitmap)
+                }
+            }
+        }
+
     private val viewModel: ProfileViewModel by viewModels()
+
+    private val photoDialog = PhotoDialogFragment.newInstance()
 
     private val adapter by lazy {
         FriendsAdapter(viewModel.friends.value ?: listOf())
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        return binding.root
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setFragmentResultListener(PhotoDialogFragment.RESULT_KEY) { _: String, bundle: Bundle ->
+            when (bundle.getString(PhotoDialogFragment.ACTION_KEY)) {
+                PhotoDialogFragment.ACTION_CHOOSE -> {
+                    getPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                }
+
+                PhotoDialogFragment.ACTION_TAKE -> {
+                    takePhoto.launch(null)
+                }
+
+                PhotoDialogFragment.ACTION_DELETE -> {
+                    binding.profilePhotoImageView.setImageResource(R.drawable.ic_user_placeholder)
+                }
+            }
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,8 +65,7 @@ class ProfileFragment : Fragment(), PhotoDialogFragment.PhotoDialogListener {
         with(binding) {
             friendRecyclerView.adapter = adapter
             profilePhotoImageView.setOnClickListener {
-                PhotoDialogFragment.newInstance(this@ProfileFragment)
-                    .show(parentFragmentManager, "PhotoDialogFragment")
+                photoDialog.show(parentFragmentManager, "PhotoDialogFragment")
             }
         }
         observe()
@@ -54,25 +75,6 @@ class ProfileFragment : Fragment(), PhotoDialogFragment.PhotoDialogListener {
         viewModel.friends.observe(viewLifecycleOwner) { friends ->
             adapter.setFriends(friends)
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onChoosePhotoClicked(dialog: DialogFragment) {
-        dialog.dismiss()
-    }
-
-    override fun onTakePhotoClicked(dialog: DialogFragment) {
-        getPhoto.launch(null)
-        dialog.dismiss()
-    }
-
-    override fun onDeletePhotoClicked(dialog: DialogFragment) {
-        binding.profilePhotoImageView.setImageResource(R.drawable.ic_user_placeholder)
-        dialog.dismiss()
     }
 
     companion object {

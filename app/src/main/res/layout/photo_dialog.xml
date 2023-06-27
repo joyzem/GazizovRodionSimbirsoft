@@ -5,89 +5,55 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/choosePhotoOption"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/choosePhotoTextView"
+        style="@style/TextStyle16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:drawablePadding="@dimen/spacing_xl"
         android:focusable="true"
-        android:orientation="horizontal"
         android:paddingStart="@dimen/spacing_xl"
         android:paddingTop="@dimen/spacing_xxl_2"
         android:paddingEnd="@dimen/spacing_xl"
-        android:paddingBottom="@dimen/spacing_l">
+        android:paddingBottom="@dimen/spacing_l"
+        android:text="@string/choose_photo"
+        app:drawableStartCompat="@drawable/ic_upload" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/icon"
-            android:layout_height="@dimen/icon"
-            android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/ic_upload" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextStyle16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="24dp"
-            android:text="@string/choose_photo" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/takePhotoOption"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/takePhotoTextView"
+        style="@style/TextStyle16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:drawablePadding="@dimen/spacing_xl"
         android:focusable="true"
-        android:orientation="horizontal"
         android:paddingStart="@dimen/spacing_xl"
         android:paddingTop="22dp"
         android:paddingEnd="@dimen/spacing_xl"
-        android:paddingBottom="22dp">
+        android:paddingBottom="22dp"
+        android:text="@string/take_photo"
+        app:drawableStartCompat="@drawable/ic_camera" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/icon"
-            android:layout_height="@dimen/icon"
-            android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/ic_camera" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextStyle16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="24dp"
-            android:text="@string/take_photo" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/deletePhotoOption"
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/deletePhotoTextView"
+        style="@style/TextStyle16"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:background="?attr/selectableItemBackground"
         android:clickable="true"
+        android:drawablePadding="@dimen/spacing_xl"
         android:focusable="true"
-        android:orientation="horizontal"
         android:paddingStart="@dimen/spacing_xl"
         android:paddingTop="22dp"
         android:paddingEnd="@dimen/spacing_xl"
-        android:paddingBottom="@dimen/spacing_xxl">
+        android:paddingBottom="@dimen/spacing_xxl"
+        android:text="@string/delete_photo"
+        app:drawableStartCompat="@drawable/ic_delete" />
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:layout_width="@dimen/icon"
-            android:layout_height="@dimen/icon"
-            android:layout_gravity="center_vertical"
-            app:srcCompat="@drawable/ic_delete" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            style="@style/TextStyle16"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="24dp"
-            android:text="@string/delete_photo" />
-
-    </LinearLayout>
 </LinearLayout>
