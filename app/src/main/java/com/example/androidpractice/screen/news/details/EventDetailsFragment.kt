@@ -14,31 +14,45 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.toSpannable
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentEventDetailsBinding
-import com.example.androidpractice.di.ViewModelsFactoryOwner
-import com.example.androidpractice.di.getViewModel
+import com.example.androidpractice.domain.model.Event
 import com.example.androidpractice.screen.news.NewsViewModel
 import com.example.androidpractice.screen.news.getEventDateText
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.PhoneNumberSpan
+import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
+import javax.inject.Inject
 
 class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
     R.id.newsNavItem,
     FragmentEventDetailsBinding::inflate,
     true
 ) {
-
-    private lateinit var viewModel: NewsViewModel
+    @Inject
+    lateinit var viewModel: NewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = (requireActivity() as ViewModelsFactoryOwner).getViewModel()
+        getAppComponent().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val eventId: String = arguments?.getString(EVENT_ID) ?: ""
-        val event = viewModel.getEventById(eventId = eventId) ?: return
+        viewModel.events.observe(viewLifecycleOwner) { events ->
+            if (events != null) {
+                val event = events.find {
+                    it.id == eventId
+                }
+                event?.let { setEvent(it) }
+            }
+        }
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().onBackPressed()
+        }
+    }
+
+    private fun setEvent(event: Event) {
         binding.apply {
             toolbar.title = event.title
             eventTitleTextView.text = event.title
@@ -52,9 +66,6 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
             descriptionTextView.text = event.description
             siteTextView.text = getSpannableSite(event.siteUrl)
             siteTextView.movementMethod = LinkMovementMethod()
-            toolbar.setNavigationOnClickListener {
-                findNavController().onBackPressed()
-            }
         }
     }
 

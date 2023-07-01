@@ -5,14 +5,15 @@ import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentHelpBinding
-import com.example.androidpractice.di.ViewModelsFactoryOwner
-import com.example.androidpractice.di.getViewModel
 import com.example.androidpractice.ui.BaseFragment
+import com.example.androidpractice.ui.getAppComponent
+import javax.inject.Inject
 
 class HelpFragment :
     BaseFragment<FragmentHelpBinding>(R.id.helpNavItem, FragmentHelpBinding::inflate) {
 
-    private lateinit var viewModel: HelpViewModel
+    @Inject
+    lateinit var viewModel: HelpViewModel
 
     private val adapter: CategoriesAdapter by lazy {
         CategoriesAdapter()
@@ -20,7 +21,7 @@ class HelpFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = (activity as ViewModelsFactoryOwner).getViewModel()
+        getAppComponent().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

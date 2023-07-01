@@ -18,21 +18,19 @@ import com.example.androidpractice.ui.BaseFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.Stack
 
-class NavController(
+class NavController private constructor(
     private val bottomNavigationView: BottomNavigationView,
     private val fragmentManager: FragmentManager,
     private val fragmentContainer: FragmentContainerView,
     private val helpImageView: ImageButton,
     @IdRes private val containerId: Int
 ) {
-
-    private var backStackMap = mutableMapOf<Int, Stack<StackFragment>>()
+    private var backStackMap = mutableMapOf<Int, Int>()
     private var bottomNavStack = Stack<Int>()
 
     init {
-        initNavigation()
-        bottomNavigationView.selectedItemId = HELP_DEST
-        fragmentManager.addFragmentOnAttachListener { _, fragment ->
+        fragmentManager.addOnBackStackChangedListener {
+            val fragment = fragmentManager.findFragmentById(containerId)
             if (fragment is BaseFragment<*> && fragment.hideBottomNavigationView) {
                 bottomNavigationView.visibility = View.GONE
                 helpImageView.visibility = View.GONE
@@ -51,32 +49,31 @@ class NavController(
      * @return [true] if the fragment was replaced, [false] - otherwise
      */
     fun onBackPressed(): Boolean {
-        if (bottomNavStack.size == 1 && backStackMap[HELP_DEST]?.size == 1) {
+        if (bottomNavStack.size == 1 && backStackMap[HELP_DEST] == 1) {
             return false // finish application
         }
         val currentItemId = bottomNavigationView.selectedItemId
         val currentBackStackOfBottomItem =
             if (backStackMap.containsKey(currentItemId)) backStackMap[currentItemId] else null
-
         when {
-            currentBackStackOfBottomItem?.size == 1 -> {
+            currentBackStackOfBottomItem == 1 -> {
+
                 // restore previous backstack
                 backStackMap.remove(currentItemId)
                 bottomNavStack.pop() // pop current item
                 val backStackId = bottomNavStack.pop() // pop actual item, then it will be added
-                fragmentManager.popBackStack(currentItemId, 0)
+                if (!bottomNavStack.contains(currentItemId)) {
+                    fragmentManager.clearBackStack(
+                        currentItemId.toString(),
+                    )
+                }
                 bottomNavigationView.selectedItemId = backStackId
             }
 
-            currentBackStackOfBottomItem != null && currentBackStackOfBottomItem.size > 1 -> {
+            currentBackStackOfBottomItem != null && currentBackStackOfBottomItem > 1 -> {
                 fragmentManager.popBackStack()
-                fragmentManager.commit {
-                    setReorderingAllowed(true)
-                    currentBackStackOfBottomItem.pop()
-                    val fragment =
-                        currentBackStackOfBottomItem.last().instantiateFragment()?.javaClass
-                    val args = currentBackStackOfBottomItem.last().args
-                    fragment?.let { replace(containerId, it, args) }
+                if (backStackMap.containsKey(currentItemId)) {
+                    backStackMap[currentItemId] = backStackMap[currentItemId]!! - 1
                 }
                 return true
             }
@@ -93,43 +90,40 @@ class NavController(
      *
      * @param fragment
      */
-    fun navigate(fragment: BaseFragment<*>, args: Bundle? = null) {
+    fun navigate(fragment: BaseFragment<*>) {
         fragmentManager.commit {
             setReorderingAllowed(true)
-            replace(containerId, fragment::class.java, args)
+            replace(containerId, fragment)
             addToBackStack(fragment.bottomNavigationId.toString())
-            backStackMap[fragment.bottomNavigationId]?.push(
-                StackFragment(
-                    fragment::class.java.name,
-                    args
-                )
-            )
+            backStackMap[fragment.bottomNavigationId] =
+                backStackMap.getOrDefault(fragment.bottomNavigationId, 1) + 1
         }
     }
 
-    fun restoreState(bottomNavStack: Stack<Int>, backStackMap: Map<Int, Stack<StackFragment>>) {
+    fun restoreState(savedInstanceState: Bundle) {
+        val bottomNavStack =
+            savedInstanceState.getSerializable(BOTTOM_NAV_STACK) as? Stack<Int> ?: return
+        val backStackMapKeys =
+            savedInstanceState.getIntArray(BACK_STACK_MAP_KEYS) ?: intArrayOf()
+        val map = mutableMapOf<Int, Int>()
+        backStackMapKeys.forEach { key ->
+            val fragmentsAmount = savedInstanceState.getInt("$BACK_STACK_VALUES_OF$key")
+            map[key] = fragmentsAmount
+        }
+
         this.bottomNavStack = bottomNavStack
         this.backStackMap = backStackMap.toMutableMap()
-        val lastBottomNavItem = bottomNavStack.last()
-        val lastFragment: StackFragment = if (backStackMap.containsKey(lastBottomNavItem)) {
-            backStackMap[lastBottomNavItem]?.last() ?: return
-        } else {
-            return
-        }
-        fragmentManager.commit {
-            lastFragment.instantiateFragment()?.javaClass?.let {
-                replace(
-                    containerId,
-                    it,
-                    lastFragment.args
-                )
-            }
-        }
     }
 
-    fun getBottomNavStack() = bottomNavStack
-
-    fun getBackStackMap(): Map<Int, Stack<StackFragment>> = backStackMap
+    fun onSaveInstanceState(outState: Bundle) {
+        outState.putSerializable(BOTTOM_NAV_STACK, bottomNavStack)
+        val keys = backStackMap.keys.toIntArray()
+        outState.putIntArray(BACK_STACK_MAP_KEYS, keys)
+        keys.forEach { key ->
+            val stackFragmentsAmount = backStackMap[key]!!
+            outState.putInt("$BACK_STACK_VALUES_OF$key", stackFragmentsAmount)
+        }
+    }
 
     private fun navigateToBottomDestination(backStackId: Int): Boolean {
         bottomNavStack.push(backStackId)
@@ -142,8 +136,7 @@ class NavController(
                     setReorderingAllowed(true)
                     replace(containerId, fragment)
                     addToBackStack(backStackId.toString())
-                    backStackMap[backStackId] =
-                        Stack<StackFragment>().apply { push(StackFragment(fragment::class.java.name)) }
+                    backStackMap[backStackId] = 1
                 }
                 return true
             } ?: return false
@@ -178,7 +171,7 @@ class NavController(
         }
     }
 
-    interface NavContollerOwner {
+    interface NavControllerOwner {
         fun getNavController(): NavController
     }
 
@@ -188,8 +181,37 @@ class NavController(
         private val SEARCH_DEST = R.id.searchNavItem
         private val PROFILE_DEST = R.id.profileNavItem
         private val HISTORY_DEST = R.id.historyNavItem
-        private const val TAG = "NavController"
+
+        private const val BOTTOM_NAV_STACK = "bottomNavStack"
+        private const val BACK_STACK_MAP_KEYS = "backStackMapKeys"
+        private const val BACK_STACK_VALUES_OF = "backStackValuesOf"
+
+        const val TAG = "NavController"
+
+        fun newInstance(
+            bottomNavigationView: BottomNavigationView,
+            fragmentManager: FragmentManager,
+            fragmentContainer: FragmentContainerView,
+            helpImageView: ImageButton,
+            @IdRes containerId: Int,
+            savedInstanceState: Bundle?
+        ): NavController {
+            return NavController(
+                bottomNavigationView,
+                fragmentManager,
+                fragmentContainer,
+                helpImageView,
+                containerId
+            ).apply {
+                initNavigation()
+                if (savedInstanceState == null) {
+                    bottomNavigationView.selectedItemId = HELP_DEST
+                } else {
+                    restoreState(savedInstanceState)
+                }
+            }
+        }
     }
 }
 
-fun Fragment.findNavController() = (activity as NavController.NavContollerOwner).getNavController()
+fun Fragment.findNavController() = (activity as NavController.NavControllerOwner).getNavController()
