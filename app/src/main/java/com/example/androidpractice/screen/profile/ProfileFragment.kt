@@ -15,7 +15,6 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
     bottomNavigationId = R.id.bottomNavView,
     FragmentProfileBinding::inflate
 ) {
-
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { photo ->
             photo?.let {

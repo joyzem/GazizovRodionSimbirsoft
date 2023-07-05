@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.View
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentFiltersBinding
-import com.example.androidpractice.di.ViewModelsFactoryOwner
-import com.example.androidpractice.di.getViewModel
-import com.example.androidpractice.screen.news.NewsViewModel
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
+import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
+import javax.inject.Inject
 
 class FiltersFragment :
     BaseFragment<FragmentFiltersBinding>(R.id.newsNavItem, FragmentFiltersBinding::inflate) {
 
-    private lateinit var viewModel: NewsViewModel
+    @Inject
+    lateinit var viewModel: FiltersViewModel
 
     private val adapter by lazy {
         FiltersAdapter(viewModel::onFilterChecked)
@@ -22,7 +22,7 @@ class FiltersFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = (activity as ViewModelsFactoryOwner).getViewModel()
+        getAppComponent().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,6 +45,7 @@ class FiltersFragment :
             filtersToolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
                     R.id.filtersDoneActionButton -> {
+                        viewModel.onApplyFilters()
                         findNavController().onBackPressed()
                         true
                     }
