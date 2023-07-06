@@ -3,6 +3,7 @@ package com.example.androidpractice.screen.news
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentNewsBinding
@@ -68,8 +69,8 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(
 
     private fun showEvents() {
         with(binding) {
-            progressCircular.visibility = View.GONE
-            newsRV.visibility = View.VISIBLE
+            progressCircular.isVisible = false
+            newsRV.isVisible = true
         }
     }
 

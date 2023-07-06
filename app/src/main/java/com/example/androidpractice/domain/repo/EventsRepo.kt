@@ -6,5 +6,5 @@ import kotlinx.coroutines.flow.StateFlow
 interface EventsRepo {
     val events: StateFlow<List<Event>?>
 
-    fun cacheEvents(events: List<Event>)
+    fun updateCachedEvents(events: List<Event>)
 }

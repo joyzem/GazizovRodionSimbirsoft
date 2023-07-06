@@ -32,7 +32,7 @@ class GetEventsService : IntentService("GetEventsService") {
             val gson = GsonBuilder()
                 .registerTypeAdapter(Category::class.java, CategoryTypeAdapter())
                 .create()
-            repo.cacheEvents(gson.fromJson(json))
+            repo.updateCachedEvents(gson.fromJson(json))
         } catch (e: InterruptedException) {
             e.printStackTrace()
         } finally {

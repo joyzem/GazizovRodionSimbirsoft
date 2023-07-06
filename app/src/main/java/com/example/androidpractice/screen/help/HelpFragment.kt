@@ -2,6 +2,7 @@ package com.example.androidpractice.screen.help
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
@@ -45,8 +46,8 @@ class HelpFragment :
 
     private fun showCategories() {
         with(binding) {
-            loadingProgress.visibility = View.GONE
-            categoriesRecyclerView.visibility = View.VISIBLE
+            loadingProgress.isVisible = false
+            categoriesRecyclerView.isVisible = true
         }
     }
 

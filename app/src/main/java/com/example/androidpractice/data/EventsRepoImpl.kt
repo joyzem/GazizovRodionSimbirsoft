@@ -15,7 +15,7 @@ class EventsRepoImpl @Inject constructor() : EventsRepo {
     override val events: StateFlow<List<Event>?>
         get() = _events
 
-    override fun cacheEvents(events: List<Event>) {
+    override fun updateCachedEvents(events: List<Event>) {
         _events.update {
             events
         }
