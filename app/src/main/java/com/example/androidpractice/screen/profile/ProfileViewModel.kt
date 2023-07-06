@@ -7,7 +7,7 @@ import androidx.lifecycle.liveData
 class ProfileViewModel : ViewModel() {
 
     val friends: LiveData<List<String>> = liveData {
-        this.emit(
+        emit(
             List(10) {
                 "Валерий Дмитриевич"
             }

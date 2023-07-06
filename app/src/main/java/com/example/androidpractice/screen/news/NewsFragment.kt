@@ -1,7 +1,10 @@
 package com.example.androidpractice.screen.news
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentNewsBinding
 import com.example.androidpractice.screen.news.details.EventDetailsFragment
@@ -9,15 +12,15 @@ import com.example.androidpractice.screen.news.filter.FiltersFragment
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
-import javax.inject.Inject
 
 class NewsFragment : BaseFragment<FragmentNewsBinding>(
     R.id.newsNavItem,
     FragmentNewsBinding::inflate
 ) {
 
-    @Inject
-    lateinit var viewModel: NewsViewModel
+    private val viewModel: NewsViewModel by viewModels {
+        getAppComponent().viewModelsFactory()
+    }
 
     private val adapter by lazy {
         NewsAdapter {
@@ -25,11 +28,6 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(
                 EventDetailsFragment.newInstance(it.id)
             )
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getAppComponent().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -52,8 +50,27 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(
             }
         }
 
-        viewModel.events.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
+        observe()
+
+        if (savedInstanceState == null) {
+            val getEventsIntent = Intent(activity, GetEventsService::class.java)
+            activity?.startService(getEventsIntent)
+        }
+    }
+
+    private fun observe() {
+        viewModel.events.observe(viewLifecycleOwner) { events ->
+            if (events != null) {
+                adapter.submitList(events)
+                showEvents()
+            }
+        }
+    }
+
+    private fun showEvents() {
+        with(binding) {
+            progressCircular.isVisible = false
+            newsRV.isVisible = true
         }
     }
 

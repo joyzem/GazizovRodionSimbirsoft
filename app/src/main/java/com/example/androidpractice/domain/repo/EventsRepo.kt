@@ -1,7 +1,10 @@
 package com.example.androidpractice.domain.repo
 
 import com.example.androidpractice.domain.model.Event
+import kotlinx.coroutines.flow.StateFlow
 
 interface EventsRepo {
-    fun getEvents(): List<Event>
+    val events: StateFlow<List<Event>?>
+
+    fun updateCachedEvents(events: List<Event>)
 }

@@ -12,6 +12,7 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.text.buildSpannedString
 import androidx.core.text.toSpannable
+import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentEventDetailsBinding
 import com.example.androidpractice.domain.model.Event
@@ -21,23 +22,27 @@ import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.PhoneNumberSpan
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
-import javax.inject.Inject
 
 class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
     R.id.newsNavItem,
     FragmentEventDetailsBinding::inflate,
     true
 ) {
-    @Inject
-    lateinit var viewModel: NewsViewModel
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        getAppComponent().inject(this)
+    private val viewModel: NewsViewModel by viewModels {
+        getAppComponent().viewModelsFactory()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().onBackPressed()
+        }
+
+        observe()
+    }
+
+    private fun observe() {
         val eventId: String = arguments?.getString(EVENT_ID) ?: ""
         viewModel.events.observe(viewLifecycleOwner) { events ->
             if (events != null) {
@@ -46,9 +51,6 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
                 }
                 event?.let { setEvent(it) }
             }
-        }
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().onBackPressed()
         }
     }
 

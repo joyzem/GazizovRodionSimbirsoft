@@ -63,6 +63,7 @@ class NavController private constructor(
                 bottomNavStack.pop() // pop current item
                 val backStackId = bottomNavStack.pop() // pop actual item, then it will be added
                 if (!bottomNavStack.contains(currentItemId)) {
+                    fragmentManager.popBackStack()
                     fragmentManager.clearBackStack(
                         currentItemId.toString(),
                     )

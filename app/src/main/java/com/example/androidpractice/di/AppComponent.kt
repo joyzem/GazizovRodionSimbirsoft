@@ -2,10 +2,7 @@ package com.example.androidpractice.di
 
 import android.content.Context
 import com.example.androidpractice.MainActivity
-import com.example.androidpractice.screen.help.HelpFragment
-import com.example.androidpractice.screen.news.NewsFragment
-import com.example.androidpractice.screen.news.details.EventDetailsFragment
-import com.example.androidpractice.screen.news.filter.FiltersFragment
+import com.example.androidpractice.screen.news.GetEventsService
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -19,13 +16,9 @@ interface AppComponent {
         fun create(@BindsInstance context: Context): AppComponent
     }
 
+    fun viewModelsFactory(): ViewModelFactory
+
     fun inject(mainActivity: MainActivity)
 
-    fun inject(fragment: HelpFragment)
-
-    fun inject(fragment: NewsFragment)
-
-    fun inject(fragment: EventDetailsFragment)
-
-    fun inject(fragment: FiltersFragment)
+    fun inject(service: GetEventsService)
 }
