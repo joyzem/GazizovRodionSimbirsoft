@@ -9,13 +9,16 @@ import com.example.androidpractice.databinding.FragmentOrganizationsSearchBindin
 import com.example.androidpractice.screen.search.SearchResultAdapter
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
+import com.example.androidpractice.ui.getAppComponent
 
 class OrganizationsSearchFragment : BaseFragment<FragmentOrganizationsSearchBinding>(
     R.id.searchNavItem,
     FragmentOrganizationsSearchBinding::inflate
 ) {
 
-    private val viewModel: OrganizationsSearchViewModel by viewModels()
+    private val viewModel: OrganizationsSearchViewModel by viewModels {
+        getAppComponent().viewModelsFactory()
+    }
 
     private val adapter: SearchResultAdapter by lazy {
         SearchResultAdapter {

@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
 import androidx.annotation.IdRes
+import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import com.example.androidpractice.R
+import com.example.androidpractice.screen.auth.AuthFragment
 import com.example.androidpractice.screen.help.HelpFragment
 import com.example.androidpractice.screen.news.NewsFragment
 import com.example.androidpractice.screen.profile.ProfileFragment
@@ -101,6 +103,10 @@ class NavController private constructor(
         }
     }
 
+    fun navigateToBottomDestination(bottomNavId: Int) {
+        bottomNavigationView.selectedItemId = bottomNavId
+    }
+
     fun restoreState(savedInstanceState: Bundle) {
         val bottomNavStack =
             savedInstanceState.getSerializable(BOTTOM_NAV_STACK) as? Stack<Int> ?: return
@@ -111,6 +117,14 @@ class NavController private constructor(
             val fragmentsAmount = savedInstanceState.getInt("$BACK_STACK_VALUES_OF$key")
             map[key] = fragmentsAmount
         }
+
+        // restore visibility of bottom navigation
+        val fragment = fragmentManager.findFragmentById(containerId) as? BaseFragment<*>
+        val isVisible = fragment?.let {
+            !it.hideBottomNavigationView
+        } ?: false
+        bottomNavigationView.isVisible = isVisible
+        helpImageView.isVisible = isVisible
 
         this.bottomNavStack = bottomNavStack
         this.backStackMap = backStackMap.toMutableMap()
@@ -126,18 +140,18 @@ class NavController private constructor(
         }
     }
 
-    private fun navigateToBottomDestination(backStackId: Int): Boolean {
-        bottomNavStack.push(backStackId)
-        if (backStackMap.containsKey(backStackId)) {
-            fragmentManager.restoreBackStack(backStackId.toString())
+    private fun onBottomItemSelected(bottomItemId: Int): Boolean {
+        bottomNavStack.push(bottomItemId)
+        if (backStackMap.containsKey(bottomItemId)) {
+            fragmentManager.restoreBackStack(bottomItemId.toString())
             return true
         } else {
-            getFragmentById(backStackId)?.let { fragment ->
+            getFragmentById(bottomItemId)?.let { fragment ->
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     replace(containerId, fragment)
-                    addToBackStack(backStackId.toString())
-                    backStackMap[backStackId] = 1
+                    addToBackStack(bottomItemId.toString())
+                    backStackMap[bottomItemId] = 1
                 }
                 return true
             } ?: return false
@@ -154,7 +168,7 @@ class NavController private constructor(
             if (newId != HISTORY_DEST) { // TODO: Remove when implement
                 fragmentManager.saveBackStack(bottomNavigationView.selectedItemId.toString())
             }
-            navigateToBottomDestination(newId)
+            onBottomItemSelected(newId)
         }
         helpImageView.setOnClickListener {
             bottomNavigationView.selectedItemId = HELP_DEST
@@ -206,7 +220,7 @@ class NavController private constructor(
             ).apply {
                 initNavigation()
                 if (savedInstanceState == null) {
-                    bottomNavigationView.selectedItemId = HELP_DEST
+                    navigate(AuthFragment.newInstance())
                 } else {
                     restoreState(savedInstanceState)
                 }

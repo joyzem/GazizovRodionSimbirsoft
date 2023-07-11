@@ -38,6 +38,15 @@
     <string name="professional_help">Проф.\nпомощь</string>
     <string name="become_volunteer">Стать\nволонтером</string>
     <string name="help_with_clothes">Помочь\nвещами</string>
+    <string name="auth_with_social_networks_to_participate_in_events">Для участия в мероприятиях войдите в приложение через социальые сети</string>
+    <string name="or_auth_within_app">Или авторизуйтесь через приложение</string>
+    <string name="e_mail">E-mail</string>
+    <string name="input_e_mail">Введите e-mail</string>
+    <string name="password">Пароль</string>
+    <string name="input_password">Введите пароль</string>
+    <string name="login">Войти</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="signing_up">Регистрация</string>
     <plurals name="event_date">
         <item quantity="zero">Сегодня последний день!</item>
         <item quantity="one">Остался %s день (%s - %s)</item>

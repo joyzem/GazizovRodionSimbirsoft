@@ -9,12 +9,15 @@ import com.example.androidpractice.databinding.FragmentEventsSearchBinding
 import com.example.androidpractice.screen.search.SearchResultAdapter
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
+import com.example.androidpractice.ui.getAppComponent
 
 class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding>(
     R.id.searchNavItem,
     FragmentEventsSearchBinding::inflate
 ) {
-    private val viewModel: EventsSearchViewModel by viewModels()
+    private val viewModel: EventsSearchViewModel by viewModels {
+        getAppComponent().viewModelsFactory()
+    }
 
     private val adapter: SearchResultAdapter by lazy {
         SearchResultAdapter {

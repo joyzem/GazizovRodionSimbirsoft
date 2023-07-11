@@ -19,7 +19,7 @@ import com.example.androidpractice.domain.model.Event
 import com.example.androidpractice.screen.news.NewsViewModel
 import com.example.androidpractice.screen.news.getEventDateText
 import com.example.androidpractice.ui.BaseFragment
-import com.example.androidpractice.ui.PhoneNumberSpan
+import com.example.androidpractice.ui.spans.PhoneNumberSpan
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
 
