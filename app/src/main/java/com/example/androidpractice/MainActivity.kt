@@ -3,6 +3,7 @@ package com.example.androidpractice
 import android.os.Build
 import android.os.Bundle
 import android.window.OnBackInvokedDispatcher
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidpractice.databinding.ActivityMainBinding
 import com.example.androidpractice.screen.auth.AuthFragment
@@ -12,6 +13,10 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+
+    private val viewModel: MainViewModel by viewModels {
+        (application as App).appComponent.viewModelsFactory()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as App).appComponent.inject(this)
@@ -30,6 +35,7 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
             savedInstanceState
         )
 
+        observe()
         setFragmentResultListeners()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -43,16 +49,21 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
 
     private fun setFragmentResultListeners() {
         supportFragmentManager.setFragmentResultListener(
-            AuthFragment.BACK_CLICKED,
-            this
-        ) { requestKey, bundle ->
-            finish()
-        }
-        supportFragmentManager.setFragmentResultListener(
             AuthFragment.LOGIN_BUTTON_CLICKED,
             this
-        ) { key, bundle ->
+        ) { _, _ ->
             navController.navigateToBottomDestination(R.id.helpNavItem)
+        }
+    }
+
+    private fun observe() {
+        viewModel.unreadNewsCounter.observe(this) { counter ->
+            if (counter == 0) {
+                binding.bottomNavView.removeBadge(R.id.newsNavItem)
+            } else {
+                val badge = binding.bottomNavView.getOrCreateBadge(R.id.newsNavItem)
+                badge.number = counter
+            }
         }
     }
 

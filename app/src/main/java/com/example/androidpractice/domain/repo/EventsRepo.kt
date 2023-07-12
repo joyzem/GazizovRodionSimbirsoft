@@ -7,10 +7,13 @@ import kotlinx.coroutines.flow.StateFlow
 
 interface EventsRepo {
     val events: StateFlow<List<Event>?>
+    val readEvents: Observable<String>
 
     fun updateCachedEvents(events: List<Event>)
 
     fun searchEventsByOrganization(query: String): Observable<SearchResult>
 
     fun searchEventsByName(query: String): Observable<SearchResult>
+
+    fun readEvent(eventId: String)
 }

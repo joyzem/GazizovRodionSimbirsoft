@@ -16,12 +16,11 @@ import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentEventDetailsBinding
 import com.example.androidpractice.domain.model.Event
-import com.example.androidpractice.screen.news.NewsViewModel
 import com.example.androidpractice.screen.news.getEventDateText
 import com.example.androidpractice.ui.BaseFragment
-import com.example.androidpractice.ui.spans.PhoneNumberSpan
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
+import com.example.androidpractice.ui.spans.PhoneNumberSpan
 
 class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
     R.id.newsNavItem,
@@ -29,7 +28,7 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
     true
 ) {
 
-    private val viewModel: NewsViewModel by viewModels {
+    private val viewModel: EventDetailsViewModel by viewModels {
         getAppComponent().viewModelsFactory()
     }
 
@@ -49,7 +48,10 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
                 val event = events.find {
                     it.id == eventId
                 }
-                event?.let { setEvent(it) }
+                event?.let {
+                    setEvent(it)
+                    viewModel.readEvent(eventId)
+                }
             }
         }
     }
@@ -82,7 +84,7 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
                     ds.isUnderlineText = true
                 }
 
-                override fun onClick(p0: View) {
+                override fun onClick(v: View) {
                     val webpage: Uri = Uri.parse(siteUrl)
                     val intent = Intent(Intent.ACTION_VIEW, webpage)
                     if (intent.resolveActivity(requireContext().packageManager) != null) {

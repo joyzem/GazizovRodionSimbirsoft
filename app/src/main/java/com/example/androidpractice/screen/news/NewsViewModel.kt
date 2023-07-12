@@ -17,15 +17,15 @@ class NewsViewModel @Inject constructor(
     categoriesRepo: CategoriesRepo
 ) : ViewModel() {
 
-    private val appliedFilters = categoriesRepo.appliedFilters
-
-    val events: LiveData<List<Event>?> =
-        appliedFilters.combine(eventsRepo.events) { filters, events ->
-            val checkedCategories = filters?.filter {
-                it.checked
-            }?.map { it.category } ?: listOf()
-            events?.filter {
-                (it.categories intersect checkedCategories.toSet()).isNotEmpty()
-            }
-        }.asLiveData(viewModelScope.coroutineContext)
+    val events: LiveData<List<Event>?> = combine(
+        categoriesRepo.appliedFilters,
+        eventsRepo.events
+    ) { filters, events ->
+        val checkedCategories = filters?.filter {
+            it.checked
+        }?.map { it.category } ?: listOf()
+        events?.filter {
+            (it.categories intersect checkedCategories.toSet()).isNotEmpty()
+        }
+    }.asLiveData(viewModelScope.coroutineContext)
 }

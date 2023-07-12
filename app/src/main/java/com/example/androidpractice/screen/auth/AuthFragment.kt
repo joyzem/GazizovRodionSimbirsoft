@@ -16,6 +16,7 @@ import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentAuthBinding
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
+import com.example.androidpractice.ui.navigation.findNavController
 import com.example.androidpractice.ui.setOnEndDrawableClick
 import com.example.androidpractice.ui.spans.ClickableText
 import com.jakewharton.rxbinding4.widget.textChanges
@@ -48,7 +49,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(
                 setFragmentResult(LOGIN_BUTTON_CLICKED, bundleOf())
             }
             authToolbar.setNavigationOnClickListener {
-                setFragmentResult(BACK_CLICKED, bundleOf())
+                findNavController().onBackPressed()
             }
         }
         observe()
@@ -138,7 +139,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(
 
     companion object {
         const val LOGIN_BUTTON_CLICKED = "login_button_clicked"
-        const val BACK_CLICKED = "back_clicked"
+
         fun newInstance(): AuthFragment {
             return AuthFragment()
         }
