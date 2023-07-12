@@ -2,7 +2,6 @@ package com.example.androidpractice.screen.news
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidpractice.R
@@ -10,7 +9,7 @@ import com.example.androidpractice.databinding.ItemEventBinding
 import com.example.androidpractice.domain.model.Event
 
 class NewsAdapter(private val onClick: (Event) -> Unit) :
-    ListAdapter<Event, NewsAdapter.EventViewHolder>(EventDiffUtil) {
+    ListAdapter<Event, NewsAdapter.EventViewHolder>(Event.EventDiffUtil) {
 
     class EventViewHolder(
         private val binding: ItemEventBinding,
@@ -48,15 +47,5 @@ class NewsAdapter(private val onClick: (Event) -> Unit) :
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.bind(currentList[position])
-    }
-
-    object EventDiffUtil : DiffUtil.ItemCallback<Event>() {
-        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
-            return oldItem == newItem
-        }
     }
 }

@@ -2,32 +2,31 @@ package com.example.androidpractice.screen.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.androidpractice.databinding.ItemSearchResultBinding
-import com.example.androidpractice.domain.model.SearchResult
+import com.example.androidpractice.domain.model.Event
 
-class SearchResultAdapter(private val onClick: (SearchResult) -> Unit) :
-    ListAdapter<SearchResult, SearchResultAdapter.ResultViewHolder>(
-        SearchDiffUtil
+class SearchResultAdapter(private val onClick: (Event) -> Unit) :
+    ListAdapter<Event, SearchResultAdapter.ResultViewHolder>(
+        Event.EventDiffUtil
     ) {
 
     class ResultViewHolder(
         private val binding: ItemSearchResultBinding,
-        private val onClick: (SearchResult) -> Unit
+        private val onClick: (Event) -> Unit
     ) : ViewHolder(binding.root) {
 
-        private var result: SearchResult? = null
+        private var event: Event? = null
 
-        fun bind(result: SearchResult) {
+        fun bind(event: Event) {
             with(binding.searchResultTextView) {
-                text = result.resultName
+                text = event.title
                 setOnClickListener {
-                    onClick(result)
+                    onClick(event)
                 }
             }
-            this.result = result
+            this.event = event
         }
     }
 
@@ -42,15 +41,5 @@ class SearchResultAdapter(private val onClick: (SearchResult) -> Unit) :
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         holder.bind(getItem(position))
-    }
-
-    object SearchDiffUtil : DiffUtil.ItemCallback<SearchResult>() {
-        override fun areItemsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: SearchResult, newItem: SearchResult): Boolean {
-            return oldItem == newItem
-        }
     }
 }
