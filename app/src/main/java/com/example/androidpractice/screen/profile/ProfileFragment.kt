@@ -10,18 +10,22 @@ import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentProfileBinding
 import com.example.androidpractice.ui.BaseFragment
+import com.example.androidpractice.ui.getAppComponent
 
-class ProfileFragment : BaseFragment<FragmentProfileBinding>(
+class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(
     bottomNavigationId = R.id.bottomNavView,
     FragmentProfileBinding::inflate
 ) {
+    override val viewModel: ProfileViewModel by viewModels {
+        viewModelFactory
+    }
+
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { photo ->
             photo?.let {
                 binding.profilePhotoImageView.setImageBitmap(it)
             }
         }
-
     private val getPhoto =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) {
             it?.let { uri ->
@@ -31,13 +35,14 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
                 }
             }
         }
-
-    private val viewModel: ProfileViewModel by viewModels()
-
     private val photoDialog = PhotoDialogFragment.newInstance()
 
     private val adapter by lazy {
         FriendsAdapter(viewModel.friends.value ?: listOf())
+    }
+
+    override fun injectViewModelFactory() {
+        getAppComponent().profileSubcomponent().create().inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

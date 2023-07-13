@@ -13,13 +13,12 @@ import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
 
-class NewsFragment : BaseFragment<FragmentNewsBinding>(
+class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>(
     R.id.newsNavItem,
     FragmentNewsBinding::inflate
 ) {
-
-    private val viewModel: NewsViewModel by viewModels {
-        getAppComponent().viewModelsFactory()
+    override val viewModel: NewsViewModel by viewModels {
+        viewModelFactory
     }
 
     private val adapter by lazy {
@@ -28,6 +27,10 @@ class NewsFragment : BaseFragment<FragmentNewsBinding>(
                 EventDetailsFragment.newInstance(it.id)
             )
         }
+    }
+
+    override fun injectViewModelFactory() {
+        getAppComponent().newsSubcomponent().create().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

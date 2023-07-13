@@ -4,21 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/searchToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:menu="@menu/search_toolbar_menu"
-            app:title="@string/search"
-            app:titleCentered="true"
-            app:titleTextAppearance="@style/TextStyle2"
-            app:titleTextColor="?colorOnPrimary" />
 
         <include
             android:id="@+id/searchFieldContainer"
@@ -27,9 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_xs"
             android:layout_marginTop="@dimen/spacing_xs"
-            android:visibility="gone"
             app:layout_scrollFlags="scroll|enterAlways" />
-
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/searchTabLayout"

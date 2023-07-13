@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.AndroidPractice.TextInputLayoutStyle" parent="">
+        <item name="android:textColorHint">@color/black_38</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="placeholderTextAppearance">@style/TextStylePopupPlaceholder</item>
+        <item name="placeholderTextColor">@color/black_38</item>
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/edit_text_bottom_line</item>
+        <item name="android:paddingBottom">6dp</item>
+    </style>
+    <style name="Theme.AndroidPractice.TextInputEditText">
+        <item name="fontFamily">sans-serif</item>
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:paddingTop">36dp</item>
+    </style>
+</resources>

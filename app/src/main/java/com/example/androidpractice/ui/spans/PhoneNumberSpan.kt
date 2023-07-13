@@ -1,4 +1,4 @@
-package com.example.androidpractice.ui
+package com.example.androidpractice.ui.spans
 
 import android.content.Context
 import android.content.Intent

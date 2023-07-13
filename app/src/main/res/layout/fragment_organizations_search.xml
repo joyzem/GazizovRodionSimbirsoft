@@ -6,50 +6,65 @@
     android:layout_height="match_parent"
     android:background="@color/light_grey_two">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/keyWordsTextView"
-            style="@style/TextStyle13"
+        <LinearLayout
+            android:id="@+id/searchResultsLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_l"
-            android:layout_marginTop="@dimen/spacing_l"
-            android:layout_marginEnd="@dimen/spacing_l"
-            android:text="Ключевые слова: мастер-класс, помощь" />
+            android:orientation="vertical"
+            android:visibility="gone">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/resultsTextView"
-            style="@style/TextStyle13"
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/keyWordsTextView"
+                style="@style/TextStyle13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_l"
+                android:layout_marginTop="@dimen/spacing_l"
+                android:layout_marginEnd="@dimen/spacing_l"
+                tools:text="Ключевые слова: мастер-класс, помощь" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/resultsTextView"
+                style="@style/TextStyle13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_l"
+                android:layout_marginEnd="@dimen/spacing_l"
+                tools:text="Результаты поиска: 5 мероприятий" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_l"
+                app:dividerColor="@color/cool_grey" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/organizationsResultsRV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_search_result" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:dividerColor="@color/cool_grey" />
+        </LinearLayout>
+
+        <include
+            android:id="@+id/noResultsLayout"
+            layout="@layout/layout_no_search_results"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_l"
-            android:layout_marginEnd="@dimen/spacing_l" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/spacing_l"
-            app:dividerColor="@color/cool_grey" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/organizationsResultsRV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:nestedScrollingEnabled="false"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_search_result" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            app:dividerColor="@color/cool_grey" />
-
-    </LinearLayout>
-
+            android:layout_height="match_parent"
+            android:layout_marginTop="52dp" />
+        <!--TODO: Не получается сделать по центру -->
+    </FrameLayout>
 </androidx.core.widget.NestedScrollView>
