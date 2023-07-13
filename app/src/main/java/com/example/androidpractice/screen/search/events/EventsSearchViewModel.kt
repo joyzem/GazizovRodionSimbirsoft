@@ -2,20 +2,17 @@ package com.example.androidpractice.screen.search.events
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.androidpractice.domain.model.SearchResult
 import com.example.androidpractice.domain.repo.EventsRepo
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.example.androidpractice.ui.BaseViewModel
 import javax.inject.Inject
 
 class EventsSearchViewModel @Inject constructor(
     private val repo: EventsRepo
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val _searchResult: MutableLiveData<SearchResult?> = MutableLiveData(null)
     val searchResult: LiveData<SearchResult?> = _searchResult
-
-    private val compositeDisposable = CompositeDisposable()
 
     fun search(query: String) {
         compositeDisposable.clear()
@@ -28,10 +25,5 @@ class EventsSearchViewModel @Inject constructor(
                 _searchResult.postValue(result)
             }
         )
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.dispose()
     }
 }

@@ -2,10 +2,10 @@ package com.example.androidpractice.screen.auth
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.androidpractice.ui.BaseViewModel
 import javax.inject.Inject
 
-class AuthViewModel @Inject constructor() : ViewModel() {
+class AuthViewModel @Inject constructor() : BaseViewModel() {
 
     private val _isLoginButtonEnabled = MutableLiveData(false)
     val isLoginButtonEnabled: LiveData<Boolean> = _isLoginButtonEnabled

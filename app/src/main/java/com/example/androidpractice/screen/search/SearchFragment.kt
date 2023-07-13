@@ -4,22 +4,27 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentSearchBinding
 import com.example.androidpractice.screen.search.events.EventsSearchFragment
 import com.example.androidpractice.screen.search.organizations.OrganizationsSearchFragment
 import com.example.androidpractice.ui.BaseFragment
+import com.example.androidpractice.ui.getAppComponent
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jakewharton.rxbinding4.appcompat.queryTextChanges
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import java.util.concurrent.TimeUnit
 
-class SearchFragment : BaseFragment<FragmentSearchBinding>(
+class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
     R.id.searchNavItem,
     FragmentSearchBinding::inflate
 ) {
     private val compositeDisposable = CompositeDisposable()
+
+    override val viewModel: SearchViewModel by viewModels {
+        viewModelFactory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,19 +69,27 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(
         }
 
         setSearchViewRxBinding()
+
+        observe()
+    }
+
+    private fun observe() {
+        compositeDisposable.add(
+            viewModel.queries.subscribe {
+                sendSearchQueryResult(it)
+            }
+        )
     }
 
     private fun setSearchViewRxBinding() {
-        val subscription =
+        compositeDisposable.add(
             binding.searchFieldContainer.searchView
                 .queryTextChanges()
                 .skipInitialValue()
-                .debounce(500, TimeUnit.MILLISECONDS)
-                .map { it.toString() }
                 .subscribe { query ->
-                    sendSearchQueryResult(query)
+                    viewModel.newQuery(query)
                 }
-        compositeDisposable.add(subscription)
+        )
     }
 
     private fun sendSearchQueryResult(query: String) {
@@ -92,9 +105,13 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(
         )
     }
 
+    override fun injectViewModelFactory() {
+        getAppComponent().searchSubcomponent().create().inject(this)
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        compositeDisposable.clear()
+        compositeDisposable.dispose()
     }
 
     companion object {

@@ -33,7 +33,7 @@ class NavController private constructor(
     init {
         fragmentManager.addOnBackStackChangedListener {
             val fragment = fragmentManager.findFragmentById(containerId)
-            if (fragment is BaseFragment<*> && fragment.hideBottomNavigationView) {
+            if (fragment is BaseFragment<*, *> && fragment.hideBottomNavigationView) {
                 bottomNavigationView.visibility = View.GONE
                 helpImageView.visibility = View.GONE
                 fragmentContainer.updatePadding(bottom = 0)
@@ -93,7 +93,7 @@ class NavController private constructor(
      *
      * @param fragment
      */
-    fun navigate(fragment: BaseFragment<*>) {
+    fun navigate(fragment: BaseFragment<*, *>) {
         fragmentManager.commit {
             setReorderingAllowed(true)
             replace(containerId, fragment)
@@ -122,7 +122,7 @@ class NavController private constructor(
         }
 
         // restore visibility of bottom navigation
-        val fragment = fragmentManager.findFragmentById(containerId) as? BaseFragment<*>
+        val fragment = fragmentManager.findFragmentById(containerId) as? BaseFragment<*, *>
         val isVisible = fragment?.let {
             !it.hideBottomNavigationView
         } ?: false

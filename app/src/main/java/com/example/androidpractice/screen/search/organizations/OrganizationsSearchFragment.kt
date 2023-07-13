@@ -1,6 +1,5 @@
 package com.example.androidpractice.screen.search.organizations
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
@@ -16,7 +15,6 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentOrganizationsSearchBinding
-import com.example.androidpractice.di.ViewModelFactory
 import com.example.androidpractice.screen.search.SearchFragment
 import com.example.androidpractice.screen.search.SearchFragment.Companion.KEYWORDS
 import com.example.androidpractice.screen.search.SearchFragment.Companion.SEARCH_BY_KEYWORDS
@@ -25,17 +23,13 @@ import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.spans.ClickableText
-import javax.inject.Inject
 
-class OrganizationsSearchFragment : BaseFragment<FragmentOrganizationsSearchBinding>(
-    R.id.searchNavItem,
-    FragmentOrganizationsSearchBinding::inflate
-) {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: OrganizationsSearchViewModel by viewModels {
+class OrganizationsSearchFragment :
+    BaseFragment<FragmentOrganizationsSearchBinding, OrganizationsSearchViewModel>(
+        R.id.searchNavItem,
+        FragmentOrganizationsSearchBinding::inflate
+    ) {
+    override val viewModel: OrganizationsSearchViewModel by viewModels {
         viewModelFactory
     }
 
@@ -46,8 +40,7 @@ class OrganizationsSearchFragment : BaseFragment<FragmentOrganizationsSearchBind
 
     private var scrollPosition = 0
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectViewModelFactory() {
         getAppComponent().searchSubcomponent().create().inject(this)
     }
 

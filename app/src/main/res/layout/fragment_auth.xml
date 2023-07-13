@@ -18,7 +18,7 @@
             android:background="?colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:title="Авторизация"
+            app:title="@string/authorization"
             app:titleCentered="true"
             app:titleTextAppearance="@style/TextStyle2"
             app:titleTextColor="?colorOnPrimary" />

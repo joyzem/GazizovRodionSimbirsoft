@@ -1,14 +1,14 @@
 package com.example.androidpractice.screen.news.details
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.androidpractice.domain.repo.EventsRepo
+import com.example.androidpractice.ui.BaseViewModel
 import javax.inject.Inject
 
 class EventDetailsViewModel @Inject constructor(
     private val eventsRepo: EventsRepo
-) : ViewModel() {
+) : BaseViewModel() {
     private val _events = eventsRepo.events
     val events = _events.asLiveData(viewModelScope.coroutineContext)
 

@@ -26,14 +26,4 @@ data class Event(
     val imageIds: List<Int>,                // TODO: should be list of links
     val categories: List<Category>,
     val people: List<User>
-) {
-    object EventDiffUtil : DiffUtil.ItemCallback<Event>() {
-        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
-            return oldItem == newItem
-        }
-    }
-}
+)

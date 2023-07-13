@@ -7,13 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidpractice.domain.model.Event
 import com.example.androidpractice.domain.repo.CategoriesRepo
 import com.example.androidpractice.domain.repo.EventsRepo
+import com.example.androidpractice.ui.BaseViewModel
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(
     eventsRepo: EventsRepo,
     categoriesRepo: CategoriesRepo
-) : ViewModel() {
+) : BaseViewModel() {
 
     val events: LiveData<List<Event>?> = combine(
         categoriesRepo.appliedFilters,

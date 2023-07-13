@@ -52,6 +52,7 @@
     <string name="for_example">Например,</string>
     <string name="write_in_search_bar_name_of_event">Напишите в строке поиска название мероприятия или ключевые слова</string>
     <string name="keywords_example">мастер-класс, помощь</string>
+    <string name="authorization">Авторизация</string>
     <plurals name="event_date">
         <item quantity="zero">Сегодня последний день!</item>
         <item quantity="one">Остался %s день (%s - %s)</item>

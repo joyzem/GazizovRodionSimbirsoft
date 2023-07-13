@@ -1,28 +1,22 @@
 package com.example.androidpractice.screen.news.filter
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentFiltersBinding
-import com.example.androidpractice.di.ViewModelFactory
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-class FiltersFragment : BaseFragment<FragmentFiltersBinding>(
+class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>(
     R.id.newsNavItem,
     FragmentFiltersBinding::inflate
 ) {
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel: FiltersViewModel by viewModels {
+    override val viewModel: FiltersViewModel by viewModels {
         viewModelFactory
     }
 
@@ -30,8 +24,7 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding>(
         FiltersAdapter(viewModel::onFilterChecked)
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectViewModelFactory() {
         getAppComponent().newsSubcomponent().create().inject(this)
     }
 

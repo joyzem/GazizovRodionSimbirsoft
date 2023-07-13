@@ -1,10 +1,10 @@
 package com.example.androidpractice
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.androidpractice.domain.repo.CategoriesRepo
 import com.example.androidpractice.domain.repo.EventsRepo
+import com.example.androidpractice.ui.BaseViewModel
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.combine
@@ -14,7 +14,7 @@ import javax.inject.Inject
 class MainViewModel @Inject constructor(
     eventsRepo: EventsRepo,
     categoriesRepo: CategoriesRepo
-) : ViewModel() {
+) : BaseViewModel() {
 
     private val readEvents = MutableStateFlow<List<String>>(listOf())
 
@@ -32,9 +32,6 @@ class MainViewModel @Inject constructor(
         filteredEvents.size - filteredEvents.filter { it.id in readEvents }.size
     }.asLiveData(viewModelScope.coroutineContext)
 
-
-    private val compositeDisposable = CompositeDisposable()
-
     init {
         compositeDisposable.add(
             eventsRepo.readEvents.subscribe { id ->
@@ -43,10 +40,5 @@ class MainViewModel @Inject constructor(
                 }
             }
         )
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        compositeDisposable.dispose()
     }
 }

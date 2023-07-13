@@ -1,6 +1,5 @@
 package com.example.androidpractice.screen.search.events
 
-import android.content.Context
 import android.os.Bundle
 import android.text.Spanned
 import android.text.method.LinkMovementMethod
@@ -16,23 +15,18 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentEventsSearchBinding
-import com.example.androidpractice.di.ViewModelFactory
 import com.example.androidpractice.screen.search.SearchFragment
 import com.example.androidpractice.screen.search.SearchResultAdapter
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.LeftPaddingDivider
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.spans.ClickableText
-import javax.inject.Inject
 
-class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding>(
+class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding, EventsSearchViewModel>(
     R.id.searchNavItem,
     FragmentEventsSearchBinding::inflate
 ) {
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    private val viewModel: EventsSearchViewModel by viewModels {
+    override val viewModel: EventsSearchViewModel by viewModels {
         viewModelFactory
     }
 
@@ -43,8 +37,7 @@ class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding>(
 
     private var scrollPosition: Int = 0
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun injectViewModelFactory() {
         getAppComponent().searchSubcomponent().create().inject(this)
     }
 

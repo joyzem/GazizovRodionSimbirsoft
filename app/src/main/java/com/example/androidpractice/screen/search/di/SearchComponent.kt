@@ -1,5 +1,6 @@
 package com.example.androidpractice.screen.search.di
 
+import com.example.androidpractice.screen.search.SearchFragment
 import com.example.androidpractice.screen.search.events.EventsSearchFragment
 import com.example.androidpractice.screen.search.organizations.OrganizationsSearchFragment
 import dagger.Subcomponent
@@ -18,4 +19,5 @@ interface SearchComponent {
 
     fun inject(fragment: EventsSearchFragment)
     fun inject(fragment: OrganizationsSearchFragment)
+    fun inject(searchFragment: SearchFragment)
 }

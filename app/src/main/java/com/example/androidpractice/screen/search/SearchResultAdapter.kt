@@ -2,6 +2,7 @@ package com.example.androidpractice.screen.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.androidpractice.databinding.ItemSearchResultBinding
@@ -9,7 +10,7 @@ import com.example.androidpractice.domain.model.Event
 
 class SearchResultAdapter(private val onClick: (Event) -> Unit) :
     ListAdapter<Event, SearchResultAdapter.ResultViewHolder>(
-        Event.EventDiffUtil
+        EventDiffUtil
     ) {
 
     class ResultViewHolder(
@@ -41,5 +42,15 @@ class SearchResultAdapter(private val onClick: (Event) -> Unit) :
 
     override fun onBindViewHolder(holder: ResultViewHolder, position: Int) {
         holder.bind(getItem(position))
+    }
+
+    object EventDiffUtil : DiffUtil.ItemCallback<Event>() {
+        override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean {
+            return oldItem.id == newItem.id
+        }
+
+        override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean {
+            return oldItem.title == newItem.title
+        }
     }
 }
