@@ -1,5 +1,6 @@
 package com.example.androidpractice.screen.auth
 
+import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.InputType
@@ -14,6 +15,7 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentAuthBinding
+import com.example.androidpractice.di.ViewModelFactory
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
@@ -22,6 +24,7 @@ import com.example.androidpractice.ui.spans.ClickableText
 import com.jakewharton.rxbinding4.widget.textChanges
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import javax.inject.Inject
 
 class AuthFragment : BaseFragment<FragmentAuthBinding>(
     0,
@@ -29,11 +32,19 @@ class AuthFragment : BaseFragment<FragmentAuthBinding>(
     true
 ) {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModel: AuthViewModel by viewModels {
-        getAppComponent().viewModelsFactory()
+        viewModelFactory
     }
 
     private val compositeDisposable = CompositeDisposable()
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getAppComponent().authSubcomponent().create().inject(this)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

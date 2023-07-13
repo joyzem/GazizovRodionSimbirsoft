@@ -6,16 +6,21 @@ import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.androidpractice.databinding.ActivityMainBinding
+import com.example.androidpractice.di.ViewModelFactory
 import com.example.androidpractice.screen.auth.AuthFragment
 import com.example.androidpractice.ui.navigation.NavController
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModel: MainViewModel by viewModels {
-        (application as App).appComponent.viewModelsFactory()
+        viewModelFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,7 +57,7 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
             AuthFragment.LOGIN_BUTTON_CLICKED,
             this
         ) { _, _ ->
-            navController.navigateToBottomDestination(R.id.helpNavItem)
+            navController.navigateToBottomDestination(R.id.helpNavItem, true)
         }
     }
 

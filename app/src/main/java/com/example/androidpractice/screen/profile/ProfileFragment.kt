@@ -1,5 +1,6 @@
 package com.example.androidpractice.screen.profile
 
+import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
@@ -9,12 +10,23 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentProfileBinding
+import com.example.androidpractice.di.ViewModelFactory
 import com.example.androidpractice.ui.BaseFragment
+import com.example.androidpractice.ui.getAppComponent
+import javax.inject.Inject
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding>(
     bottomNavigationId = R.id.bottomNavView,
     FragmentProfileBinding::inflate
 ) {
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val viewModel: ProfileViewModel by viewModels {
+        viewModelFactory
+    }
+
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { photo ->
             photo?.let {
@@ -32,12 +44,15 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding>(
             }
         }
 
-    private val viewModel: ProfileViewModel by viewModels()
-
     private val photoDialog = PhotoDialogFragment.newInstance()
 
     private val adapter by lazy {
         FriendsAdapter(viewModel.friends.value ?: listOf())
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getAppComponent().profileSubcomponent().create().inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

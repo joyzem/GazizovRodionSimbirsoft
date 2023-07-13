@@ -103,7 +103,10 @@ class NavController private constructor(
         }
     }
 
-    fun navigateToBottomDestination(bottomNavId: Int) {
+    fun navigateToBottomDestination(bottomNavId: Int, popCurrent: Boolean = false) {
+        if (popCurrent) {
+            fragmentManager.popBackStack()
+        }
         bottomNavigationView.selectedItemId = bottomNavId
     }
 

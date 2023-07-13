@@ -1,5 +1,6 @@
 package com.example.androidpractice.screen.news.details
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,12 +16,14 @@ import androidx.core.text.toSpannable
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentEventDetailsBinding
+import com.example.androidpractice.di.ViewModelFactory
 import com.example.androidpractice.domain.model.Event
 import com.example.androidpractice.screen.news.getEventDateText
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
 import com.example.androidpractice.ui.spans.PhoneNumberSpan
+import javax.inject.Inject
 
 class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
     R.id.newsNavItem,
@@ -28,8 +31,16 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding>(
     true
 ) {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModel: EventDetailsViewModel by viewModels {
-        getAppComponent().viewModelsFactory()
+        viewModelFactory
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getAppComponent().newsSubcomponent().create().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -9,9 +9,7 @@ import com.example.androidpractice.domain.repo.CategoriesRepo
 import com.example.androidpractice.domain.repo.EventsRepo
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class NewsViewModel @Inject constructor(
     eventsRepo: EventsRepo,
     categoriesRepo: CategoriesRepo

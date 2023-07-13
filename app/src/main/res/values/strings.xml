@@ -19,6 +19,7 @@
     <string name="by_events">По мероприятиям</string>
     <string name="by_organizations">По НКО</string>
     <string name="enter_organization_name">Введите наименование организации</string>
+    <string name="enter_event_name">Введите название мероприятия</string>
     <string name="filter">Фильтр</string>
     <plurals name="search_results">
         <item quantity="one">Результаты поиска: %d мероприятие</item>

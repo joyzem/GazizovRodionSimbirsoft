@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.viewpager2.widget.ViewPager2
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentSearchBinding
 import com.example.androidpractice.screen.search.events.EventsSearchFragment
@@ -24,6 +25,23 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             searchViewPager.adapter = SearchPagerAdapter(this@SearchFragment)
+            searchViewPager.registerOnPageChangeCallback(object :
+                ViewPager2.OnPageChangeCallback() {
+                override fun onPageScrolled(
+                    position: Int,
+                    positionOffset: Float,
+                    positionOffsetPixels: Int
+                ) {
+                    searchFieldContainer.searchView.queryHint = when (position) {
+                        0 -> getString(R.string.enter_event_name)
+                        else -> getString(R.string.enter_organization_name)
+                    }
+                }
+
+                override fun onPageSelected(position: Int) {}
+
+                override fun onPageScrollStateChanged(state: Int) {}
+            })
             TabLayoutMediator(searchTabLayout, searchViewPager) { tab, position ->
                 if (position == 0) {
                     tab.text = getString(R.string.by_events)

@@ -1,5 +1,6 @@
 package com.example.androidpractice.screen.help
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
@@ -8,19 +9,31 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentHelpBinding
+import com.example.androidpractice.di.ViewModelFactory
+import com.example.androidpractice.screen.auth.AuthViewModel
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 class HelpFragment :
     BaseFragment<FragmentHelpBinding>(R.id.helpNavItem, FragmentHelpBinding::inflate) {
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
     private val viewModel: HelpViewModel by viewModels {
-        getAppComponent().viewModelsFactory()
+        viewModelFactory
     }
+
     private val adapter: CategoriesAdapter by lazy {
         CategoriesAdapter()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        getAppComponent().helpSubcomponent().create().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

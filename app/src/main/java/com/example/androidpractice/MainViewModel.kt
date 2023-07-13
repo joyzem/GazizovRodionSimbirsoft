@@ -24,7 +24,6 @@ class MainViewModel @Inject constructor(
         eventsRepo.events
     ) { readEvents, filters, events ->
         val filteredEvents = events?.filter { event ->
-            println(categoriesRepo)
             val checkedCategories = filters?.filter {
                 it.checked
             }?.map { it.category } ?: listOf()
