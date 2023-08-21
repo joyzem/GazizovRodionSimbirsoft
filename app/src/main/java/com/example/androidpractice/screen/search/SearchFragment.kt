@@ -2,6 +2,7 @@ package com.example.androidpractice.screen.search
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -13,15 +14,11 @@ import com.example.androidpractice.screen.search.organizations.OrganizationsSear
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 import com.google.android.material.tabs.TabLayoutMediator
-import com.jakewharton.rxbinding4.appcompat.queryTextChanges
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
     R.id.searchNavItem,
     FragmentSearchBinding::inflate
 ) {
-    private val compositeDisposable = CompositeDisposable()
-
     override val viewModel: SearchViewModel by viewModels {
         viewModelFactory
     }
@@ -30,23 +27,24 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
             searchViewPager.adapter = SearchPagerAdapter(this@SearchFragment)
-            searchViewPager.registerOnPageChangeCallback(object :
-                ViewPager2.OnPageChangeCallback() {
-                override fun onPageScrolled(
-                    position: Int,
-                    positionOffset: Float,
-                    positionOffsetPixels: Int
-                ) {
-                    searchFieldContainer.searchView.queryHint = when (position) {
-                        0 -> getString(R.string.enter_event_name)
-                        else -> getString(R.string.enter_organization_name)
+            searchViewPager.registerOnPageChangeCallback(
+                object : ViewPager2.OnPageChangeCallback() {
+                    override fun onPageScrolled(
+                        position: Int,
+                        positionOffset: Float,
+                        positionOffsetPixels: Int
+                    ) {
+                        searchFieldContainer.searchView.queryHint = when (position) {
+                            0 -> getString(R.string.enter_event_name)
+                            else -> getString(R.string.enter_organization_name)
+                        }
                     }
+
+                    override fun onPageSelected(position: Int) {}
+
+                    override fun onPageScrollStateChanged(state: Int) {}
                 }
-
-                override fun onPageSelected(position: Int) {}
-
-                override fun onPageScrollStateChanged(state: Int) {}
-            })
+            )
             TabLayoutMediator(searchTabLayout, searchViewPager) { tab, position ->
                 if (position == 0) {
                     tab.text = getString(R.string.by_events)
@@ -68,28 +66,33 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
             binding.searchFieldContainer.searchView.setQuery(keywords, true)
         }
 
-        setSearchViewRxBinding()
+        setSearchViewQueryListener()
 
         observe()
     }
 
     private fun observe() {
-        compositeDisposable.add(
-            viewModel.queries.subscribe {
-                sendSearchQueryResult(it)
-            }
-        )
+        viewModel.queries.observe(viewLifecycleOwner) {
+            sendSearchQueryResult(it)
+        }
     }
 
-    private fun setSearchViewRxBinding() {
-        compositeDisposable.add(
-            binding.searchFieldContainer.searchView
-                .queryTextChanges()
-                .skipInitialValue()
-                .subscribe { query ->
-                    viewModel.newQuery(query)
+    private fun setSearchViewQueryListener() {
+        binding.searchFieldContainer.searchView
+            .setOnQueryTextListener(
+                object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        viewModel.newQuery(query ?: "")
+                        return true
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        viewModel.newQuery(newText ?: "")
+                        return true
+                    }
                 }
-        )
+            )
+
     }
 
     private fun sendSearchQueryResult(query: String) {
@@ -107,11 +110,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
 
     override fun injectViewModelFactory() {
         getAppComponent().searchSubcomponent().create().inject(this)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        compositeDisposable.dispose()
     }
 
     companion object {

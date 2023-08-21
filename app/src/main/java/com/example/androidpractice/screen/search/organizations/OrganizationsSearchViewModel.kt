@@ -2,12 +2,16 @@ package com.example.androidpractice.screen.search.organizations
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.androidpractice.domain.model.SearchResult
 import com.example.androidpractice.domain.repo.EventsRepo
 import com.example.androidpractice.ui.BaseViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.example.androidpractice.util.concurrent.getLoggingCoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "OrganizationsSearchViewModel"
 
 class OrganizationsSearchViewModel @Inject constructor(
     private val repo: EventsRepo
@@ -17,16 +21,13 @@ class OrganizationsSearchViewModel @Inject constructor(
     val searchResult: LiveData<SearchResult?> = _searchResult
 
     fun search(query: String) {
-        compositeDisposable.clear()
-        if (query.isBlank()) {
-            _searchResult.postValue(null)
-            return
+        val ceh = getLoggingCoroutineExceptionHandler(TAG)
+        viewModelScope.launch(ceh + Dispatchers.IO) {
+            if (query.isBlank()) {
+                _searchResult.postValue(null)
+                return@launch
+            }
+            _searchResult.postValue(repo.searchEventsByOrganization(query))
         }
-        compositeDisposable.add(
-            repo.searchEventsByOrganization(query)
-                .subscribe { result ->
-                    _searchResult.postValue(result)
-                }
-        )
     }
 }
