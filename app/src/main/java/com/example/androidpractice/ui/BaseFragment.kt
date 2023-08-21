@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.viewbinding.ViewBinding
 import com.example.androidpractice.di.ViewModelFactory
 import javax.inject.Inject
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
 
-abstract class BaseFragment<VB : ViewBinding, VM: BaseViewModel>(
+abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     val bottomNavigationId: Int,
     private val inflater: Inflate<VB>,
     val hideBottomNavigationView: Boolean = false
