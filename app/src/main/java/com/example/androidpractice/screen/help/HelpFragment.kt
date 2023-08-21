@@ -13,14 +13,20 @@ import com.example.androidpractice.ui.getAppComponent
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class HelpFragment :
-    BaseFragment<FragmentHelpBinding>(R.id.helpNavItem, FragmentHelpBinding::inflate) {
-
-    private val viewModel: HelpViewModel by viewModels {
-        getAppComponent().viewModelsFactory()
+class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(
+    R.id.helpNavItem,
+    FragmentHelpBinding::inflate
+) {
+    override val viewModel: HelpViewModel by viewModels {
+        viewModelFactory
     }
+
     private val adapter: CategoriesAdapter by lazy {
         CategoriesAdapter()
+    }
+
+    override fun injectViewModelFactory() {
+        getAppComponent().helpSubcomponent().create().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

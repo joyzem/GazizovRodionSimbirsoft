@@ -12,14 +12,20 @@ import com.example.androidpractice.ui.getAppComponent
 import com.example.androidpractice.ui.navigation.findNavController
 import kotlinx.coroutines.launch
 
-class FiltersFragment :
-    BaseFragment<FragmentFiltersBinding>(R.id.newsNavItem, FragmentFiltersBinding::inflate) {
-
-    private val viewModel: FiltersViewModel by viewModels {
-        getAppComponent().viewModelsFactory()
+class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>(
+    R.id.newsNavItem,
+    FragmentFiltersBinding::inflate
+) {
+    override val viewModel: FiltersViewModel by viewModels {
+        viewModelFactory
     }
+
     private val adapter by lazy {
         FiltersAdapter(viewModel::onFilterChecked)
+    }
+
+    override fun injectViewModelFactory() {
+        getAppComponent().newsSubcomponent().create().inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

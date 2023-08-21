@@ -134,6 +134,7 @@
                 app:dividerColor="@color/cool_grey" />
 
             <com.google.android.material.button.MaterialButton
+                style="@style/Theme.AndroidPractice.Button"
                 android:id="@+id/logoutButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
