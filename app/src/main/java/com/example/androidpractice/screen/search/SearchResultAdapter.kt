@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.androidpractice.databinding.ItemSearchResultBinding
-import com.example.androidpractice.domain.model.Event
+import com.example.androidpractice.domain.events.model.Event
 
 class SearchResultAdapter(private val onClick: (Event) -> Unit) :
     ListAdapter<Event, SearchResultAdapter.ResultViewHolder>(

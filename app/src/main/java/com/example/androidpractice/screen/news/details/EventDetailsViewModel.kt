@@ -2,7 +2,7 @@ package com.example.androidpractice.screen.news.details
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.androidpractice.domain.repo.EventsRepo
+import com.example.androidpractice.domain.events.repo.EventsRepo
 import com.example.androidpractice.ui.BaseViewModel
 import com.example.androidpractice.util.concurrent.getLoggingCoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers

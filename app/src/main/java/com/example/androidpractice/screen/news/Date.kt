@@ -12,9 +12,9 @@ import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-fun getEventDateText(view: View, dates: List<LocalDate>): String {
-    val dateText = if (dates.size == 1) {
-        val localDate = dates.first().toJavaLocalDate()
+fun getEventDateText(view: View, dateStart: LocalDate, dateEnd: LocalDate): String {
+    val dateText = if (dateStart == dateEnd) {
+        val localDate = dateStart.toJavaLocalDate()
         val formatter = SimpleDateFormat("LLL d, y", Locale("ru"))
         val formattedDate = formatter.format(java.sql.Date.valueOf(localDate.toString()))
             .replaceFirstChar { it.uppercase() }
@@ -28,13 +28,10 @@ fun getEventDateText(view: View, dates: List<LocalDate>): String {
         val today =
             Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
 
-        val lastDay = dates.last()
-        val lastDayFormatted = lastDay.toJavaLocalDate().format(dateFormatter)
+        val lastDayFormatted = dateEnd.toJavaLocalDate().format(dateFormatter)
+        val firstDayFormatted = dateStart.toJavaLocalDate().format(dateFormatter)
 
-        val firstDay = dates.first()
-        val firstDayFormatted = firstDay.toJavaLocalDate().format(dateFormatter)
-
-        val period = lastDay.minus(today).days
+        val period = dateEnd.minus(today).days
 
         if (period >= 0) {
             view.resources.getQuantityString(

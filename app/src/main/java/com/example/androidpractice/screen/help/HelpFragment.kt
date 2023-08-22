@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentHelpBinding
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 
 class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(
     R.id.helpNavItem,
@@ -40,14 +38,13 @@ class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(
     }
 
     private fun observe() {
-        lifecycleScope.launch {
-            viewModel.categories.collectLatest { categories ->
-                categories?.let {
-                    adapter.setData(it)
+        compositeDisposable.add(
+            viewModel.categories.observeOn(AndroidSchedulers.mainThread())
+                .subscribe { categories ->
+                    adapter.setData(categories)
                     showCategories()
                 }
-            }
-        }
+        )
     }
 
     private fun showCategories() {

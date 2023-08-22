@@ -1,7 +1,9 @@
 package com.example.androidpractice.di
 
-import com.example.androidpractice.data.EventsApiImpl
-import com.example.androidpractice.domain.repo.EventsApi
+import com.example.androidpractice.data.categories.CategoriesApiImpl
+import com.example.androidpractice.data.events.EventsApiImpl
+import com.example.androidpractice.domain.categories.api.CategoriesApi
+import com.example.androidpractice.domain.events.api.EventsApi
 import dagger.Binds
 import dagger.Module
 
@@ -9,5 +11,8 @@ import dagger.Module
 interface NetworkModule {
 
     @Binds
-    fun bindApi(api: EventsApiImpl): EventsApi
+    fun bindEventsApi(api: EventsApiImpl): EventsApi
+
+    @Binds
+    fun bindCategoriesApi(api: CategoriesApiImpl): CategoriesApi
 }

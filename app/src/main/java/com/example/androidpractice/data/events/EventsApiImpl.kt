@@ -1,16 +1,12 @@
-package com.example.androidpractice.data
+package com.example.androidpractice.data.events
 
 import android.annotation.SuppressLint
-import android.content.res.AssetManager
 import android.util.Log
-import com.example.androidpractice.data.adapters.CategoryTypeAdapter
-import com.example.androidpractice.domain.model.Category
-import com.example.androidpractice.domain.model.Event
-import com.example.androidpractice.domain.model.SearchResult
-import com.example.androidpractice.domain.repo.EventsApi
-import com.example.androidpractice.util.fromJson
-import com.example.androidpractice.util.getJsonFromAssets
-import com.google.gson.GsonBuilder
+import com.example.androidpractice.data.events.dto.toModel
+import com.example.androidpractice.data.events.network.EventsRetrofitApi
+import com.example.androidpractice.domain.events.api.EventsApi
+import com.example.androidpractice.domain.events.model.Event
+import com.example.androidpractice.domain.search.model.SearchResult
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -19,9 +15,11 @@ import java.util.UUID
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class EventsApiImpl @Inject constructor(
-    private val assetManager: AssetManager
+    private val api: EventsRetrofitApi
 ) : EventsApi {
 
     /**
@@ -32,33 +30,19 @@ class EventsApiImpl @Inject constructor(
     private val events = BehaviorSubject.create<List<Event>>()
 
     override fun searchByEvent(query: String): Observable<SearchResult> {
-        return Observable.create { emitter ->
-            val events = getEventsFromJson().filter { event ->
-                event.title.contains(query, true)
+        return fetchEvents().map { events ->
+            events.filter {
+                it.title.contains(query)
             }
-            val multiplyEvents = mutableListOf<Event>()
-            repeat(100) {
-                multiplyEvents += events
-            }
-            emitter.onNext(multiplyEvents)
-            emitter.onComplete()
+        }.map { events ->
+            SearchResult(
+                id = UUID.randomUUID().toString(),
+                keywords = events.map {
+                    it.title
+                },
+                events = events
+            )
         }.subscribeOn(Schedulers.io())
-            .doOnNext {
-                Log.i(TAG, "Thread: ${Thread.currentThread().name}")
-            }
-            .delay(1000, TimeUnit.MILLISECONDS)
-            .map { events ->
-                SearchResult(
-                    id = UUID.randomUUID().toString(),
-                    keywords = events.flatMap { event ->
-                        event.categories.map { category ->
-                            category.title
-                        }
-                    }.toSet().toList(),
-                    events = events
-                )
-            }
-            .observeOn(AndroidSchedulers.mainThread())
     }
 
     override fun searchByOrganization(query: String): Observable<SearchResult> {
@@ -71,7 +55,7 @@ class EventsApiImpl @Inject constructor(
         - наиболее подходящий вариант использован в [searchByEvent]
         - применять subscribeOn на [organizationEvents] Observable бессмысленно. Видимо,
         это связано с тем, что ранее subscribeOn был вызван на обоих "потоках"
-         - по ощущениям, subscribeOn вообще не меняет поток
+        - по ощущениям, subscribeOn вообще не меняет поток
          */
 
         val loggedEvents = events.loggingTest("events")
@@ -103,29 +87,27 @@ class EventsApiImpl @Inject constructor(
                 )
             }
         organizationsQueries.onNext(query)
-        events.onNext(getEventsFromJson())
+        events.onNext(fetchEvents().blockingFirst())
         return organizationEvents
             .delay(1000, TimeUnit.MILLISECONDS)
             .map { events ->
                 SearchResult(
                     id = UUID.randomUUID().toString(),
-                    keywords = events.flatMap { event ->
-                        event.categories.map { category ->
-                            category.title
-                        }
-                    }.toSet().toList(),
+                    keywords = events.map {
+                        it.title
+                    },
                     events = events
                 )
             }
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    private fun getEventsFromJson(): List<Event> {
-        val json = getJsonFromAssets(assetManager, "events.json")
-        val gson = GsonBuilder()
-            .registerTypeAdapter(Category::class.java, CategoryTypeAdapter())
-            .create()
-        return gson.fromJson(json)
+    override fun fetchEvents(): Observable<List<Event>> {
+        return api.fetchEvents().map { events ->
+            events.map {
+                it.toModel()
+            }
+        }
     }
 
     @SuppressLint("CheckResult")

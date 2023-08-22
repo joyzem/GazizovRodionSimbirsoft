@@ -32,8 +32,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
         viewModelFactory
     }
 
-    private val compositeDisposable = CompositeDisposable()
-
     override fun injectViewModelFactory() {
         getAppComponent().authSubcomponent().create().inject(this)
     }
@@ -133,11 +131,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
             setSelection(length())
             setTextAppearance(R.style.Theme_AndroidPractice_TextInputEditText) // FIXME: the text font is strange if not to specify text appearance in code
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        compositeDisposable.clear()
     }
 
     companion object {

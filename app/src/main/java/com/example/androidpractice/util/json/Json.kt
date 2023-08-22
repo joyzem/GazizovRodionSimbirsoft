@@ -1,4 +1,4 @@
-package com.example.androidpractice.util
+package com.example.androidpractice.util.json
 
 import android.content.res.AssetManager
 import com.google.gson.Gson

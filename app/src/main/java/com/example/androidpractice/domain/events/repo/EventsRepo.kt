@@ -1,8 +1,9 @@
-package com.example.androidpractice.domain.repo
+package com.example.androidpractice.domain.events.repo
 
-import com.example.androidpractice.domain.model.CategoryFilter
-import com.example.androidpractice.domain.model.Event
-import com.example.androidpractice.domain.model.SearchResult
+import com.example.androidpractice.domain.categories.model.CategoryFilter
+import com.example.androidpractice.domain.events.model.Event
+import com.example.androidpractice.domain.search.model.SearchResult
+import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,9 +20,7 @@ interface EventsRepo {
         allEvents: StateFlow<List<Event>?>
     ): Flow<Int>
 
-    suspend fun searchEventsByOrganization(query: String): SearchResult
-
-    suspend fun searchEventsByName(query: String): SearchResult
+    fun fetchEvents(): Observable<List<Event>>
 
     suspend fun readEvent(eventId: String)
 }
