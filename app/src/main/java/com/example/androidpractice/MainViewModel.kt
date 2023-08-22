@@ -5,11 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidpractice.domain.repo.CategoriesRepo
 import com.example.androidpractice.domain.repo.EventsRepo
 import com.example.androidpractice.ui.BaseViewModel
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import com.example.androidpractice.util.concurrent.getLoggingCoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "MainViewModel"
 
 class MainViewModel @Inject constructor(
     eventsRepo: EventsRepo,
@@ -18,27 +21,22 @@ class MainViewModel @Inject constructor(
 
     private val readEvents = MutableStateFlow<List<String>>(listOf())
 
-    val unreadNewsCounter = combine(
+    val unreadNewsCounter = eventsRepo.unreadNewsCounter(
         readEvents,
         categoriesRepo.appliedFilters,
         eventsRepo.events
-    ) { readEvents, filters, events ->
-        val filteredEvents = events?.filter { event ->
-            val checkedCategories = filters?.filter {
-                it.checked
-            }?.map { it.category } ?: listOf()
-            (event.categories intersect checkedCategories.toSet()).isNotEmpty()
-        } ?: listOf()
-        filteredEvents.size - filteredEvents.filter { it.id in readEvents }.size
-    }.asLiveData(viewModelScope.coroutineContext)
+    ).asLiveData(viewModelScope.coroutineContext)
 
     init {
-        compositeDisposable.add(
-            eventsRepo.readEvents.subscribe { id ->
-                readEvents.update { list ->
-                    list + id
+        val ceh = getLoggingCoroutineExceptionHandler(TAG)
+        viewModelScope.launch(ceh + Dispatchers.Main) {
+            for (eventId in eventsRepo.readEvents) {
+                eventId?.let { id ->
+                    readEvents.update { list ->
+                        list + id
+                    }
                 }
             }
-        )
+        }
     }
 }

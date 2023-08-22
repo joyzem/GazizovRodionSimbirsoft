@@ -1,7 +1,6 @@
 package com.example.androidpractice.screen.profile
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.androidpractice.ui.BaseViewModel
 import javax.inject.Inject

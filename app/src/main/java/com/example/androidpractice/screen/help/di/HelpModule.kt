@@ -2,7 +2,6 @@ package com.example.androidpractice.screen.help.di
 
 import androidx.lifecycle.ViewModel
 import com.example.androidpractice.di.ViewModelKey
-import com.example.androidpractice.screen.auth.AuthViewModel
 import com.example.androidpractice.screen.help.HelpViewModel
 import dagger.Binds
 import dagger.Module

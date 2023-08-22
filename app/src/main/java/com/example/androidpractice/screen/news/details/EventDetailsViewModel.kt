@@ -4,7 +4,12 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.androidpractice.domain.repo.EventsRepo
 import com.example.androidpractice.ui.BaseViewModel
+import com.example.androidpractice.util.concurrent.getLoggingCoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+private const val TAG = "EventDetailsViewModel"
 
 class EventDetailsViewModel @Inject constructor(
     private val eventsRepo: EventsRepo
@@ -13,6 +18,9 @@ class EventDetailsViewModel @Inject constructor(
     val events = _events.asLiveData(viewModelScope.coroutineContext)
 
     fun readEvent(eventId: String) {
-        eventsRepo.readEvent(eventId)
+        val ceh = getLoggingCoroutineExceptionHandler(TAG)
+        viewModelScope.launch(Dispatchers.IO + ceh) {
+            eventsRepo.readEvent(eventId)
+        }
     }
 }

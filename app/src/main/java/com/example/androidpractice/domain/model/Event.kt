@@ -1,7 +1,6 @@
 package com.example.androidpractice.domain.model
 
 import androidx.annotation.DrawableRes
-import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.SerializedName
 import kotlinx.datetime.LocalDate
 
