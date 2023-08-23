@@ -5,9 +5,13 @@ import android.content.Intent
 import android.content.res.AssetManager
 import com.example.androidpractice.domain.events.repo.EventsRepo
 import com.example.androidpractice.ui.getAppComponent
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetEventsService : IntentService("GetEventsService") {
@@ -18,7 +22,7 @@ class GetEventsService : IntentService("GetEventsService") {
     @Inject
     lateinit var assetManager: AssetManager
 
-    private val compositeDisposable = CompositeDisposable()
+    private val context = Job() + Dispatchers.IO
 
     override fun onCreate() {
         super.onCreate()
@@ -27,21 +31,14 @@ class GetEventsService : IntentService("GetEventsService") {
 
     override fun onHandleIntent(p0: Intent?) {
         try {
-            val disp = repo.fetchEvents().subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { events ->
+            CoroutineScope(context).launch {
+                repo.fetchEvents().collectLatest { events ->
+                    withContext(Dispatchers.Main.immediate) {
                         repo.setEvents(events)
-                        compositeDisposable.clear()
-                    },
-                    {
-                        compositeDisposable.clear()
-                    },
-                    {
-                        compositeDisposable.clear()
+                        cancel()
                     }
-                )
-            compositeDisposable.add(disp)
+                }
+            }
         } catch (e: InterruptedException) {
             e.printStackTrace()
         } finally {

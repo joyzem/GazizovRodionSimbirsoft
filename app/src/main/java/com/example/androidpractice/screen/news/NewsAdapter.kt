@@ -5,8 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.request.CachePolicy
 import coil.request.Disposable
 import com.example.androidpractice.databinding.ItemEventBinding
 import com.example.androidpractice.domain.events.model.Event
