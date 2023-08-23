@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 interface CategoriesRepo {
 
     val appliedFilters: StateFlow<List<CategoryFilter>?>
-    val categories: StateFlow<List<Category>?>
 
     fun fetchCategories(): Flow<List<Category>>
 

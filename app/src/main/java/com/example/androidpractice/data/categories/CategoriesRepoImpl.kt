@@ -26,9 +26,6 @@ class CategoriesRepoImpl @Inject constructor(
     private val categoriesApi: CategoriesRetrofitApi
 ) : CategoriesRepo {
 
-    private val _categories = MutableStateFlow<List<Category>?>(null)
-    override val categories = _categories.asStateFlow()
-
     private val _appliedFilters: MutableStateFlow<List<CategoryFilter>?> =
         MutableStateFlow(null)
     override val appliedFilters = _appliedFilters.asStateFlow()
@@ -41,9 +38,6 @@ class CategoriesRepoImpl @Inject constructor(
                 }
             emit(categories)
         }.onEach { newCategories ->
-            _categories.update {
-                newCategories
-            }
             val filters = newCategories.map {
                 CategoryFilter(
                     it,
@@ -53,9 +47,6 @@ class CategoriesRepoImpl @Inject constructor(
             setFilters(filters)
         }.catch {
             val categories = getCategoriesFromFile()
-            _categories.update {
-                categories
-            }
             val filters = categories.map {
                 CategoryFilter(
                     it,
