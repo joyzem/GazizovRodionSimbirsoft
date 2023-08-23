@@ -1,7 +1,6 @@
 package com.example.androidpractice.di
 
-import com.example.androidpractice.data.categories.network.CategoriesRetrofitApi
-import com.example.androidpractice.data.events.network.EventsRetrofitApi
+import android.annotation.SuppressLint
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -22,20 +21,6 @@ private const val BASE_URL = "https://wanthelp-112222ed0ca0.herokuapp.com/"
 
 @Module
 object RetrofitModule {
-
-    @Provides
-    fun provideEventsApi(
-        retrofit: Retrofit,
-    ): EventsRetrofitApi {
-        return retrofit.create(EventsRetrofitApi::class.java)
-    }
-
-    @Provides
-    fun provideCategoriesApi(
-        retrofit: Retrofit,
-    ): CategoriesRetrofitApi {
-        return retrofit.create(CategoriesRetrofitApi::class.java)
-    }
 
     @Provides
     fun provideConverter(): GsonConverterFactory = GsonConverterFactory.create()
@@ -72,12 +57,16 @@ private fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
         // Create a trust manager that does not validate certificate chains
         val trustAllCerts = arrayOf<TrustManager>(
             object : X509TrustManager {
+                @SuppressLint("TrustAllX509TrustManager")
                 @Throws(CertificateException::class)
                 override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {
+                    // Not implemented
                 }
 
+                @SuppressLint("TrustAllX509TrustManager")
                 @Throws(CertificateException::class)
                 override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {
+                    // Not implemented
                 }
 
                 override fun getAcceptedIssuers(): Array<X509Certificate> {

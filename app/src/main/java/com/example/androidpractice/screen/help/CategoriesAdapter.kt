@@ -21,6 +21,7 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHol
             with(binding) {
                 categoryImageView.load(category.imageUrl) {
                     diskCachePolicy(CachePolicy.DISABLED)
+                    crossfade(true)
                 }
                 categoryTextView.text = category.title
             }

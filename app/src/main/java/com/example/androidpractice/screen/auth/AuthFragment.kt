@@ -21,7 +21,6 @@ import com.example.androidpractice.ui.setOnEndDrawableClick
 import com.example.androidpractice.ui.spans.ClickableText
 import com.jakewharton.rxbinding4.widget.textChanges
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
     0,

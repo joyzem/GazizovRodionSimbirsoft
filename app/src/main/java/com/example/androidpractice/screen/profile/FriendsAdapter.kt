@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import coil.load
+import coil.request.CachePolicy
+import coil.transform.CircleCropTransformation
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.ItemFriendBinding
 
@@ -16,7 +19,13 @@ class FriendsAdapter(private var friends: List<String>) :
         fun initViewHolder(name: String) {
             with(binding) {
                 friendNameTextView.text = name
-                avatarImageView.setImageResource(R.drawable.ic_friend)
+                avatarImageView.load("https://wanthelp-112222ed0ca0.herokuapp.com/categories/adult.png") {
+                    transformations(CircleCropTransformation())
+                    placeholder(R.drawable.ic_user_placeholder)
+                    error(R.drawable.ic_user_placeholder)
+                    diskCachePolicy(CachePolicy.DISABLED)
+                    crossfade(true)
+                }
             }
         }
     }
@@ -27,7 +36,10 @@ class FriendsAdapter(private var friends: List<String>) :
         notifyDataSetChanged()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): FriendViewHolder {
         val binding = ItemFriendBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,

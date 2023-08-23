@@ -1,18 +1,25 @@
 package com.example.androidpractice.di
 
-import com.example.androidpractice.data.categories.CategoriesApiImpl
-import com.example.androidpractice.data.events.EventsApiImpl
-import com.example.androidpractice.domain.categories.api.CategoriesApi
-import com.example.androidpractice.domain.events.api.EventsApi
-import dagger.Binds
+import com.example.androidpractice.data.categories.network.CategoriesRetrofitApi
+import com.example.androidpractice.data.events.network.EventsRetrofitApi
 import dagger.Module
+import dagger.Provides
+import retrofit2.Retrofit
 
 @Module
-interface NetworkModule {
+object NetworkModule {
 
-    @Binds
-    fun bindEventsApi(api: EventsApiImpl): EventsApi
+    @Provides
+    fun provideEventsApi(
+        retrofit: Retrofit,
+    ): EventsRetrofitApi {
+        return retrofit.create(EventsRetrofitApi::class.java)
+    }
 
-    @Binds
-    fun bindCategoriesApi(api: CategoriesApiImpl): CategoriesApi
+    @Provides
+    fun provideCategoriesApi(
+        retrofit: Retrofit,
+    ): CategoriesRetrofitApi {
+        return retrofit.create(CategoriesRetrofitApi::class.java)
+    }
 }

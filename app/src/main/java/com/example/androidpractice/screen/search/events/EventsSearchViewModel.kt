@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.androidpractice.domain.search.model.SearchResult
-import com.example.androidpractice.domain.events.repo.EventsRepo
 import com.example.androidpractice.domain.search.repo.SearchRepo
 import com.example.androidpractice.ui.BaseViewModel
 import com.example.androidpractice.util.concurrent.getLoggingCoroutineExceptionHandler

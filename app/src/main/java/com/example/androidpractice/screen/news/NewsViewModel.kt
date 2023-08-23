@@ -7,8 +7,6 @@ import com.example.androidpractice.domain.categories.repo.CategoriesRepo
 import com.example.androidpractice.domain.events.model.Event
 import com.example.androidpractice.domain.events.repo.EventsRepo
 import com.example.androidpractice.ui.BaseViewModel
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
@@ -28,13 +26,4 @@ class NewsViewModel @Inject constructor(
             event.category in checkedCategories.map { category -> category.id }
         }
     }.asLiveData(viewModelScope.coroutineContext)
-
-    init {
-        compositeDisposable.add(
-            eventsRepo.fetchEvents()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
-        )
-    }
 }

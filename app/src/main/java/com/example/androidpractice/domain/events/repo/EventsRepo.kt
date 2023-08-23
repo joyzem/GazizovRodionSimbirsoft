@@ -12,7 +12,7 @@ interface EventsRepo {
     val events: StateFlow<List<Event>?>
     val readEvents: ReceiveChannel<String?>
 
-    fun updateCachedEvents(events: List<Event>)
+    fun setEvents(events: List<Event>)
 
     fun unreadNewsCounter(
         readEvents: StateFlow<List<String>>,
@@ -21,6 +21,10 @@ interface EventsRepo {
     ): Flow<Int>
 
     fun fetchEvents(): Observable<List<Event>>
+
+    fun searchEventByName(query: String): Observable<SearchResult>
+
+    fun searchEventByOrganizationName(query: String): Observable<SearchResult>
 
     suspend fun readEvent(eventId: String)
 }
