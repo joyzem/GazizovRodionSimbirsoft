@@ -109,9 +109,7 @@ class EventsRepoImpl @Inject constructor(
     }
 
     override suspend fun fetchEvents() {
-        if (eventsFetched) {
-            return
-        }
+        if (eventsFetched) return
         val events = try {
             eventsApi.fetchEvents().map { dto ->
                 dto.toModel()

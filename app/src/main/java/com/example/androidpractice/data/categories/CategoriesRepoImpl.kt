@@ -48,9 +48,7 @@ class CategoriesRepoImpl @Inject constructor(
         }
 
     override suspend fun fetchCategories() {
-        if (categoriesFetched) {
-            return
-        }
+        if (categoriesFetched) return
         val categories = try {
             categoriesApi.fetchCategories()
                 .map { category ->
