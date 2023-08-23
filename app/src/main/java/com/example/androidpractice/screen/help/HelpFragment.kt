@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentHelpBinding
+import com.example.androidpractice.domain.categories.model.Category
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(
     R.id.helpNavItem,
@@ -36,24 +34,22 @@ class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(
             layoutManager = GridLayoutManager(requireContext(), 2)
         }
 
-        observe()
+        observeLiveData()
     }
 
-    private fun observe() {
-        lifecycleScope.launch {
-            viewModel.categories.collectLatest { categories ->
-                categories?.let {
-                    adapter.setData(it)
-                    showCategories()
-                }
-            }
+    private fun observeLiveData() {
+        with(viewModel) {
+            categories.observe(viewLifecycleOwner, ::showCategories)
         }
     }
 
-    private fun showCategories() {
-        with(binding) {
-            loadingProgress.isVisible = false
-            categoriesRecyclerView.isVisible = true
+    private fun showCategories(categories: List<Category>?) {
+        if (categories != null) {
+            adapter.setData(categories)
+            with(binding) {
+                loadingProgress.isVisible = false
+                categoriesRecyclerView.isVisible = true
+            }
         }
     }
 

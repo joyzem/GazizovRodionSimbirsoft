@@ -5,9 +5,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.androidpractice.R
+import coil.load
+import coil.request.CachePolicy
+import coil.request.Disposable
 import com.example.androidpractice.databinding.ItemEventBinding
-import com.example.androidpractice.domain.model.Event
+import com.example.androidpractice.domain.events.model.Event
+import com.example.androidpractice.ui.extensions.loadWithoutCaching
 
 class NewsAdapter(private val onClick: (Event) -> Unit) :
     ListAdapter<Event, NewsAdapter.EventViewHolder>(EventDiffUtil) {
@@ -17,20 +20,23 @@ class NewsAdapter(private val onClick: (Event) -> Unit) :
         private val onClick: (Event) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
+        private var disposable: Disposable? = null
+
         fun bind(event: Event) {
             with(binding) {
                 eventContainer.setOnClickListener {
                     onClick(event)
                 }
-                if (event.id == "1") {
-                    eventImageView.setImageResource(R.drawable.img_event)
-                } else {
-                    eventImageView.setImageResource(R.drawable.img_event_2)
-                }
+                disposable = eventImageView.loadWithoutCaching(event.imagePreview)
                 eventTitleTextView.text = event.title
                 eventSubtitleTextView.text = event.subtitle
-                eventDateTextView.text = getEventDateText(eventDateTextView, event.dates)
+                eventDateTextView.text =
+                    getEventDateText(eventDateTextView, event.startDate, event.endDate)
             }
+        }
+
+        fun dispose() {
+            disposable?.dispose()
         }
     }
 
@@ -48,6 +54,12 @@ class NewsAdapter(private val onClick: (Event) -> Unit) :
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         holder.bind(currentList[position])
+    }
+
+    override fun onViewRecycled(holder: EventViewHolder) {
+        super.onViewRecycled(holder)
+        // Dispose coil request
+        holder.dispose()
     }
 
     object EventDiffUtil : DiffUtil.ItemCallback<Event>() {

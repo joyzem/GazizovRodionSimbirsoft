@@ -21,7 +21,6 @@ import com.example.androidpractice.ui.setOnEndDrawableClick
 import com.example.androidpractice.ui.spans.ClickableText
 import com.jakewharton.rxbinding4.widget.textChanges
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
     0,
@@ -31,8 +30,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
     override val viewModel: AuthViewModel by viewModels {
         viewModelFactory
     }
-
-    private val compositeDisposable = CompositeDisposable()
 
     override fun injectViewModelFactory() {
         getAppComponent().authSubcomponent().create().inject(this)
@@ -133,11 +130,6 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
             setSelection(length())
             setTextAppearance(R.style.Theme_AndroidPractice_TextInputEditText) // FIXME: the text font is strange if not to specify text appearance in code
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        compositeDisposable.clear()
     }
 
     companion object {

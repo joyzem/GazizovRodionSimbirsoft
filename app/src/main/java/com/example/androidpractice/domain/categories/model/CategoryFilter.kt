@@ -1,4 +1,4 @@
-package com.example.androidpractice.domain.model
+package com.example.androidpractice.domain.categories.model
 
 data class CategoryFilter(
     val category: Category,

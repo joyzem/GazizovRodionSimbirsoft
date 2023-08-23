@@ -7,6 +7,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentNewsBinding
+import com.example.androidpractice.domain.events.model.Event
 import com.example.androidpractice.screen.news.details.EventDetailsFragment
 import com.example.androidpractice.screen.news.filter.FiltersFragment
 import com.example.androidpractice.ui.BaseFragment
@@ -53,7 +54,7 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>(
             }
         }
 
-        observe()
+        observeLiveData()
 
         if (savedInstanceState == null) {
             val getEventsIntent = Intent(activity, GetEventsService::class.java)
@@ -61,19 +62,17 @@ class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>(
         }
     }
 
-    private fun observe() {
-        viewModel.events.observe(viewLifecycleOwner) { events ->
-            if (events != null) {
-                adapter.submitList(events)
-                showEvents()
-            }
-        }
+    private fun observeLiveData() {
+        viewModel.events.observe(viewLifecycleOwner, ::showEvents)
     }
 
-    private fun showEvents() {
-        with(binding) {
-            progressCircular.isVisible = false
-            newsRV.isVisible = true
+    private fun showEvents(events: List<Event>?) {
+        if (events != null) {
+            adapter.submitList(events)
+            with(binding) {
+                progressCircular.isVisible = false
+                newsRV.isVisible = true
+            }
         }
     }
 

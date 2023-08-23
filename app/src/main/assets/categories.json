@@ -1,22 +1,26 @@
-[
-  {
-    "id": "1",
-    "title": "Дети"
-  },
-  {
-    "id": "2",
-    "title": "Взрослые"
-  },
-  {
-    "id": "3",
-    "title": "Пожилые"
-  },
-  {
-    "id": "4",
-    "title": "Животные"
-  },
-  {
-    "id": "5",
-    "title": "События"
-  }
-]
+[{
+  "id": "1",
+  "name_en": "Children",
+  "name": "Дети",
+  "image": "https://wanthelp-112222ed0ca0.herokuapp.com/categories/child.png"
+}, {
+  "id": "2",
+  "name_en": "Adult",
+  "name": "Взрослые",
+  "image": "https://wanthelp-112222ed0ca0.herokuapp.com/categories/adult.png"
+}, {
+  "id": "3",
+  "name_en": "Old",
+  "name": "Пожилые",
+  "image": "https://wanthelp-112222ed0ca0.herokuapp.com/categories/old.png"
+}, {
+  "id": "4",
+  "name_en": "Animals",
+  "name": "Животные",
+  "image": "https://wanthelp-112222ed0ca0.herokuapp.com/categories/cat.png"
+}, {
+  "id": "5",
+  "name_en": "Events",
+  "name": "События",
+  "image": "https://wanthelp-112222ed0ca0.herokuapp.com/categories/event.png"
+}]

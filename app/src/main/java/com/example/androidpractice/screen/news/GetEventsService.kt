@@ -3,13 +3,11 @@ package com.example.androidpractice.screen.news
 import android.app.IntentService
 import android.content.Intent
 import android.content.res.AssetManager
-import com.example.androidpractice.data.adapters.CategoryTypeAdapter
-import com.example.androidpractice.domain.model.Category
-import com.example.androidpractice.domain.repo.EventsRepo
+import com.example.androidpractice.domain.events.repo.EventsRepo
 import com.example.androidpractice.ui.getAppComponent
-import com.example.androidpractice.util.fromJson
-import com.example.androidpractice.util.getJsonFromAssets
-import com.google.gson.GsonBuilder
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 class GetEventsService : IntentService("GetEventsService") {
@@ -20,6 +18,8 @@ class GetEventsService : IntentService("GetEventsService") {
     @Inject
     lateinit var assetManager: AssetManager
 
+    private val compositeDisposable = CompositeDisposable()
+
     override fun onCreate() {
         super.onCreate()
         getAppComponent().inject(this)
@@ -27,12 +27,21 @@ class GetEventsService : IntentService("GetEventsService") {
 
     override fun onHandleIntent(p0: Intent?) {
         try {
-            Thread.sleep(5000)
-            val json = getJsonFromAssets(assetManager, "events.json")
-            val gson = GsonBuilder()
-                .registerTypeAdapter(Category::class.java, CategoryTypeAdapter())
-                .create()
-            repo.updateCachedEvents(gson.fromJson(json))
+            val disp = repo.fetchEvents().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    { events ->
+                        repo.setEvents(events)
+                        compositeDisposable.clear()
+                    },
+                    {
+                        compositeDisposable.clear()
+                    },
+                    {
+                        compositeDisposable.clear()
+                    }
+                )
+            compositeDisposable.add(disp)
         } catch (e: InterruptedException) {
             e.printStackTrace()
         } finally {

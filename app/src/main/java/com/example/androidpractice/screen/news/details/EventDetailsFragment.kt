@@ -15,7 +15,7 @@ import androidx.core.text.toSpannable
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentEventDetailsBinding
-import com.example.androidpractice.domain.model.Event
+import com.example.androidpractice.domain.events.model.Event
 import com.example.androidpractice.screen.news.getEventDateText
 import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
@@ -63,10 +63,10 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDeta
         binding.apply {
             toolbar.title = event.title
             eventTitleTextView.text = event.title
-            eventDateTextView.text = getEventDateText(binding.root, event.dates)
+            eventDateTextView.text = getEventDateText(binding.root, event.startDate, event.endDate)
             sponsorTextView.text = event.sponsor
             addressTextView.text = event.address
-            phonesTextView.text = getSpannablePhoneNumbers(event.phoneNumbers)
+            phonesTextView.text = getSpannablePhoneNumbers(event.phoneNumber)
             phonesTextView.movementMethod = LinkMovementMethod()
             emailTextView.text = getSpannableMail(event.email)
             emailTextView.movementMethod = LinkMovementMethod()
@@ -126,23 +126,12 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDeta
 
     }
 
-    private fun getSpannablePhoneNumbers(phoneNumbers: List<String>): Spannable {
+    private fun getSpannablePhoneNumbers(phoneNumbers: String): Spannable {
         return buildSpannedString {
-            var currentIndex = 0
-            phoneNumbers.dropLast(1).forEach {
-                appendLine(it)
-                setSpan(
-                    PhoneNumberSpan(it),
-                    currentIndex,
-                    length,
-                    Spanned.SPAN_EXCLUSIVE_INCLUSIVE
-                )
-                currentIndex += it.length
-            }
-            append(phoneNumbers.last())
+            append(phoneNumbers)
             setSpan(
-                PhoneNumberSpan(phoneNumbers.last()),
-                currentIndex,
+                PhoneNumberSpan(phoneNumbers),
+                0,
                 length,
                 Spanned.SPAN_EXCLUSIVE_INCLUSIVE
             )

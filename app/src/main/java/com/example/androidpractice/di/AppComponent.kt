@@ -19,6 +19,7 @@ import javax.inject.Singleton
         DataModule::class,
         AssetsModule::class,
         NetworkModule::class,
+        RetrofitModule::class,
         ViewModelModule::class,
         MainModule::class,
         SubcomponentsModule::class
