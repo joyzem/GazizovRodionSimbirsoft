@@ -10,6 +10,7 @@ import coil.request.CachePolicy
 import coil.request.Disposable
 import com.example.androidpractice.databinding.ItemEventBinding
 import com.example.androidpractice.domain.events.model.Event
+import com.example.androidpractice.ui.extensions.loadWithoutCaching
 
 class NewsAdapter(private val onClick: (Event) -> Unit) :
     ListAdapter<Event, NewsAdapter.EventViewHolder>(EventDiffUtil) {
@@ -26,10 +27,7 @@ class NewsAdapter(private val onClick: (Event) -> Unit) :
                 eventContainer.setOnClickListener {
                     onClick(event)
                 }
-                disposable = eventImageView.load(event.imagePreview) {
-                    diskCachePolicy(CachePolicy.DISABLED)
-                    crossfade(true)
-                }
+                disposable = eventImageView.loadWithoutCaching(event.imagePreview)
                 eventTitleTextView.text = event.title
                 eventSubtitleTextView.text = event.subtitle
                 eventDateTextView.text =

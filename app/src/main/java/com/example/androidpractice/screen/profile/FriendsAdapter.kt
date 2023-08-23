@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import coil.load
-import coil.request.CachePolicy
 import coil.transform.CircleCropTransformation
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.ItemFriendBinding
+import com.example.androidpractice.ui.extensions.loadWithoutCaching
 
 class FriendsAdapter(private var friends: List<String>) :
     RecyclerView.Adapter<FriendsAdapter.FriendViewHolder>() {
@@ -19,12 +18,10 @@ class FriendsAdapter(private var friends: List<String>) :
         fun initViewHolder(name: String) {
             with(binding) {
                 friendNameTextView.text = name
-                avatarImageView.load("https://wanthelp-112222ed0ca0.herokuapp.com/categories/adult.png") {
+                avatarImageView.loadWithoutCaching("https://wanthelp-112222ed0ca0.herokuapp.com/categories/adult.png") {
                     transformations(CircleCropTransformation())
                     placeholder(R.drawable.ic_user_placeholder)
                     error(R.drawable.ic_user_placeholder)
-                    diskCachePolicy(CachePolicy.DISABLED)
-                    crossfade(true)
                 }
             }
         }

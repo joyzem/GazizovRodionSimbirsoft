@@ -5,10 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import coil.load
-import coil.request.CachePolicy
 import com.example.androidpractice.databinding.ItemHelpCategoryBinding
 import com.example.androidpractice.domain.categories.model.Category
+import com.example.androidpractice.ui.extensions.loadWithoutCaching
 
 class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
 
@@ -19,10 +18,7 @@ class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHol
 
         fun bind(category: Category) {
             with(binding) {
-                categoryImageView.load(category.imageUrl) {
-                    diskCachePolicy(CachePolicy.DISABLED)
-                    crossfade(true)
-                }
+                categoryImageView.loadWithoutCaching(category.imageUrl)
                 categoryTextView.text = category.title
             }
         }
