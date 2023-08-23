@@ -9,9 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class GetEventsService : IntentService("GetEventsService") {
@@ -32,12 +30,8 @@ class GetEventsService : IntentService("GetEventsService") {
     override fun onHandleIntent(p0: Intent?) {
         try {
             CoroutineScope(context).launch {
-                repo.fetchEvents().collectLatest { events ->
-                    withContext(Dispatchers.Main.immediate) {
-                        repo.setEvents(events)
-                        cancel()
-                    }
-                }
+                repo.fetchEvents()
+                cancel()
             }
         } catch (e: InterruptedException) {
             e.printStackTrace()

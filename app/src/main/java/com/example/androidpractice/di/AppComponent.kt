@@ -20,6 +20,7 @@ import javax.inject.Singleton
         AssetsModule::class,
         NetworkModule::class,
         RetrofitModule::class,
+        DatabaseModule::class,
         ViewModelModule::class,
         MainModule::class,
         SubcomponentsModule::class

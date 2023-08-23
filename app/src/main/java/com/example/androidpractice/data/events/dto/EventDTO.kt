@@ -16,7 +16,7 @@ data class EventDTO(
     val photos: List<String>,
     @SerializedName("category")
     val categoryId: String,
-    val createAt: String,
+    val createAt: Long,
     val phone: String,
     val address: String,
     val organisation: String
@@ -32,11 +32,13 @@ fun EventDTO.toModel() = Event(
         .toLocalDateTime(TimeZone.currentSystemDefault()).date,
     endDate = Instant.fromEpochMilliseconds(endDate)
         .toLocalDateTime(TimeZone.currentSystemDefault()).date,
+    createAt = Instant.fromEpochMilliseconds(createAt)
+        .toLocalDateTime(TimeZone.currentSystemDefault()).date,
     address = address,
     phoneNumber = phone,
     email = "example@gmail.com",
     siteUrl = "google.com",
     imagePreview = photos.firstOrNull() ?: "",
-    imageIds = photos,
+    imageUrls = photos,
     category = categoryId,
 )

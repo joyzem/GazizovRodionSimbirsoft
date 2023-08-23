@@ -4,6 +4,9 @@ import android.content.res.AssetManager
 import com.example.androidpractice.data.categories.network.CategoriesRetrofitApi
 import com.example.androidpractice.data.events.dto.EventDTO
 import com.example.androidpractice.data.events.dto.toModel
+import com.example.androidpractice.data.events.local.EventsDao
+import com.example.androidpractice.data.events.local.toEntity
+import com.example.androidpractice.data.events.local.toModel
 import com.example.androidpractice.data.events.network.EventsRetrofitApi
 import com.example.androidpractice.domain.categories.model.CategoryFilter
 import com.example.androidpractice.domain.events.model.Event
@@ -12,16 +15,16 @@ import com.example.androidpractice.domain.search.model.SearchResult
 import com.example.androidpractice.util.json.fromJson
 import com.example.androidpractice.util.json.getJsonFromAssets
 import com.google.gson.GsonBuilder
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.update
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,65 +33,67 @@ import javax.inject.Singleton
 class EventsRepoImpl @Inject constructor(
     private val eventsApi: EventsRetrofitApi,
     private val categoriesRetrofitApi: CategoriesRetrofitApi,
+    private val eventsDao: EventsDao,
     private val assetManager: AssetManager,
 ) : EventsRepo {
 
     private val _readEvents: Channel<String?> = Channel()
     override val readEvents: ReceiveChannel<String?> = _readEvents
 
-    private val _events = MutableStateFlow<List<Event>?>(null)
-    override val events: StateFlow<List<Event>?> = _events
+    private var eventsFetched: Boolean = false
+    override val events: Flow<List<Event>?> = eventsDao.getEvents()
+        .map { entities ->
+            entities.map {
+                it.toModel()
+            }
+        }
+        .flowOn(Dispatchers.IO)
+        .catch {
+            emit(getEventsFromFile())
+        }
 
     override fun searchEventByName(query: String): Flow<SearchResult> {
-        return fetchEvents().map { events ->
-            events.filter {
-                it.title.contains(query, ignoreCase = true)
-            }
-        }.map { events ->
-            val ids = events.map { it.category }
-            val keywords = categoriesRetrofitApi.fetchCategories().filter {
-                it.id in ids
+        return flow {
+            val events = eventsApi.fetchEvents().filter {
+                it.name.contains(query, ignoreCase = true)
             }.map {
-                it.name
+                it.toModel()
             }
-            SearchResult(
-                UUID.randomUUID().toString(),
-                keywords = keywords,
-                events
+            val categories = categoriesRetrofitApi.fetchCategories()
+            val keywords = events.map { it.category } intersect categories.map { it.id }.toSet()
+            emit(
+                SearchResult(
+                    UUID.randomUUID().toString(),
+                    keywords = keywords.toList(),
+                    events = events
+                )
             )
         }
     }
 
     override fun searchEventByOrganizationName(query: String): Flow<SearchResult> {
-        return fetchEvents().map { events ->
-            events.filter {
-                it.sponsor.contains(query, ignoreCase = true)
-            }
-        }.map { events ->
-            val ids = events.map { it.category }
-            val keywords = categoriesRetrofitApi.fetchCategories().filter {
-                it.id in ids
+        return flow {
+            val events = eventsApi.fetchEvents().filter {
+                it.organisation.contains(query, ignoreCase = true)
             }.map {
-                it.name
+                it.toModel()
             }
-            SearchResult(
-                UUID.randomUUID().toString(),
-                keywords = keywords,
-                events
+            val categories = categoriesRetrofitApi.fetchCategories()
+            val keywords = events.map { it.category } intersect categories.map { it.id }.toSet()
+            emit(
+                SearchResult(
+                    UUID.randomUUID().toString(),
+                    keywords = keywords.toList(),
+                    events = events
+                )
             )
-        }
-    }
-
-    override fun setEvents(events: List<Event>) {
-        _events.update {
-            events
         }
     }
 
     override fun unreadNewsCounter(
         readEvents: StateFlow<List<String>>,
         appliedFilters: StateFlow<List<CategoryFilter>?>,
-        allEvents: StateFlow<List<Event>?>
+        allEvents: Flow<List<Event>?>
     ) = combine(
         readEvents,
         appliedFilters,
@@ -103,15 +108,21 @@ class EventsRepoImpl @Inject constructor(
         filteredEvents.size - filteredEvents.filter { it.id in readEvents }.size
     }
 
-    override fun fetchEvents(): Flow<List<Event>> {
-        return flow {
-            val events = eventsApi.fetchEvents().map { dto ->
+    override suspend fun fetchEvents() {
+        if (eventsFetched) {
+            return
+        }
+        val events = try {
+            eventsApi.fetchEvents().map { dto ->
                 dto.toModel()
             }
-            emit(events)
-        }.catch {
-            emit(getEventsFromFile())
+        } catch (e: Exception) {
+            getEventsFromFile()
+        }.map {
+            it.toEntity()
         }
+        eventsDao.insertEvents(events)
+        eventsFetched = true
     }
 
     override suspend fun readEvent(eventId: String) {
