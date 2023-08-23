@@ -44,7 +44,7 @@ class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(
     }
 
     private fun showCategories(categories: List<Category>?) {
-        if (categories != null) {
+        if (!categories.isNullOrEmpty()) {
             adapter.setData(categories)
             with(binding) {
                 loadingProgress.isVisible = false

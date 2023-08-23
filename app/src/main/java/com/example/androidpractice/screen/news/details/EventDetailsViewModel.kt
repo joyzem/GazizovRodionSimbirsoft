@@ -14,8 +14,7 @@ private const val TAG = "EventDetailsViewModel"
 class EventDetailsViewModel @Inject constructor(
     private val eventsRepo: EventsRepo
 ) : BaseViewModel() {
-    private val _events = eventsRepo.events
-    val events = _events.asLiveData(viewModelScope.coroutineContext)
+    val events = eventsRepo.events.asLiveData(viewModelScope.coroutineContext)
 
     fun readEvent(eventId: String) {
         val ceh = getLoggingCoroutineExceptionHandler(TAG)
