@@ -1,6 +1,7 @@
 package com.example.androidpractice.data.events
 
 import android.content.res.AssetManager
+import com.example.androidpractice.data.categories.network.CategoriesRetrofitApi
 import com.example.androidpractice.data.events.dto.EventDTO
 import com.example.androidpractice.data.events.dto.toModel
 import com.example.androidpractice.data.events.network.EventsRetrofitApi
@@ -11,12 +12,15 @@ import com.example.androidpractice.domain.search.model.SearchResult
 import com.example.androidpractice.util.json.fromJson
 import com.example.androidpractice.util.json.getJsonFromAssets
 import com.google.gson.GsonBuilder
-import io.reactivex.rxjava3.core.Observable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import java.util.UUID
 import javax.inject.Inject
@@ -25,6 +29,7 @@ import javax.inject.Singleton
 @Singleton
 class EventsRepoImpl @Inject constructor(
     private val eventsApi: EventsRetrofitApi,
+    private val categoriesRetrofitApi: CategoriesRetrofitApi,
     private val assetManager: AssetManager,
 ) : EventsRepo {
 
@@ -34,31 +39,41 @@ class EventsRepoImpl @Inject constructor(
     private val _events = MutableStateFlow<List<Event>?>(null)
     override val events: StateFlow<List<Event>?> = _events
 
-    override fun searchEventByName(query: String): Observable<SearchResult> {
+    override fun searchEventByName(query: String): Flow<SearchResult> {
         return fetchEvents().map { events ->
             events.filter {
                 it.title.contains(query, ignoreCase = true)
             }
         }.map { events ->
+            val ids = events.map { it.category }
+            val keywords = categoriesRetrofitApi.fetchCategories().filter {
+                it.id in ids
+            }.map {
+                it.name
+            }
             SearchResult(
-                id = UUID.randomUUID().toString(),
-                keywords = events.map {
-                    it.title
-                }.toSet().toList(),
-                events = events
+                UUID.randomUUID().toString(),
+                keywords = keywords,
+                events
             )
         }
     }
 
-    override fun searchEventByOrganizationName(query: String): Observable<SearchResult> {
+    override fun searchEventByOrganizationName(query: String): Flow<SearchResult> {
         return fetchEvents().map { events ->
             events.filter {
                 it.sponsor.contains(query, ignoreCase = true)
             }
         }.map { events ->
+            val ids = events.map { it.category }
+            val keywords = categoriesRetrofitApi.fetchCategories().filter {
+                it.id in ids
+            }.map {
+                it.name
+            }
             SearchResult(
                 UUID.randomUUID().toString(),
-                events.map { it.sponsor }.toSet().toList(),
+                keywords = keywords,
                 events
             )
         }
@@ -88,14 +103,15 @@ class EventsRepoImpl @Inject constructor(
         filteredEvents.size - filteredEvents.filter { it.id in readEvents }.size
     }
 
-    override fun fetchEvents(): Observable<List<Event>> {
-        return eventsApi.fetchEvents()
-            .map { dtos ->
-                dtos.map { dto ->
-                    dto.toModel()
-                }
+    override fun fetchEvents(): Flow<List<Event>> {
+        return flow {
+            val events = eventsApi.fetchEvents().map { dto ->
+                dto.toModel()
             }
-            .onErrorReturnItem(getEventsFromFile())
+            emit(events)
+        }.catch {
+            emit(getEventsFromFile())
+        }
     }
 
     override suspend fun readEvent(eventId: String) {

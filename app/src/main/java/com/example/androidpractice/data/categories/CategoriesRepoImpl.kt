@@ -10,9 +10,12 @@ import com.example.androidpractice.domain.categories.repo.CategoriesRepo
 import com.example.androidpractice.util.json.fromJson
 import com.example.androidpractice.util.json.getJsonFromAssets
 import com.google.gson.GsonBuilder
-import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -30,41 +33,40 @@ class CategoriesRepoImpl @Inject constructor(
         MutableStateFlow(null)
     override val appliedFilters = _appliedFilters.asStateFlow()
 
-    override fun fetchCategories(): Observable<List<Category>> {
-        return categoriesApi.fetchCategories()
-            .map { categories ->
-                categories.map { dto ->
-                    dto.toModel()
+    override fun fetchCategories(): Flow<List<Category>> {
+        return flow {
+            val categories = categoriesApi.fetchCategories()
+                .map { category ->
+                    category.toModel()
                 }
+            emit(categories)
+        }.onEach { newCategories ->
+            _categories.update {
+                newCategories
             }
-            .doOnNext { newCategories ->
-                _categories.update {
-                    newCategories
-                }
-                setFilters(
-                    newCategories.map {
-                        CategoryFilter(
-                            it,
-                            true
-                        )
-                    }
+            val filters = newCategories.map {
+                CategoryFilter(
+                    it,
+                    true
                 )
-            }.onErrorReturn {
-                val categories = getCategoriesFromFile()
-                _categories.update {
-                    categories
-                }
-                setFilters(
-                    categories.map {
-                        CategoryFilter(
-                            it,
-                            true
-                        )
-                    }
-                )
+            }
+            setFilters(filters)
+        }.catch {
+            val categories = getCategoriesFromFile()
+            _categories.update {
                 categories
             }
+            val filters = categories.map {
+                CategoryFilter(
+                    it,
+                    true
+                )
+            }
+            setFilters(filters)
+            emit(categories)
+        }
     }
+
 
     override fun setFilters(filters: List<CategoryFilter>) {
         _appliedFilters.update { filters }

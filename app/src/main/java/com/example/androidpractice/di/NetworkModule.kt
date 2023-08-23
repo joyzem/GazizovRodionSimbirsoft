@@ -5,10 +5,12 @@ import com.example.androidpractice.data.events.network.EventsRetrofitApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
+import javax.inject.Singleton
 
 @Module
 object NetworkModule {
 
+    @Singleton
     @Provides
     fun provideEventsApi(
         retrofit: Retrofit,
@@ -16,6 +18,7 @@ object NetworkModule {
         return retrofit.create(EventsRetrofitApi::class.java)
     }
 
+    @Singleton
     @Provides
     fun provideCategoriesApi(
         retrofit: Retrofit,

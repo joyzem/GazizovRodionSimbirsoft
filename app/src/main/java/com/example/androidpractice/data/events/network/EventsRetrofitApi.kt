@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface EventsRetrofitApi {
 
     @GET("events")
-    fun fetchEvents(): Observable<List<EventDTO>>
+    suspend fun fetchEvents(): List<EventDTO>
 }

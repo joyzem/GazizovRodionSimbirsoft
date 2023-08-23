@@ -3,6 +3,7 @@ package com.example.androidpractice.data.search
 import com.example.androidpractice.domain.events.repo.EventsRepo
 import com.example.androidpractice.domain.search.model.SearchResult
 import com.example.androidpractice.domain.search.repo.SearchRepo
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -12,10 +13,10 @@ class SearchRepoImpl @Inject constructor(
 ) : SearchRepo {
 
     override suspend fun searchEventsByOrganizationName(query: String): SearchResult {
-        return eventsRepo.searchEventByOrganizationName(query).blockingFirst()
+        return eventsRepo.searchEventByOrganizationName(query).first()
     }
 
     override suspend fun searchEventsByName(query: String): SearchResult {
-        return eventsRepo.searchEventByName(query).blockingFirst()
+        return eventsRepo.searchEventByName(query).first()
     }
 }

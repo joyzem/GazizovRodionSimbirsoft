@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.security.SecureRandom
 import java.security.cert.CertificateException
 import java.security.cert.X509Certificate
+import javax.inject.Singleton
 import javax.net.ssl.SSLContext
 import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManager
@@ -25,6 +26,7 @@ object RetrofitModule {
     @Provides
     fun provideConverter(): GsonConverterFactory = GsonConverterFactory.create()
 
+    @Singleton
     @Provides
     fun provideRetrofit(
         client: OkHttpClient,
