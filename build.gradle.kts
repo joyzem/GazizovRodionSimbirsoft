@@ -8,12 +8,6 @@ plugins {
     id("org.jlleitschuh.gradle.ktlint") version "11.4.0"
 }
 
-ext {
-    val sdkVersion = 33
-    val appcompatVersion = "1.6.1"
-    val retrofitVersion = "2.9.0"
-}
-
 tasks.withType(GenerateReportsTask::class.java) {
     reportsOutputDirectory.set(project.layout.buildDirectory.dir("build/reports/ktlint"))
 }

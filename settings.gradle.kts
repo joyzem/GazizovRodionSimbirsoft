@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("buildLogic")
     repositories {
         google()
         mavenCentral()
@@ -14,3 +15,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "AndroidPractice"
 include(":app")
+include(":buildlogic:convention")
