@@ -2,7 +2,6 @@ package com.example.androidpractice.screen.auth
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.androidpractice.domain.auth.AuthInteractor
 import com.example.androidpractice.ui.BaseViewModel
 import javax.inject.Inject
 
