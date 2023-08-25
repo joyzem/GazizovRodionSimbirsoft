@@ -21,6 +21,7 @@ import javax.inject.Singleton
         NetworkModule::class,
         RetrofitModule::class,
         DatabaseModule::class,
+        InteractorModule::class,
         ViewModelModule::class,
         MainModule::class,
         SubcomponentsModule::class

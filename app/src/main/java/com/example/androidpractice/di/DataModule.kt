@@ -1,8 +1,10 @@
 package com.example.androidpractice.di
 
+import com.example.androidpractice.data.auth.AuthRepoImpl
 import com.example.androidpractice.data.categories.CategoriesRepoImpl
 import com.example.androidpractice.data.events.EventsRepoImpl
 import com.example.androidpractice.data.search.SearchRepoImpl
+import com.example.androidpractice.domain.auth.AuthRepo
 import com.example.androidpractice.domain.categories.repo.CategoriesRepo
 import com.example.androidpractice.domain.events.repo.EventsRepo
 import com.example.androidpractice.domain.search.repo.SearchRepo
@@ -20,4 +22,7 @@ interface DataModule {
 
     @Binds
     fun bindSearchRepo(repo: SearchRepoImpl): SearchRepo
+
+    @Binds
+    fun bindAuthRepo(repo: AuthRepoImpl): AuthRepo
 }

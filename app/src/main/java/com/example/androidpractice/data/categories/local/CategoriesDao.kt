@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface CategoriesDao {
 
-    @Query("SELECT * FROM categories ORDER BY categories.id DESC")
+    @Query("SELECT * FROM categories ORDER BY categories.id ASC")
     fun getCategories(): Flow<List<CategoryEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
