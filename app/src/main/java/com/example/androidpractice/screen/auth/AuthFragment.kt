@@ -12,6 +12,9 @@ import androidx.core.os.bundleOf
 import androidx.core.text.buildSpannedString
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.androidpractice.R
 import com.example.androidpractice.databinding.FragmentAuthBinding
 import com.example.androidpractice.ui.BaseFragment
@@ -20,7 +23,7 @@ import com.example.androidpractice.ui.navigation.findNavController
 import com.example.androidpractice.ui.setOnEndDrawableClick
 import com.example.androidpractice.ui.spans.ClickableText
 import com.jakewharton.rxbinding4.widget.textChanges
-import io.reactivex.rxjava3.core.Observable
+import kotlinx.coroutines.launch
 
 class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
     0,
@@ -41,55 +44,72 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
 
             // forgotPassword and signUp TextViews
             setSpannedStrings()
-
             inputPasswordEditText.setOnEndDrawableClick {
                 viewModel.changePasswordVisibility()
             }
             loginButton.setOnClickListener {
-                setFragmentResult(LOGIN_BUTTON_CLICKED, bundleOf())
+                viewModel.loginButtonClicked()
             }
             authToolbar.setNavigationOnClickListener {
+                // Intent to view model
                 findNavController().onBackPressed()
             }
+            inputEmailEditText.textChanges().skipInitialValue().subscribe {
+                viewModel.setEmail(it.toString())
+            }.addToComposite()
+            inputPasswordEditText.textChanges().skipInitialValue().subscribe {
+                viewModel.setPassword(it.toString())
+            }.addToComposite()
         }
         observe()
-        setRxBinding()
-    }
-
-    private fun setRxBinding() {
-        with(binding) {
-            val loginButtonSubscription = Observable.combineLatest(
-                inputEmailEditText.textChanges().skipInitialValue(),
-                inputPasswordEditText.textChanges().skipInitialValue()
-            ) { email, password ->
-                return@combineLatest password.length >= 6 && email.length >= 6
-            }.subscribe { enabled ->
-                viewModel.setLoginButtonEnabled(enabled)
-            }
-            compositeDisposable.add(loginButtonSubscription)
-        }
     }
 
     private fun observe() {
+        with(viewModel) {
+            state.observe(viewLifecycleOwner) { state ->
+                setPasswordVisibility(state.passwordHidden)
+                setLoginButtonEnabled(state.loginButtonEnabled)
+                setLoadingVisibility(state.loading)
+            }
+            lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                    news.collect{ news ->
+                        when (news) {
+                            AuthFeature.AuthNews.AuthSuccess -> {
+                                // navigate
+                                setFragmentResult(LOGIN_BUTTON_CLICKED, bundleOf())
+                            }
+
+                            else -> {
+                                // handle other
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun setLoadingVisibility(loading: Boolean) {
+        binding.loginButton.text = getString(if (loading) R.string.loading else R.string.login)
+    }
+
+    private fun setLoginButtonEnabled(enabled: Boolean) {
+        binding.loginButton.isEnabled = enabled
+    }
+
+    private fun setPasswordVisibility(hidden: Boolean) {
         val hidePasswordDrawable =
             ResourcesCompat.getDrawable(resources, R.drawable.ic_eye_close, null)
         val showPasswordDrawable =
             ResourcesCompat.getDrawable(resources, R.drawable.ic_eye_open, null)
-
-        with(viewModel) {
-            passwordIsHidden.observe(viewLifecycleOwner) { passwordIsHidden ->
-                val (drawable, inputType) = if (passwordIsHidden) {
-                    showPasswordDrawable to (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
-                } else {
-                    hidePasswordDrawable to (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
-                }
-                setDrawableAndInputTypeToPasswordTextField(drawable, inputType)
-            }
-
-            isLoginButtonEnabled.observe(viewLifecycleOwner) { enabled ->
-                binding.loginButton.isEnabled = enabled
-            }
+        val (drawable, inputType) = if (hidden) {
+            showPasswordDrawable to (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD)
+        } else {
+            hidePasswordDrawable to (InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD)
         }
+        setDrawableAndInputTypeToPasswordTextField(drawable, inputType)
+
     }
 
     private fun setSpannedStrings() {

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.example.androidpractice.di.ViewModelFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 
 typealias Inflate<T> = (LayoutInflater, ViewGroup?, Boolean) -> T
@@ -21,7 +22,7 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
 
     private var _binding: VB? = null
     protected val binding get() = _binding!!
-    protected val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -49,4 +50,6 @@ abstract class BaseFragment<VB : ViewBinding, VM : BaseViewModel>(
     }
 
     abstract fun injectViewModelFactory()
+
+    protected fun Disposable.addToComposite() = compositeDisposable.add(this)
 }
