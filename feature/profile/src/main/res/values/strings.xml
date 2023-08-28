@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit">Редактировать</string>
+    <string name="profile">Профиль</string>
+    <string name="logout">Выйти из аккаунта</string>
+    <string name="your_friends">Ваши друзья</string>
+    <string name="get_push_notifications">Получать push-уведомления</string>
+    <string name="field_of_activity">Сфера деятельности</string>
+    <string name="birthday">Дата рождения</string>
+</resources>

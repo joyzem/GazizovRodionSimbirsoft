@@ -11,10 +11,12 @@ import com.example.androidpractice.core.network.di.NetworkModule
 import com.example.androidpractice.core.network.di.RetrofitModule
 import com.example.androidpractice.feature.auth.di.AuthDeps
 import com.example.androidpractice.feature.auth.di.AuthDiModule
-import com.example.androidpractice.screen.help.di.HelpComponent
+import com.example.androidpractice.feature.help.di.HelpDeps
+import com.example.androidpractice.feature.help.di.HelpDiModule
+import com.example.androidpractice.feature.profile.di.ProfileDeps
+import com.example.androidpractice.feature.profile.di.ProfileDiModule
 import com.example.androidpractice.screen.news.GetEventsService
 import com.example.androidpractice.screen.news.di.NewsComponent
-import com.example.androidpractice.screen.profile.di.ProfileComponent
 import com.example.androidpractice.screen.search.di.SearchComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -32,11 +34,13 @@ import javax.inject.Singleton
         InteractorModule::class,
         ViewModelModule::class,
         AuthDiModule::class,
+        HelpDiModule::class,
+        ProfileDiModule::class,
         MainModule::class,
         SubcomponentsModule::class
     ]
 )
-interface AppComponent : AuthDeps {
+interface AppComponent : AuthDeps, HelpDeps, ProfileDeps {
 
     @Component.Factory
     interface Factory {
@@ -46,9 +50,7 @@ interface AppComponent : AuthDeps {
     fun inject(mainActivity: MainActivity)
     fun inject(service: GetEventsService)
 
-    fun helpSubcomponent(): HelpComponent.Factory
     fun newsSubcomponent(): NewsComponent.Factory
-    fun profileSubcomponent(): ProfileComponent.Factory
     fun searchSubcomponent(): SearchComponent.Factory
 
     override val viewModelFactory: ViewModelProvider.Factory
@@ -57,8 +59,6 @@ interface AppComponent : AuthDeps {
 @Module(
     subcomponents = [
         NewsComponent::class,
-        HelpComponent::class,
-        ProfileComponent::class,
         SearchComponent::class
     ]
 )

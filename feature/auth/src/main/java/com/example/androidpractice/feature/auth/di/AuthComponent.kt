@@ -6,7 +6,7 @@ import dagger.Component
 
 @Component(dependencies = [AuthDeps::class])
 @AuthFeatureScope
-interface AuthComponent {
+internal interface AuthComponent {
 
     fun inject(fragment: AuthFragment)
 

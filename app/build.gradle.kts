@@ -34,16 +34,20 @@ android {
 
 dependencies {
     implementation(project(":mvi"))
+    implementation(project(":utils"))
+
     implementation(project(":core:model"))
     implementation(project(":core:domain"))
     implementation(project(":core:design-system"))
     implementation(project(":core:ui"))
     implementation(project(":core:di"))
     implementation(project(":core:data"))
-    implementation(project(":utils"))
     implementation(project(":core:database"))
     implementation(project(":core:network"))
+
     implementation(project(":feature:auth"))
+    implementation(project(":feature:help"))
+    implementation(project(":feature:profile"))
 
     implementation("io.reactivex.rxjava3:rxjava:3.1.6")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")

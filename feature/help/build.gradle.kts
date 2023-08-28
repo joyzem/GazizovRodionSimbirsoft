@@ -3,5 +3,5 @@ plugins {
 }
 
 android {
-    namespace = "com.example.androidpractice.feature.auth"
+    namespace = "com.example.androidpractice.feature.help"
 }

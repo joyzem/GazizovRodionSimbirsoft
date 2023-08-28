@@ -9,7 +9,7 @@ interface AuthDeps {
     val authInteractor: AuthInteractor
 }
 
-interface AuthDepsProvider {
+internal interface AuthDepsProvider {
     val deps: AuthDeps
 
     companion object : AuthDepsProvider by AuthDepsStore

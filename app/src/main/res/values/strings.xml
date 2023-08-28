@@ -2,12 +2,6 @@
     <string name="app_name">Хочу помочь</string>
     <string name="loading_ellipsis">Загрузка...</string>
     <string name="profile">Профиль</string>
-    <string name="edit">Редактировать</string>
-    <string name="logout">Выйти из аккаунта</string>
-    <string name="your_friends">Ваши друзья</string>
-    <string name="get_push_notifications">Получать push-уведомления</string>
-    <string name="field_of_activity">Сфера деятельности</string>
-    <string name="birthday">Дата рождения</string>
     <string name="news">Новости</string>
     <string name="search">Поиск</string>
     <string name="history">История</string>

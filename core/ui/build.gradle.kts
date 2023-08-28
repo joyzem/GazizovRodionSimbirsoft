@@ -11,5 +11,5 @@ android {
 dependencies {
     implementation(project(":core:design-system"))
     implementation(project(":mvi"))
-    implementation(libs.io.coil)
+    api(libs.io.coil)
 }
