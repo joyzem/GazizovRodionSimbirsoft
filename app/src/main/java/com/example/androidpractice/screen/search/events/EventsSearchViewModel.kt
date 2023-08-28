@@ -3,10 +3,10 @@ package com.example.androidpractice.screen.search.events
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.androidpractice.domain.search.model.SearchResult
-import com.example.androidpractice.domain.search.repo.SearchRepo
-import com.example.androidpractice.ui.BaseViewModel
-import com.example.androidpractice.util.concurrent.getLoggingCoroutineExceptionHandler
+import com.example.androidpractice.core.domain.search.repo.SearchRepo
+import com.example.androidpractice.core.model.search.SearchResult
+import com.example.androidpractice.core.ui.BaseViewModel
+import com.example.utils.concurrent.getLoggingCoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -6,9 +6,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.androidpractice.R
+import com.example.androidpractice.core.model.category.Category
+import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.databinding.FragmentHelpBinding
-import com.example.androidpractice.domain.categories.model.Category
-import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 
 class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(

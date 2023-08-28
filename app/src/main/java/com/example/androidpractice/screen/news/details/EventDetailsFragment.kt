@@ -14,13 +14,14 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.toSpannable
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
+import com.example.androidpractice.core.model.event.Event
+import com.example.androidpractice.core.ui.BaseFragment
+import com.example.androidpractice.core.ui.navigation.findNavController
+import com.example.androidpractice.core.ui.spans.PhoneNumberSpan
 import com.example.androidpractice.databinding.FragmentEventDetailsBinding
-import com.example.androidpractice.domain.events.model.Event
 import com.example.androidpractice.screen.news.getEventDateText
-import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
-import com.example.androidpractice.ui.navigation.findNavController
-import com.example.androidpractice.ui.spans.PhoneNumberSpan
+import com.example.androidpractice.core.designsystem.R as designR
 
 class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDetailsViewModel>(
     R.id.newsNavItem,
@@ -83,7 +84,7 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDeta
 
                 override fun updateDrawState(ds: TextPaint) {
                     super.updateDrawState(ds)
-                    ds.color = requireContext().getColor(R.color.leaf)
+                    ds.color = requireContext().getColor(designR.color.leaf)
                     ds.isUnderlineText = true
                 }
 
@@ -107,7 +108,7 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDeta
 
                 override fun updateDrawState(ds: TextPaint) {
                     super.updateDrawState(ds)
-                    ds.color = requireContext().getColor(R.color.leaf)
+                    ds.color = requireContext().getColor(designR.color.leaf)
                     ds.isUnderlineText = true
                 }
 
@@ -123,7 +124,6 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDeta
             append(getString(R.string.write_us))
             setSpan(emailSpan, cursor, length, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
         }.toSpannable()
-
     }
 
     private fun getSpannablePhoneNumbers(phoneNumbers: String): Spannable {

@@ -8,10 +8,10 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.example.androidpractice.R
+import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.databinding.FragmentSearchBinding
 import com.example.androidpractice.screen.search.events.EventsSearchFragment
 import com.example.androidpractice.screen.search.organizations.OrganizationsSearchFragment
-import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -92,7 +92,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
                     }
                 }
             )
-
     }
 
     private fun sendSearchQueryResult(query: String) {

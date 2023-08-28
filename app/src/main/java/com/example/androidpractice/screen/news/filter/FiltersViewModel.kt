@@ -2,9 +2,9 @@ package com.example.androidpractice.screen.news.filter
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.androidpractice.domain.categories.model.CategoryFilter
-import com.example.androidpractice.domain.categories.repo.CategoriesRepo
-import com.example.androidpractice.ui.BaseViewModel
+import com.example.androidpractice.core.domain.categories.repo.CategoriesRepo
+import com.example.androidpractice.core.model.category.CategoryFilter
+import com.example.androidpractice.core.ui.BaseViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update

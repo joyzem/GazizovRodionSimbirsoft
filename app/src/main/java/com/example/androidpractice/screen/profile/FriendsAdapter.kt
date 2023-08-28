@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import coil.transform.CircleCropTransformation
-import com.example.androidpractice.R
+import com.example.androidpractice.core.designsystem.R
+import com.example.androidpractice.core.ui.extensions.loadWithoutCaching
 import com.example.androidpractice.databinding.ItemFriendBinding
-import com.example.androidpractice.ui.extensions.loadWithoutCaching
 
 class FriendsAdapter(private var friends: List<String>) :
     RecyclerView.Adapter<FriendsAdapter.FriendViewHolder>() {

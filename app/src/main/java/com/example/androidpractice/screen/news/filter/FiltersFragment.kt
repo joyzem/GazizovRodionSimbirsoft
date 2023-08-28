@@ -4,16 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.androidpractice.R
+import com.example.androidpractice.core.designsystem.R
+import com.example.androidpractice.core.ui.BaseFragment
+import com.example.androidpractice.core.ui.LeftPaddingDivider
+import com.example.androidpractice.core.ui.navigation.findNavController
 import com.example.androidpractice.databinding.FragmentFiltersBinding
-import com.example.androidpractice.ui.BaseFragment
-import com.example.androidpractice.ui.LeftPaddingDivider
 import com.example.androidpractice.ui.getAppComponent
-import com.example.androidpractice.ui.navigation.findNavController
 import kotlinx.coroutines.launch
 
 class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>(
-    R.id.newsNavItem,
+    com.example.androidpractice.R.id.newsNavItem,
     FragmentFiltersBinding::inflate
 ) {
     override val viewModel: FiltersViewModel by viewModels {
@@ -47,7 +47,7 @@ class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>(
             }
             filtersToolbar.setOnMenuItemClickListener {
                 when (it.itemId) {
-                    R.id.filtersDoneActionButton -> {
+                    com.example.androidpractice.R.id.filtersDoneActionButton -> {
                         viewModel.onApplyFilters()
                         findNavController().onBackPressed()
                         true

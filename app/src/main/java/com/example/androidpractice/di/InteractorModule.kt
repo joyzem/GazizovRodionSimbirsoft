@@ -1,7 +1,7 @@
 package com.example.androidpractice.di
 
-import com.example.androidpractice.data.auth.AuthInteractorImpl
-import com.example.androidpractice.domain.auth.AuthInteractor
+import com.example.androidpractice.core.data.auth.AuthInteractorImpl
+import com.example.androidpractice.core.domain.auth.AuthInteractor
 import dagger.Binds
 import dagger.Module
 

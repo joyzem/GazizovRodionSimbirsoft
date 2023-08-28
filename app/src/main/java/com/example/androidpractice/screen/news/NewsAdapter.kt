@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.request.Disposable
+import com.example.androidpractice.core.model.event.Event
+import com.example.androidpractice.core.ui.extensions.loadWithoutCaching
 import com.example.androidpractice.databinding.ItemEventBinding
-import com.example.androidpractice.domain.events.model.Event
-import com.example.androidpractice.ui.extensions.loadWithoutCaching
 
 class NewsAdapter(private val onClick: (Event) -> Unit) :
     ListAdapter<Event, NewsAdapter.EventViewHolder>(EventDiffUtil) {

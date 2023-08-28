@@ -2,10 +2,10 @@ package com.example.androidpractice
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.androidpractice.domain.categories.repo.CategoriesRepo
-import com.example.androidpractice.domain.events.repo.EventsRepo
-import com.example.androidpractice.ui.BaseViewModel
-import com.example.androidpractice.util.concurrent.getLoggingCoroutineExceptionHandler
+import com.example.androidpractice.core.domain.categories.repo.CategoriesRepo
+import com.example.androidpractice.core.domain.events.repo.EventsRepo
+import com.example.androidpractice.core.ui.BaseViewModel
+import com.example.utils.concurrent.getLoggingCoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="authorization">Авторизация</string>
+    <string name="loading">Загрузка...</string>
+    <string name="auth_with_social_networks_to_participate_in_events">Для участия в мероприятиях войдите в приложение через социальые сети</string>
+    <string name="or_auth_within_app">Или авторизуйтесь через приложение</string>
+    <string name="e_mail">E-mail</string>
+    <string name="input_e_mail">Введите e-mail</string>
+    <string name="password">Пароль</string>
+    <string name="input_password">Введите пароль</string>
+    <string name="login">Войти</string>
+    <string name="forgot_password">Забыли пароль?</string>
+    <string name="signing_up">Регистрация</string>
+
+</resources>

@@ -8,9 +8,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
+import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.databinding.FragmentProfileBinding
-import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
+import com.example.androidpractice.core.designsystem.R as designR
 
 class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(
     bottomNavigationId = R.id.bottomNavView,
@@ -58,7 +59,7 @@ class ProfileFragment : BaseFragment<FragmentProfileBinding, ProfileViewModel>(
                 }
 
                 PhotoDialogFragment.ACTION_DELETE -> {
-                    binding.profilePhotoImageView.setImageResource(R.drawable.ic_user_placeholder)
+                    binding.profilePhotoImageView.setImageResource(designR.drawable.ic_user_placeholder)
                 }
             }
         }

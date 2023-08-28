@@ -5,19 +5,20 @@ import android.os.Bundle
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.androidpractice.core.ui.navigation.BaseNavController
 import com.example.androidpractice.databinding.ActivityMainBinding
-import com.example.androidpractice.di.ViewModelFactory
-import com.example.androidpractice.screen.auth.AuthFragment
+import com.example.androidpractice.feature.auth.AuthFragment
 import com.example.androidpractice.ui.navigation.NavController
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
+class MainActivity : AppCompatActivity(), BaseNavController.NavControllerOwner {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
+    private lateinit var navController: BaseNavController
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: MainViewModel by viewModels {
         viewModelFactory
@@ -77,7 +78,7 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
         navController.onSaveInstanceState(outState)
     }
 
-    override fun getNavController(): NavController {
+    override fun getNavController(): BaseNavController {
         return navController
     }
 

@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.androidpractice.core.model.category.Category
+import com.example.androidpractice.core.ui.extensions.loadWithoutCaching
 import com.example.androidpractice.databinding.ItemHelpCategoryBinding
-import com.example.androidpractice.domain.categories.model.Category
-import com.example.androidpractice.ui.extensions.loadWithoutCaching
 
 class CategoriesAdapter : RecyclerView.Adapter<CategoriesAdapter.CategoryViewHolder>() {
 

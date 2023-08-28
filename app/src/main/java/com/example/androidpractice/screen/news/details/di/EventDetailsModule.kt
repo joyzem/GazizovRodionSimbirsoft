@@ -1,7 +1,7 @@
 package com.example.androidpractice.screen.news.details.di
 
 import androidx.lifecycle.ViewModel
-import com.example.androidpractice.di.ViewModelKey
+import com.example.androidpractice.core.di.ViewModelKey
 import com.example.androidpractice.screen.news.details.EventDetailsViewModel
 import dagger.Binds
 import dagger.Module

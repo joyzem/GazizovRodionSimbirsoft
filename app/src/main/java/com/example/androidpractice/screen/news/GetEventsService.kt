@@ -3,7 +3,7 @@ package com.example.androidpractice.screen.news
 import android.app.IntentService
 import android.content.Intent
 import android.content.res.AssetManager
-import com.example.androidpractice.domain.events.repo.EventsRepo
+import com.example.androidpractice.core.domain.events.repo.EventsRepo
 import com.example.androidpractice.ui.getAppComponent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

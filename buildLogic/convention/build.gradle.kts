@@ -39,5 +39,9 @@ gradlePlugin {
             id = "com.example.convention.feature"
             implementationClass = "AndroidFeatureConventionPlugin"
         }
+        register("kotlinModule") {
+            id = "com.example.convention.kotlin"
+            implementationClass = "KotlinModuleConventionPlugin"
+        }
     }
 }

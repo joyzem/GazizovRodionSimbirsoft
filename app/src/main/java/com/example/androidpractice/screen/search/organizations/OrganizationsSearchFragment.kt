@@ -14,15 +14,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.androidpractice.R
+import com.example.androidpractice.core.ui.BaseFragment
+import com.example.androidpractice.core.ui.LeftPaddingDivider
+import com.example.androidpractice.core.ui.spans.ClickableText
 import com.example.androidpractice.databinding.FragmentOrganizationsSearchBinding
 import com.example.androidpractice.screen.search.SearchFragment
 import com.example.androidpractice.screen.search.SearchFragment.Companion.KEYWORDS
 import com.example.androidpractice.screen.search.SearchFragment.Companion.SEARCH_BY_KEYWORDS
 import com.example.androidpractice.screen.search.SearchResultAdapter
-import com.example.androidpractice.ui.BaseFragment
-import com.example.androidpractice.ui.LeftPaddingDivider
 import com.example.androidpractice.ui.getAppComponent
-import com.example.androidpractice.ui.spans.ClickableText
+import com.example.androidpractice.core.designsystem.R as designR
 
 class OrganizationsSearchFragment :
     BaseFragment<FragmentOrganizationsSearchBinding, OrganizationsSearchViewModel>(
@@ -102,7 +103,7 @@ class OrganizationsSearchFragment :
     }
 
     private fun createDecorator(): ItemDecoration {
-        val dividerColor = requireContext().getColor(R.color.cool_grey)
+        val dividerColor = requireContext().getColor(designR.color.cool_grey)
         val dividerHeight = (resources.displayMetrics.density * 1).toInt()
         return LeftPaddingDivider(
             dividerHeight,
@@ -118,7 +119,7 @@ class OrganizationsSearchFragment :
         val keywordsExample = getString(R.string.keywords_example)
         append(keywordsExample)
         setSpan(
-            ForegroundColorSpan(resources.getColor(R.color.leaf, null)),
+            ForegroundColorSpan(resources.getColor(designR.color.leaf, null)),
             forExampleLentgh,
             length,
             Spanned.SPAN_INCLUSIVE_EXCLUSIVE
@@ -126,7 +127,8 @@ class OrganizationsSearchFragment :
         setSpan(
             ClickableText {
                 requireActivity().supportFragmentManager.setFragmentResult(
-                    SEARCH_BY_KEYWORDS, bundleOf(
+                    SEARCH_BY_KEYWORDS,
+                    bundleOf(
                         KEYWORDS to keywordsExample
                     )
                 )

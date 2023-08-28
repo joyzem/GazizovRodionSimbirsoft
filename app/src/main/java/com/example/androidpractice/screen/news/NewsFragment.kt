@@ -6,13 +6,13 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import com.example.androidpractice.R
+import com.example.androidpractice.core.model.event.Event
+import com.example.androidpractice.core.ui.BaseFragment
+import com.example.androidpractice.core.ui.navigation.findNavController
 import com.example.androidpractice.databinding.FragmentNewsBinding
-import com.example.androidpractice.domain.events.model.Event
 import com.example.androidpractice.screen.news.details.EventDetailsFragment
 import com.example.androidpractice.screen.news.filter.FiltersFragment
-import com.example.androidpractice.ui.BaseFragment
 import com.example.androidpractice.ui.getAppComponent
-import com.example.androidpractice.ui.navigation.findNavController
 
 class NewsFragment : BaseFragment<FragmentNewsBinding, NewsViewModel>(
     R.id.newsNavItem,

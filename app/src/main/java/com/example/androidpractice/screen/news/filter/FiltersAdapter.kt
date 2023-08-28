@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.androidpractice.core.model.category.CategoryFilter
 import com.example.androidpractice.databinding.ItemFilterBinding
-import com.example.androidpractice.domain.categories.model.CategoryFilter
 
 class FiltersAdapter(private val onFilterChecked: (CategoryFilter) -> Unit) :
     ListAdapter<CategoryFilter, FiltersAdapter.FilterViewHolder>(FilterDiffUtil) {

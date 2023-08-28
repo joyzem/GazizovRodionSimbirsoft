@@ -2,7 +2,6 @@ plugins {
     id("com.example.convention.application")
     id("org.jlleitschuh.gradle.ktlint")
     id("com.example.convention.dagger")
-    id("com.example.convention.room")
     id("com.example.convention.application.view")
 }
 
@@ -34,19 +33,22 @@ android {
 }
 
 dependencies {
-    implementation("com.google.code.gson:gson:2.10.1")
+    implementation(project(":mvi"))
+    implementation(project(":core:model"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:design-system"))
+    implementation(project(":core:ui"))
+    implementation(project(":core:di"))
+    implementation(project(":core:data"))
+    implementation(project(":utils"))
+    implementation(project(":core:database"))
+    implementation(project(":core:network"))
+    implementation(project(":feature:auth"))
 
     implementation("io.reactivex.rxjava3:rxjava:3.1.6")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
     implementation("com.jakewharton.rxbinding4:rxbinding:4.0.0")
     implementation("com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0")
-
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation("com.squareup.retrofit2:adapter-rxjava3:2.9.0")
-    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.11.0"))
-    implementation("com.squareup.okhttp3:okhttp")
-    implementation("com.squareup.okhttp3:logging-interceptor")
 
     implementation("androidx.core:core-splashscreen:1.0.1")
 
