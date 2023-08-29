@@ -15,9 +15,10 @@ import com.example.androidpractice.feature.help.di.HelpDeps
 import com.example.androidpractice.feature.help.di.HelpDiModule
 import com.example.androidpractice.feature.profile.di.ProfileDeps
 import com.example.androidpractice.feature.profile.di.ProfileDiModule
+import com.example.androidpractice.feature.search.di.SearchDeps
+import com.example.androidpractice.feature.search.di.SearchDiModule
 import com.example.androidpractice.screen.news.GetEventsService
 import com.example.androidpractice.screen.news.di.NewsComponent
-import com.example.androidpractice.screen.search.di.SearchComponent
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
@@ -35,12 +36,13 @@ import javax.inject.Singleton
         ViewModelModule::class,
         AuthDiModule::class,
         HelpDiModule::class,
+        SearchDiModule::class,
         ProfileDiModule::class,
         MainModule::class,
         SubcomponentsModule::class
     ]
 )
-interface AppComponent : AuthDeps, HelpDeps, ProfileDeps {
+interface AppComponent : AuthDeps, HelpDeps, ProfileDeps, SearchDeps {
 
     @Component.Factory
     interface Factory {
@@ -51,7 +53,6 @@ interface AppComponent : AuthDeps, HelpDeps, ProfileDeps {
     fun inject(service: GetEventsService)
 
     fun newsSubcomponent(): NewsComponent.Factory
-    fun searchSubcomponent(): SearchComponent.Factory
 
     override val viewModelFactory: ViewModelProvider.Factory
 }
@@ -59,7 +60,6 @@ interface AppComponent : AuthDeps, HelpDeps, ProfileDeps {
 @Module(
     subcomponents = [
         NewsComponent::class,
-        SearchComponent::class
     ]
 )
 interface SubcomponentsModule

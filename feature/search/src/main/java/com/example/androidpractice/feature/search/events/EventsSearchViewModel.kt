@@ -1,4 +1,4 @@
-package com.example.androidpractice.screen.search.organizations
+package com.example.androidpractice.feature.search.events
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,13 +11,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-private const val TAG = "OrganizationsSearchViewModel"
+private const val TAG = "EventsSearchViewModel"
 
-class OrganizationsSearchViewModel @Inject constructor(
+class EventsSearchViewModel @Inject constructor(
     private val repo: SearchRepo
 ) : BaseViewModel() {
 
-    private val _searchResult: MutableLiveData<SearchResult?> = MutableLiveData()
+    private val _searchResult: MutableLiveData<SearchResult?> = MutableLiveData(null)
     val searchResult: LiveData<SearchResult?> = _searchResult
 
     fun search(query: String) {
@@ -27,7 +27,7 @@ class OrganizationsSearchViewModel @Inject constructor(
                 _searchResult.postValue(null)
                 return@launch
             }
-            _searchResult.postValue(repo.searchEventsByOrganizationName(query))
+            _searchResult.postValue(repo.searchEventsByName(query))
         }
     }
 }

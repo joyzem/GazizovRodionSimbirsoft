@@ -1,4 +1,4 @@
-package com.example.androidpractice.screen.search.events
+package com.example.androidpractice.feature.search.organizations
 
 import android.os.Bundle
 import android.text.Spanned
@@ -12,22 +12,27 @@ import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.RecyclerView
-import com.example.androidpractice.R
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.core.ui.LeftPaddingDivider
 import com.example.androidpractice.core.ui.spans.ClickableText
-import com.example.androidpractice.databinding.FragmentEventsSearchBinding
-import com.example.androidpractice.screen.search.SearchFragment
-import com.example.androidpractice.screen.search.SearchResultAdapter
-import com.example.androidpractice.ui.getAppComponent
+import com.example.androidpractice.feature.search.R
+import com.example.androidpractice.feature.search.SearchComponentViewModel
+import com.example.androidpractice.feature.search.SearchFragment
+import com.example.androidpractice.feature.search.SearchFragment.Companion.KEYWORDS
+import com.example.androidpractice.feature.search.SearchFragment.Companion.SEARCH_BY_KEYWORDS
+import com.example.androidpractice.feature.search.SearchResultAdapter
+import com.example.androidpractice.feature.search.databinding.FragmentOrganizationsSearchBinding
 import com.example.androidpractice.core.designsystem.R as designR
 
-class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding, EventsSearchViewModel>(
-    R.id.searchNavItem,
-    FragmentEventsSearchBinding::inflate
-) {
-    override val viewModel: EventsSearchViewModel by viewModels {
+class OrganizationsSearchFragment :
+    BaseFragment<FragmentOrganizationsSearchBinding, OrganizationsSearchViewModel>(
+        R.id.searchNavigation,
+        FragmentOrganizationsSearchBinding::inflate
+    ) {
+    override val viewModel: OrganizationsSearchViewModel by viewModels {
         viewModelFactory
     }
 
@@ -36,10 +41,10 @@ class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding, EventsSea
         }
     }
 
-    private var scrollPosition: Int = 0
+    private var scrollPosition = 0
 
     override fun injectViewModelFactory() {
-        getAppComponent().searchSubcomponent().create().inject(this)
+        ViewModelProvider(this).get<SearchComponentViewModel>().searchComponent.inject(this)
     }
 
     override fun onCreateView(
@@ -59,9 +64,8 @@ class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding, EventsSea
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(binding) {
-            eventsResultsRV.adapter = adapter
-            eventsResultsRV.addItemDecoration(createDecorator())
-
+            organizationsResultsRV.adapter = adapter
+            organizationsResultsRV.addItemDecoration(createDecorator())
             noResultsLayout.keyWordsTextView.text = getKeywordsText()
             noResultsLayout.keyWordsTextView.movementMethod = LinkMovementMethod()
 
@@ -78,43 +82,6 @@ class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding, EventsSea
                 binding.root.scrollTo(0, scrollPosition)
             }
         }
-    }
-
-    private fun createDecorator(): RecyclerView.ItemDecoration {
-        val dividerColor = requireContext().getColor(designR.color.cool_grey)
-        val dividerHeight = (resources.displayMetrics.density * 1).toInt()
-        return LeftPaddingDivider(
-            dividerHeight,
-            dividerColor,
-            requireContext()
-        )
-    }
-
-    private fun getKeywordsText() = buildSpannedString {
-        append(getString(com.example.androidpractice.R.string.for_example))
-        append(" ")
-        val forExampleLentgh = length
-        val keywordsExample = getString(R.string.keywords_example)
-        append(keywordsExample)
-        setSpan(
-            ForegroundColorSpan(resources.getColor(designR.color.leaf, null)),
-            forExampleLentgh,
-            length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        )
-        setSpan(
-            ClickableText {
-                requireActivity().supportFragmentManager.setFragmentResult(
-                    "searchKeywords",
-                    bundleOf(
-                        "keywords" to keywordsExample
-                    )
-                )
-            },
-            forExampleLentgh,
-            length,
-            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
-        )
     }
 
     private fun observe() {
@@ -137,6 +104,43 @@ class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding, EventsSea
         }
     }
 
+    private fun createDecorator(): ItemDecoration {
+        val dividerColor = requireContext().getColor(designR.color.cool_grey)
+        val dividerHeight = (resources.displayMetrics.density * 1).toInt()
+        return LeftPaddingDivider(
+            dividerHeight,
+            dividerColor,
+            requireContext()
+        )
+    }
+
+    private fun getKeywordsText() = buildSpannedString {
+        append(getString(R.string.for_example))
+        append(" ")
+        val forExampleLentgh = length
+        val keywordsExample = getString(R.string.keywords_example)
+        append(keywordsExample)
+        setSpan(
+            ForegroundColorSpan(resources.getColor(designR.color.leaf, null)),
+            forExampleLentgh,
+            length,
+            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+        setSpan(
+            ClickableText {
+                requireActivity().supportFragmentManager.setFragmentResult(
+                    SEARCH_BY_KEYWORDS,
+                    bundleOf(
+                        KEYWORDS to keywordsExample
+                    )
+                )
+            },
+            forExampleLentgh,
+            length,
+            Spanned.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+    }
+
     private fun showSearchResults() {
         with(binding) {
             searchResultsLinearLayout.isVisible = true
@@ -157,11 +161,11 @@ class EventsSearchFragment : BaseFragment<FragmentEventsSearchBinding, EventsSea
     }
 
     companion object {
-        const val SEARCH_KEY = "events"
+        const val SEARCH_KEY = "organizations"
         private const val SCROLL_POSITION = "scroll_position"
 
         fun newInstance(): Fragment {
-            return EventsSearchFragment()
+            return OrganizationsSearchFragment()
         }
     }
 }

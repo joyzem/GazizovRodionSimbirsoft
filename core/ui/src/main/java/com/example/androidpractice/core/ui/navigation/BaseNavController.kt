@@ -47,7 +47,7 @@ abstract class BaseNavController(
      * @return [true] if the fragment was replaced, [false] - otherwise
      */
     fun onBackPressed(): Boolean {
-        if (bottomNavStack.size == 1 && startDestinationId == 1) {
+        if (bottomNavStack.size == 1) {
             return false // finish application
         }
         val currentItemId = bottomNavigationView.selectedItemId

@@ -1,4 +1,4 @@
-package com.example.androidpractice.screen.search
+package com.example.androidpractice.feature.search
 
 import android.os.Bundle
 import android.view.View
@@ -6,21 +6,25 @@ import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.viewpager2.widget.ViewPager2
-import com.example.androidpractice.R
 import com.example.androidpractice.core.ui.BaseFragment
-import com.example.androidpractice.databinding.FragmentSearchBinding
-import com.example.androidpractice.screen.search.events.EventsSearchFragment
-import com.example.androidpractice.screen.search.organizations.OrganizationsSearchFragment
-import com.example.androidpractice.ui.getAppComponent
+import com.example.androidpractice.feature.search.databinding.FragmentSearchBinding
+import com.example.androidpractice.feature.search.events.EventsSearchFragment
+import com.example.androidpractice.feature.search.organizations.OrganizationsSearchFragment
 import com.google.android.material.tabs.TabLayoutMediator
 
 class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
-    R.id.searchNavItem,
+    R.id.searchNavigation,
     FragmentSearchBinding::inflate
 ) {
     override val viewModel: SearchViewModel by viewModels {
         viewModelFactory
+    }
+
+    override fun injectViewModelFactory() {
+        ViewModelProvider(this).get<SearchComponentViewModel>().searchComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -105,10 +109,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding, SearchViewModel>(
                 SEARCH_QUERY to query
             )
         )
-    }
-
-    override fun injectViewModelFactory() {
-        getAppComponent().searchSubcomponent().create().inject(this)
     }
 
     companion object {

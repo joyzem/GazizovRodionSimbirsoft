@@ -7,4 +7,7 @@
     <string name="get_push_notifications">Получать push-уведомления</string>
     <string name="field_of_activity">Сфера деятельности</string>
     <string name="birthday">Дата рождения</string>
+    <string name="choose_photo">Выбрать фото</string>
+    <string name="take_photo">Сделать снимок</string>
+    <string name="delete_photo">Удалить</string>
 </resources>

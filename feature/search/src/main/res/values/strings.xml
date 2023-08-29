@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="by_events">По мероприятиям</string>
+    <string name="by_organizations">По НКО</string>
+    <string name="enter_organization_name">Введите наименование организации</string>
+    <string name="enter_event_name">Введите название мероприятия</string>
+    <plurals name="search_results">
+        <item quantity="one">Результаты поиска: %d мероприятие</item>
+        <item quantity="few">Результаты поиска: %d мероприятия</item>
+        <item quantity="many">Результаты поиска: %d мероприятий</item>
+        <item quantity="other">Результаты поиска: %d мероприятий</item>
+    </plurals>
+    <string name="keywords_are">Ключевые слова: %s</string>
+    <string name="for_example">Например,</string>
+    <string name="write_in_search_bar_name_of_event">Напишите в строке поиска название мероприятия или ключевые слова</string>
+    <string name="keywords_example">мастер-класс, помощь</string>
+    <string name="search">Поиск</string>
+</resources>

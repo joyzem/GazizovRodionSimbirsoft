@@ -18,10 +18,7 @@ fun getEventDateText(view: View, dateStart: LocalDate, dateEnd: LocalDate): Stri
         val formatter = SimpleDateFormat("LLL d, y", Locale("ru"))
         val formattedDate = formatter.format(java.sql.Date.valueOf(localDate.toString()))
             .replaceFirstChar { it.uppercase() }
-        view.resources.getString(
-            R.string.event_certain_day,
-            formattedDate
-        )
+        formattedDate
     } else {
         val dateFormatter = DateTimeFormatter.ofPattern("dd.MM")
 

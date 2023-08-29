@@ -1,27 +1,11 @@
 <resources>
     <string name="app_name">Хочу помочь</string>
-    <string name="loading_ellipsis">Загрузка...</string>
     <string name="profile">Профиль</string>
     <string name="news">Новости</string>
     <string name="search">Поиск</string>
     <string name="history">История</string>
     <string name="help">Помочь</string>
-    <string name="choose_photo">Выбрать фото</string>
-    <string name="take_photo">Сделать снимок</string>
-    <string name="delete_photo">Удалить</string>
-    <string name="choose_help_category">Выберите категорию помощи</string>
-    <string name="by_events">По мероприятиям</string>
-    <string name="by_organizations">По НКО</string>
-    <string name="enter_organization_name">Введите наименование организации</string>
-    <string name="enter_event_name">Введите название мероприятия</string>
     <string name="filter">Фильтр</string>
-    <plurals name="search_results">
-        <item quantity="one">Результаты поиска: %d мероприятие</item>
-        <item quantity="few">Результаты поиска: %d мероприятия</item>
-        <item quantity="many">Результаты поиска: %d мероприятий</item>
-        <item quantity="other">Результаты поиска: %d мероприятий</item>
-    </plurals>
-    <string name="event_certain_day">%s</string>
     <string name="event_is_over">Мероприятие прошло (%s - %s)</string>
     <string name="done">Готово</string>
     <string name="help_categories">Категории помощи</string>
@@ -33,10 +17,7 @@
     <string name="professional_help">Проф.\nпомощь</string>
     <string name="become_volunteer">Стать\nволонтером</string>
     <string name="help_with_clothes">Помочь\nвещами</string>
-    <string name="keywords_are">Ключевые слова: %s</string>
-    <string name="for_example">Например,</string>
-    <string name="write_in_search_bar_name_of_event">Напишите в строке поиска название мероприятия или ключевые слова</string>
-    <string name="keywords_example">мастер-класс, помощь</string>
+    <string name="loading_ellipsis">Загрузка...</string>
     <plurals name="event_date">
         <item quantity="zero">Сегодня последний день!</item>
         <item quantity="one">Остался %s день (%s - %s)</item>

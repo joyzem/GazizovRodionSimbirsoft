@@ -1,16 +1,16 @@
-package com.example.androidpractice.screen.search.di
+package com.example.androidpractice.feature.search.di
 
 import androidx.lifecycle.ViewModel
 import com.example.androidpractice.core.di.ViewModelKey
-import com.example.androidpractice.screen.search.SearchViewModel
-import com.example.androidpractice.screen.search.events.EventsSearchViewModel
-import com.example.androidpractice.screen.search.organizations.OrganizationsSearchViewModel
+import com.example.androidpractice.feature.search.SearchViewModel
+import com.example.androidpractice.feature.search.events.EventsSearchViewModel
+import com.example.androidpractice.feature.search.organizations.OrganizationsSearchViewModel
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
 
 @Module
-interface SearchModule {
+interface SearchDiModule {
 
     @Binds
     @IntoMap

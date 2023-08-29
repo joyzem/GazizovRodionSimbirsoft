@@ -14,8 +14,8 @@ import com.example.androidpractice.core.ui.navigation.BaseNavController
 import com.example.androidpractice.feature.auth.AuthFragment
 import com.example.androidpractice.feature.help.HelpFragment
 import com.example.androidpractice.feature.profile.ProfileFragment
+import com.example.androidpractice.feature.search.SearchFragment
 import com.example.androidpractice.screen.news.NewsFragment
-import com.example.androidpractice.screen.search.SearchFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class NavController private constructor(

@@ -1,4 +1,4 @@
-package com.example.androidpractice.screen.search
+package com.example.androidpractice.feature.search
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,9 +6,9 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.androidpractice.core.model.event.Event
-import com.example.androidpractice.databinding.ItemSearchResultBinding
+import com.example.androidpractice.feature.search.databinding.ItemSearchResultBinding
 
-class SearchResultAdapter(private val onClick: (Event) -> Unit) :
+internal class SearchResultAdapter(private val onClick: (Event) -> Unit) :
     ListAdapter<Event, SearchResultAdapter.ResultViewHolder>(
         EventDiffUtil
     ) {

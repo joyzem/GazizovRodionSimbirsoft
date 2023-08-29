@@ -6,6 +6,7 @@ import com.example.androidpractice.di.DaggerAppComponent
 import com.example.androidpractice.feature.auth.di.AuthDepsStore
 import com.example.androidpractice.feature.help.di.HelpDepsStore
 import com.example.androidpractice.feature.profile.di.ProfileDepsStore
+import com.example.androidpractice.feature.search.di.SearchDepsStore
 
 class App : Application() {
 
@@ -18,5 +19,6 @@ class App : Application() {
         AuthDepsStore.deps = appComponent
         HelpDepsStore.deps = appComponent
         ProfileDepsStore.deps = appComponent
+        SearchDepsStore.deps = appComponent
     }
 }

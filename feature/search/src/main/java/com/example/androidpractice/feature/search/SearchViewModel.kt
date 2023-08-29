@@ -1,4 +1,4 @@
-package com.example.androidpractice.screen.search
+package com.example.androidpractice.feature.search
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
