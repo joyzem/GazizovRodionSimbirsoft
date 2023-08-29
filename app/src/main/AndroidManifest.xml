@@ -35,7 +35,7 @@
             android:windowSoftInputMode="adjustPan" />
 
         <service
-            android:name=".screen.news.GetEventsService"
+            android:name=".feature.news.GetEventsService"
             android:exported="false" />
     </application>
 

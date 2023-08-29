@@ -1,16 +1,27 @@
 package com.example.androidpractice.di
 
 import android.content.Context
+import androidx.lifecycle.ViewModelProvider
 import com.example.androidpractice.MainActivity
-import com.example.androidpractice.screen.auth.di.AuthComponent
-import com.example.androidpractice.screen.help.di.HelpComponent
-import com.example.androidpractice.screen.news.GetEventsService
-import com.example.androidpractice.screen.news.di.NewsComponent
-import com.example.androidpractice.screen.profile.di.ProfileComponent
-import com.example.androidpractice.screen.search.di.SearchComponent
+import com.example.androidpractice.core.data.di.AssetsModule
+import com.example.androidpractice.core.data.di.DataModule
+import com.example.androidpractice.core.data.di.InteractorModule
+import com.example.androidpractice.core.database.di.DatabaseModule
+import com.example.androidpractice.core.di.ViewModelModule
+import com.example.androidpractice.core.network.di.NetworkModule
+import com.example.androidpractice.core.network.di.RetrofitModule
+import com.example.androidpractice.feature.auth.di.AuthDeps
+import com.example.androidpractice.feature.auth.di.AuthDiModule
+import com.example.androidpractice.feature.help.di.HelpDeps
+import com.example.androidpractice.feature.help.di.HelpDiModule
+import com.example.androidpractice.feature.news.di.NewsDeps
+import com.example.androidpractice.feature.news.di.NewsDiModule
+import com.example.androidpractice.feature.profile.di.ProfileDeps
+import com.example.androidpractice.feature.profile.di.ProfileDiModule
+import com.example.androidpractice.feature.search.di.SearchDeps
+import com.example.androidpractice.feature.search.di.SearchDiModule
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Module
 import javax.inject.Singleton
 
 @Singleton
@@ -23,11 +34,15 @@ import javax.inject.Singleton
         DatabaseModule::class,
         InteractorModule::class,
         ViewModelModule::class,
+        AuthDiModule::class,
+        HelpDiModule::class,
+        SearchDiModule::class,
+        ProfileDiModule::class,
+        NewsDiModule::class,
         MainModule::class,
-        SubcomponentsModule::class
     ]
 )
-interface AppComponent {
+interface AppComponent : AuthDeps, HelpDeps, ProfileDeps, SearchDeps, NewsDeps {
 
     @Component.Factory
     interface Factory {
@@ -35,23 +50,6 @@ interface AppComponent {
     }
 
     fun inject(mainActivity: MainActivity)
-    fun inject(service: GetEventsService)
 
-    fun authSubcomponent(): AuthComponent.Factory
-    fun helpSubcomponent(): HelpComponent.Factory
-    fun newsSubcomponent(): NewsComponent.Factory
-    fun profileSubcomponent(): ProfileComponent.Factory
-    fun searchSubcomponent(): SearchComponent.Factory
+    override val viewModelFactory: ViewModelProvider.Factory
 }
-
-
-@Module(
-    subcomponents = [
-        AuthComponent::class,
-        NewsComponent::class,
-        HelpComponent::class,
-        ProfileComponent::class,
-        SearchComponent::class
-    ]
-)
-interface SubcomponentsModule

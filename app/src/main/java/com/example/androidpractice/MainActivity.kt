@@ -5,19 +5,21 @@ import android.os.Bundle
 import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
+import com.example.androidpractice.core.ui.navigation.BottomBaseNavController
+import com.example.androidpractice.core.ui.navigation.NavController
 import com.example.androidpractice.databinding.ActivityMainBinding
-import com.example.androidpractice.di.ViewModelFactory
-import com.example.androidpractice.screen.auth.AuthFragment
-import com.example.androidpractice.ui.navigation.NavController
+import com.example.androidpractice.feature.auth.AuthFragment
+import com.example.androidpractice.ui.navigation.BottomNavController
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
+    private lateinit var navController: BottomBaseNavController
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private val viewModel: MainViewModel by viewModels {
         viewModelFactory
@@ -31,7 +33,7 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
         val view = binding.root
         setContentView(view)
 
-        navController = NavController.newInstance(
+        navController = BottomNavController.newInstance(
             binding.bottomNavView,
             supportFragmentManager,
             binding.fragmentContainer,
