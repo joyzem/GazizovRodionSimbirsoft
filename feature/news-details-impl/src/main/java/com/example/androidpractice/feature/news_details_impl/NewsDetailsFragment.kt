@@ -1,4 +1,4 @@
-package com.example.androidpractice.feature.news.details
+package com.example.androidpractice.feature.news_details_impl
 
 import android.content.Intent
 import android.net.Uri
@@ -19,23 +19,22 @@ import com.example.androidpractice.core.model.event.Event
 import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.core.ui.navigation.findNavController
 import com.example.androidpractice.core.ui.spans.PhoneNumberSpan
-import com.example.androidpractice.feature.news.NewsComponentViewModel
-import com.example.androidpractice.feature.news.R
-import com.example.androidpractice.feature.news.databinding.FragmentEventDetailsBinding
-import com.example.androidpractice.feature.news.getEventDateText
+import com.example.androidpractice.feature.news_details_impl.databinding.FragmentEventDetailsBinding
 import com.example.androidpractice.core.designsystem.R as designR
 
-class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDetailsViewModel>(
-    R.id.newsNavigation,
+class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetailsViewModel>(
+    com.example.androidpractice.core.ui.R.id.newsNavItem,
     FragmentEventDetailsBinding::inflate,
     true
 ) {
-    override val viewModel: EventDetailsViewModel by viewModels {
+    override val viewModel: NewsDetailsViewModel by viewModels {
         viewModelFactory
     }
 
     override fun injectViewModelFactory() {
-        ViewModelProvider(this).get<NewsComponentViewModel>().newsComponent.inject(this)
+        ViewModelProvider(this).get<NewsDetailsComponentViewModel>().newsDetailsComponent.inject(
+            this
+        )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -142,8 +141,8 @@ class EventDetailsFragment : BaseFragment<FragmentEventDetailsBinding, EventDeta
 
     companion object {
         const val EVENT_ID = "event_id"
-        fun newInstance(eventId: String): EventDetailsFragment {
-            return EventDetailsFragment().apply {
+        fun newInstance(eventId: String): NewsDetailsFragment {
+            return NewsDetailsFragment().apply {
                 arguments = bundleOf(
                     EVENT_ID to eventId
                 )

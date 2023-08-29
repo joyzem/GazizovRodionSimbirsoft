@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="write_us">Напишите нам</string>
+    <string name="go_to_organization_site">Перейти на сайт организации</string>
+    <string name="help_with_money">Помочь\nденьгами</string>
+    <string name="professional_help">Проф.\nпомощь</string>
+    <string name="become_volunteer">Стать\nволонтером</string>
+    <string name="help_with_clothes">Помочь\nвещами</string>
+    <string name="have_questions">У вас есть вопросы?</string>
+    <plurals name="event_date">
+        <item quantity="zero">Сегодня последний день!</item>
+        <item quantity="one">Остался %s день (%s - %s)</item>
+        <item quantity="few">Осталось %s дня (%s - %s)</item>
+        <item quantity="many">Осталось %s дней (%s - %s)</item>
+    </plurals>
+    <string name="event_is_over">Мероприятие прошло (%s - %s)</string>
+</resources>

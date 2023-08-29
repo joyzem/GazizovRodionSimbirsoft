@@ -3,7 +3,6 @@ package com.example.androidpractice.feature.news.di
 import com.example.androidpractice.core.di.FeatureScope
 import com.example.androidpractice.feature.news.GetEventsService
 import com.example.androidpractice.feature.news.NewsFragment
-import com.example.androidpractice.feature.news.details.EventDetailsFragment
 import com.example.androidpractice.feature.news.filter.FiltersFragment
 import dagger.Component
 
@@ -18,7 +17,6 @@ internal interface NewsComponent {
     }
 
     fun inject(fragment: NewsFragment)
-    fun inject(fragment: EventDetailsFragment)
     fun inject(fragment: FiltersFragment)
     fun inject(service: GetEventsService)
 }

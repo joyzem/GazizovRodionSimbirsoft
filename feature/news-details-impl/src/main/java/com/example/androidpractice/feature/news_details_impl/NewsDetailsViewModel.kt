@@ -1,4 +1,4 @@
-package com.example.androidpractice.feature.news.details
+package com.example.androidpractice.feature.news_details_impl
 
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 private const val TAG = "EventDetailsViewModel"
 
-class EventDetailsViewModel @Inject constructor(
+class NewsDetailsViewModel @Inject constructor(
     private val eventsRepo: EventsRepo
 ) : BaseViewModel() {
     val events = eventsRepo.events.asLiveData(viewModelScope.coroutineContext)

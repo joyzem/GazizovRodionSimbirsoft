@@ -43,8 +43,6 @@ abstract class BottomBaseNavController(
 
     abstract fun getFragmentByBottomNavId(id: Int): Fragment?
 
-    abstract fun getFragmentBottomNavIdByMenuId(menuId: Int): Int
-
     /**
      * Replace current fragment with previous or does nothing if there are no fragments
      *
@@ -54,8 +52,7 @@ abstract class BottomBaseNavController(
         if (bottomNavStack.size == 1) {
             return false // finish application
         }
-        val currentItemId = (fragmentManager.findFragmentById(containerId) as? BaseFragment<*, *>)
-            ?.bottomNavigationId ?: throw IllegalStateException()
+        val currentItemId = bottomNavStack.peek()
         val currentBackStackOfBottomItem = backStackMap.getOrDefault(currentItemId, null)
         when {
             currentBackStackOfBottomItem == 1 -> {
@@ -141,18 +138,17 @@ abstract class BottomBaseNavController(
     }
 
     private fun onBottomItemSelected(bottomMenuItemId: Int): Boolean {
-        val fragmentBottomNavId = getFragmentBottomNavIdByMenuId(bottomMenuItemId)
         bottomNavStack.push(bottomMenuItemId)
-        if (backStackMap.containsKey(fragmentBottomNavId)) {
-            fragmentManager.restoreBackStack(fragmentBottomNavId.toString())
+        if (backStackMap.containsKey(bottomMenuItemId)) {
+            fragmentManager.restoreBackStack(bottomMenuItemId.toString())
             return true
         } else {
             getFragmentByBottomNavId(bottomMenuItemId)?.let { fragment ->
                 fragmentManager.commit {
                     setReorderingAllowed(true)
                     replace(containerId, fragment)
-                    addToBackStack(fragmentBottomNavId.toString())
-                    backStackMap[fragmentBottomNavId] = 1
+                    addToBackStack(bottomMenuItemId.toString())
+                    backStackMap[bottomMenuItemId] = 1
                 }
                 return true
             } ?: return false
@@ -167,11 +163,7 @@ abstract class BottomBaseNavController(
                 return@setOnItemSelectedListener false
             }
             if (newId != historyNavId) { // TODO: Remove when implement
-                fragmentManager.saveBackStack(
-                    getFragmentBottomNavIdByMenuId(
-                        bottomNavigationView.selectedItemId
-                    ).toString()
-                )
+                fragmentManager.saveBackStack(bottomNavigationView.selectedItemId.toString())
             }
             onBottomItemSelected(newId)
         }
