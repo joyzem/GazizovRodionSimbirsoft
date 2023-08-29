@@ -49,6 +49,7 @@ dependencies {
     implementation(project(":feature:help"))
     implementation(project(":feature:profile"))
     implementation(project(":feature:search"))
+    implementation(project(":feature:news"))
 
     implementation("io.reactivex.rxjava3:rxjava:3.1.6")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.2")

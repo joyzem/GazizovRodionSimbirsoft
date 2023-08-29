@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.androidpractice.MainActivity
 import com.example.androidpractice.core.data.di.AssetsModule
 import com.example.androidpractice.core.data.di.DataModule
+import com.example.androidpractice.core.data.di.InteractorModule
 import com.example.androidpractice.core.database.di.DatabaseModule
 import com.example.androidpractice.core.di.ViewModelModule
 import com.example.androidpractice.core.network.di.NetworkModule
@@ -13,15 +14,14 @@ import com.example.androidpractice.feature.auth.di.AuthDeps
 import com.example.androidpractice.feature.auth.di.AuthDiModule
 import com.example.androidpractice.feature.help.di.HelpDeps
 import com.example.androidpractice.feature.help.di.HelpDiModule
+import com.example.androidpractice.feature.news.di.NewsDeps
+import com.example.androidpractice.feature.news.di.NewsDiModule
 import com.example.androidpractice.feature.profile.di.ProfileDeps
 import com.example.androidpractice.feature.profile.di.ProfileDiModule
 import com.example.androidpractice.feature.search.di.SearchDeps
 import com.example.androidpractice.feature.search.di.SearchDiModule
-import com.example.androidpractice.screen.news.GetEventsService
-import com.example.androidpractice.screen.news.di.NewsComponent
 import dagger.BindsInstance
 import dagger.Component
-import dagger.Module
 import javax.inject.Singleton
 
 @Singleton
@@ -38,11 +38,11 @@ import javax.inject.Singleton
         HelpDiModule::class,
         SearchDiModule::class,
         ProfileDiModule::class,
+        NewsDiModule::class,
         MainModule::class,
-        SubcomponentsModule::class
     ]
 )
-interface AppComponent : AuthDeps, HelpDeps, ProfileDeps, SearchDeps {
+interface AppComponent : AuthDeps, HelpDeps, ProfileDeps, SearchDeps, NewsDeps {
 
     @Component.Factory
     interface Factory {
@@ -50,16 +50,6 @@ interface AppComponent : AuthDeps, HelpDeps, ProfileDeps, SearchDeps {
     }
 
     fun inject(mainActivity: MainActivity)
-    fun inject(service: GetEventsService)
-
-    fun newsSubcomponent(): NewsComponent.Factory
 
     override val viewModelFactory: ViewModelProvider.Factory
 }
-
-@Module(
-    subcomponents = [
-        NewsComponent::class,
-    ]
-)
-interface SubcomponentsModule

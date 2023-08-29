@@ -6,16 +6,17 @@ import android.window.OnBackInvokedDispatcher
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.example.androidpractice.core.ui.navigation.BaseNavController
+import com.example.androidpractice.core.ui.navigation.BottomBaseNavController
+import com.example.androidpractice.core.ui.navigation.NavController
 import com.example.androidpractice.databinding.ActivityMainBinding
 import com.example.androidpractice.feature.auth.AuthFragment
-import com.example.androidpractice.ui.navigation.NavController
+import com.example.androidpractice.ui.navigation.BottomNavController
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), BaseNavController.NavControllerOwner {
+class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var navController: BaseNavController
+    private lateinit var navController: BottomBaseNavController
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity(), BaseNavController.NavControllerOwner {
         val view = binding.root
         setContentView(view)
 
-        navController = NavController.newInstance(
+        navController = BottomNavController.newInstance(
             binding.bottomNavView,
             supportFragmentManager,
             binding.fragmentContainer,
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity(), BaseNavController.NavControllerOwner {
         navController.onSaveInstanceState(outState)
     }
 
-    override fun getNavController(): BaseNavController {
+    override fun getNavController(): NavController {
         return navController
     }
 

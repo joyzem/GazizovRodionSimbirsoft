@@ -12,7 +12,7 @@ import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.feature.help.databinding.FragmentHelpBinding
 
 class HelpFragment : BaseFragment<FragmentHelpBinding, HelpViewModel>(
-    R.id.HelpNavigation,
+    R.id.helpNavigation,
     FragmentHelpBinding::inflate
 ) {
     override val viewModel: HelpViewModel by viewModels {

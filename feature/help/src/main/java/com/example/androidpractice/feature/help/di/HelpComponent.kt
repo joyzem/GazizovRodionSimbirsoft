@@ -4,7 +4,6 @@ import com.example.androidpractice.core.di.FeatureScope
 import com.example.androidpractice.feature.help.HelpFragment
 import dagger.Component
 
-
 @Component(dependencies = [HelpDeps::class])
 @HelpFeatureScope
 internal interface HelpComponent {
@@ -20,5 +19,3 @@ internal interface HelpComponent {
 
 @FeatureScope
 annotation class HelpFeatureScope
-
-

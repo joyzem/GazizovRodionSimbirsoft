@@ -17,6 +17,5 @@ internal interface ProfileComponent {
     fun inject(fragment: ProfileFragment)
 }
 
-
 @FeatureScope
 annotation class ProfileFeature
