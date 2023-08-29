@@ -30,8 +30,8 @@ class BottomNavController private constructor(
     fragmentContainer,
     helpImageView,
     containerId,
-    R.id.helpNavItem,
-    R.id.historyNavItem
+    com.example.androidpractice.core.ui.R.id.helpNavItem,
+    com.example.androidpractice.core.ui.R.id.historyNavItem
 ) {
     init {
         fragmentManager.addOnBackStackChangedListener {
@@ -59,24 +59,12 @@ class BottomNavController private constructor(
         }
     }
 
-    override fun getFragmentBottomNavIdByMenuId(menuId: Int): Int {
-        return when (menuId) {
-            HELP_DEST -> com.example.androidpractice.feature.help.R.id.helpNavigation
-            NEWS_DEST -> com.example.androidpractice.feature.news.R.id.newsNavigation
-            SEARCH_DEST -> com.example.androidpractice.feature.search.R.id.searchNavigation
-            PROFILE_DEST -> com.example.androidpractice.feature.profile.R.id.profileNavigation
-            else -> {
-                0
-            }
-        }
-    }
-
     companion object {
-        private val HELP_DEST = R.id.helpNavItem
-        private val NEWS_DEST = R.id.newsNavItem
-        private val SEARCH_DEST = R.id.searchNavItem
-        private val PROFILE_DEST = R.id.profileNavItem
-        private val HISTORY_DEST = R.id.historyNavItem
+        private val HELP_DEST = com.example.androidpractice.core.ui.R.id.helpNavItem
+        private val NEWS_DEST = com.example.androidpractice.core.ui.R.id.newsNavItem
+        private val SEARCH_DEST = com.example.androidpractice.core.ui.R.id.searchNavItem
+        private val PROFILE_DEST = com.example.androidpractice.core.ui.R.id.profileNavItem
+        private val HISTORY_DEST = com.example.androidpractice.core.ui.R.id.historyNavItem
 
         fun newInstance(
             bottomNavigationView: BottomNavigationView,

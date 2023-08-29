@@ -28,6 +28,6 @@
         app:itemTextAppearanceActive="@style/BottomNavigationViewTextAppearance"
         app:itemTextAppearanceInactive="@style/BottomNavigationViewTextAppearance"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

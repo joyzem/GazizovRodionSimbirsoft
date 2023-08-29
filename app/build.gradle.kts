@@ -44,6 +44,8 @@ dependencies {
     implementation(project(":feature:profile"))
     implementation(project(":feature:search"))
     implementation(project(":feature:news"))
+    implementation(project(":feature:news-details:news-details-api"))
+    implementation(project(":feature:news-details:news-details-impl"))
 
     implementation(libs.androidx.splash.screen)
     implementation(libs.kotlinx.datetime)

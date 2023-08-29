@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.androidpractice.feature.news"
+    namespace = "com.example.androidpractice.feature.news_details_impl"
 }
 
 dependencies {
-    implementation(project(":utils"))
     implementation(project(":feature:news-details:news-details-api"))
+    implementation(project(":utils"))
     implementation(libs.kotlinx.datetime)
 }

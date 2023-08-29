@@ -12,6 +12,7 @@ import com.example.androidpractice.databinding.ActivityMainBinding
 import com.example.androidpractice.feature.auth.AuthFragment
 import com.example.androidpractice.ui.navigation.BottomNavController
 import javax.inject.Inject
+import com.example.androidpractice.core.ui.R as uiR
 
 class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
 
@@ -59,16 +60,16 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
             AuthFragment.LOGIN_BUTTON_CLICKED,
             this
         ) { _, _ ->
-            navController.navigateToBottomDestination(R.id.helpNavItem, true)
+            navController.navigateToBottomDestination(uiR.id.helpNavItem, true)
         }
     }
 
     private fun observe() {
         viewModel.unreadNewsCounter.observe(this) { counter ->
             if (counter == 0) {
-                binding.bottomNavView.removeBadge(R.id.newsNavItem)
+                binding.bottomNavView.removeBadge(uiR.id.newsNavItem)
             } else {
-                val badge = binding.bottomNavView.getOrCreateBadge(R.id.newsNavItem)
+                val badge = binding.bottomNavView.getOrCreateBadge(uiR.id.newsNavItem)
                 badge.number = counter
             }
         }
