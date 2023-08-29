@@ -26,16 +26,9 @@ android {
             )
         }
     }
-
-    buildFeatures {
-        viewBinding = true
-    }
 }
 
 dependencies {
-    implementation(project(":mvi"))
-    implementation(project(":utils"))
-
     implementation(project(":core:model"))
     implementation(project(":core:domain"))
     implementation(project(":core:design-system"))
@@ -44,6 +37,7 @@ dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:database"))
     implementation(project(":core:network"))
+    implementation(project(":utils"))
 
     implementation(project(":feature:auth"))
     implementation(project(":feature:help"))
@@ -51,16 +45,8 @@ dependencies {
     implementation(project(":feature:search"))
     implementation(project(":feature:news"))
 
-    implementation("io.reactivex.rxjava3:rxjava:3.1.6")
-    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
-    implementation("com.jakewharton.rxbinding4:rxbinding:4.0.0")
-    implementation("com.jakewharton.rxbinding4:rxbinding-appcompat:4.0.0")
-
-    implementation("androidx.core:core-splashscreen:1.0.1")
-
-    implementation("io.coil-kt:coil:2.4.0")
-
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
+    implementation(libs.androidx.splash.screen)
+    implementation(libs.kotlinx.datetime)
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
