@@ -7,7 +7,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":feature:news-details-api"))
+    implementation(project(":feature:news-details:news-details-api"))
     implementation(project(":utils"))
     implementation(libs.kotlinx.datetime)
 }

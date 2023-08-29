@@ -8,6 +8,6 @@ android {
 
 dependencies {
     implementation(project(":utils"))
-    implementation(project(":feature:news-details-api"))
+    implementation(project(":feature:news-details:news-details-api"))
     implementation(libs.kotlinx.datetime)
 }
