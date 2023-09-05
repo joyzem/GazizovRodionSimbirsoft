@@ -13,7 +13,7 @@ android {
         minSdk = 23
         versionCode = 1
         versionName = "1.0"
-
+        compileSdkPreview = "UpsideDownCake"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
