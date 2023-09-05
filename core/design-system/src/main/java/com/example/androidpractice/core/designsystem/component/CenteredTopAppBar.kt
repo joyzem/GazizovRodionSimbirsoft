@@ -34,7 +34,7 @@ fun CenteredTopAppBar(
     modifier: Modifier = Modifier,
     navigationIcon: @Composable () -> Unit = {},
     actions: @Composable () -> Unit = {},
-    contentPadding: PaddingValues = AppBarDefaults.ContentPadding,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 20.dp),
     backgroundColor: Color = MaterialTheme.colors.primary,
     contentColor: Color = MaterialTheme.colors.onPrimary
 ) {
