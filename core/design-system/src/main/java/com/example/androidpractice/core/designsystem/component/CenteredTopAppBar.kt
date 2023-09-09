@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.AppBarDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.LocalContentColor
 import androidx.compose.material.LocalTextStyle
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
@@ -65,7 +63,8 @@ fun CenteredTopAppBar(
                         contentPadding.calculateStartPadding(LayoutDirection.Ltr).toPx().toInt()
 
                     val titlePlaceables = placeables[1]
-                    var titleXPosition = (constraints.maxWidth - titlePlaceables.sumOf { it.width }) / 2
+                    var titleXPosition =
+                        (constraints.maxWidth - titlePlaceables.sumOf { it.width }) / 2
 
                     val actionsPlaceables = placeables[2]
                     var actionsXPosition =
@@ -109,7 +108,7 @@ private fun PreviewTopAppBar() {
                 }
             },
             actions = {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = { }) {
                     Icon(
                         painterResource(id = R.drawable.ic_camera), null
                     )

@@ -1,7 +1,6 @@
 package com.example.androidpractice.core.designsystem.component
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -114,7 +113,7 @@ private fun PreviewTextField() {
             label = "email",
             modifier = Modifier.padding(16.dp),
             trailingIcon = {
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(24.dp)) {
+                IconButton(onClick = {  }, modifier = Modifier.size(24.dp)) {
                     Icon(painterResource(id = R.drawable.ic_eye_close), null)
                 }
             }
@@ -134,7 +133,7 @@ private fun PreviewTextFieldEmpty() {
             label = "email",
             modifier = Modifier.padding(16.dp),
             trailingIcon = {
-                IconButton(onClick = { /*TODO*/ }, modifier = Modifier.size(24.dp)) {
+                IconButton(onClick = {  }, modifier = Modifier.size(24.dp)) {
                     Icon(painterResource(id = R.drawable.ic_eye_close), null)
                 }
             }

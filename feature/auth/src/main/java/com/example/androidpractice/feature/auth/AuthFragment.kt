@@ -31,7 +31,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        return with(binding.authComposable) {
+        with(binding.authComposable) {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnDetachedFromWindow)
             setContent {
                 AppTheme {
@@ -61,8 +61,8 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
                         isLoginButtonActive = isLoginButtonEnabled,
                         loading = loading,
                         onLoginButtonClick = viewModel::loginButtonClicked,
-                        onForgotPasswordClick = { /*TODO*/ },
-                        onSignUpClick = { /*TODO*/ },
+                        onForgotPasswordClick = {  },
+                        onSignUpClick = { },
                         onNavigateUp = {
                             activity?.finish()
                         }

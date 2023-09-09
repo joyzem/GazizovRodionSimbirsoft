@@ -136,7 +136,7 @@ internal fun AuthScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = isLoginButtonActive && !loading
             ) {
-                Text("Войти".uppercase())
+                Text(stringResource(id = R.string.login).uppercase())
             }
             Spacer(modifier = Modifier.height(dimensionResource(id = designR.dimen.spacing_l)))
             Row(
@@ -191,12 +191,12 @@ private fun PreviewAuthScreen() {
             password = "asdifj",
             onPasswordInput = {},
             isPasswordHidden = true,
-            onChangePasswordVisibility = { /*TODO*/ },
+            onChangePasswordVisibility = { },
             isLoginButtonActive = false,
             loading = false,
-            onForgotPasswordClick = { /*TODO*/ },
-            onLoginButtonClick = {},
-            onSignUpClick = { /*TODO*/ }) {
+            onForgotPasswordClick = { },
+            onLoginButtonClick = { },
+            onSignUpClick = { }) {
 
         }
     }

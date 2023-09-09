@@ -26,7 +26,7 @@ fun AppButton(
 @Composable
 private fun PreviewAppButton() {
     AppTheme {
-        AppButton(onClick = { /*TODO*/ }) {
+        AppButton(onClick = {  }) {
             Text("Войти")
         }
     }
