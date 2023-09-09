@@ -45,7 +45,6 @@ import com.example.androidpractice.feature.news.getEventDateText
 import kotlinx.datetime.LocalDate
 import com.example.androidpractice.core.designsystem.R as designR
 
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EventItem(
@@ -99,7 +98,7 @@ fun EventItem(
                 Text(
                     text = event.title,
                     style = OfficinaSansExtraBoldSCC,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Center
                 )
                 Image(
                     painter = painterResource(id = designR.drawable.ic_event_decor),

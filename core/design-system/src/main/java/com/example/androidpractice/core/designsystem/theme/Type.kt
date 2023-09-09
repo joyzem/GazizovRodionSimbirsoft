@@ -12,8 +12,8 @@ import com.example.androidpractice.core.designsystem.R
 val Type = Typography(
     h6 = TextStyle(
         fontFamily = FontFamily(Font(R.font.officina_sans_scc_extrabold, FontWeight.Normal)),
-        fontSize = 21.sp,
-    ),
+        fontSize = 21.sp
+    )
 )
 
 val TextStylePopUpPlaceholder

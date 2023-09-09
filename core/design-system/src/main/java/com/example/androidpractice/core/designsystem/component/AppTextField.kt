@@ -83,7 +83,7 @@ fun AppTextField(
                 Text(text = label, style = labelTextStyle)
                 Spacer(modifier = Modifier.height(14.dp))
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(Modifier.weight(1f).padding(end = 8.dp)){
+                    Box(Modifier.weight(1f).padding(end = 8.dp)) {
                         innerTextField()
                         if (value.isEmpty()) {
                             Text(hint, style = TextStylePopUpPlaceholder)
@@ -97,7 +97,7 @@ fun AppTextField(
                 Divider()
                 Spacer(modifier = Modifier.height(8.dp))
             }
-        },
+        }
     )
 }
 
@@ -113,7 +113,7 @@ private fun PreviewTextField() {
             label = "email",
             modifier = Modifier.padding(16.dp),
             trailingIcon = {
-                IconButton(onClick = {  }, modifier = Modifier.size(24.dp)) {
+                IconButton(onClick = { }, modifier = Modifier.size(24.dp)) {
                     Icon(painterResource(id = R.drawable.ic_eye_close), null)
                 }
             }
@@ -133,7 +133,7 @@ private fun PreviewTextFieldEmpty() {
             label = "email",
             modifier = Modifier.padding(16.dp),
             trailingIcon = {
-                IconButton(onClick = {  }, modifier = Modifier.size(24.dp)) {
+                IconButton(onClick = { }, modifier = Modifier.size(24.dp)) {
                     Icon(painterResource(id = R.drawable.ic_eye_close), null)
                 }
             }

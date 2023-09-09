@@ -61,7 +61,7 @@ class AuthFragment : BaseFragment<FragmentAuthBinding, AuthViewModel>(
                         isLoginButtonActive = isLoginButtonEnabled,
                         loading = loading,
                         onLoginButtonClick = viewModel::loginButtonClicked,
-                        onForgotPasswordClick = {  },
+                        onForgotPasswordClick = { },
                         onSignUpClick = { },
                         onNavigateUp = {
                             activity?.finish()

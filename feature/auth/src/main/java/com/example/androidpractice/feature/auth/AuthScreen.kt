@@ -80,29 +80,32 @@ internal fun AuthScreen(
                 stringResource(id = R.string.auth_with_social_networks_to_participate_in_events),
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center,
-                color = colorResource(id = designR.color.black_70),
+                color = colorResource(id = designR.color.black_70)
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = designR.dimen.spacing_l)))
             Row(horizontalArrangement = Arrangement.spacedBy(40.dp)) {
                 SocialNetworkButton(
                     socialNetworkImageId = designR.drawable.ic_vk,
                     contentDescriptionId = null,
-                    onClick = {})
+                    onClick = {}
+                )
                 SocialNetworkButton(
                     socialNetworkImageId = designR.drawable.ic_facebook,
                     contentDescriptionId = null,
-                    onClick = {})
+                    onClick = {}
+                )
                 SocialNetworkButton(
                     socialNetworkImageId = designR.drawable.ic_ok,
                     contentDescriptionId = null,
-                    onClick = {})
+                    onClick = {}
+                )
             }
             Spacer(modifier = Modifier.height(40.dp))
             Text(
                 stringResource(id = R.string.or_auth_within_app),
                 fontSize = 14.sp,
                 textAlign = TextAlign.Center,
-                color = colorResource(id = designR.color.black_70),
+                color = colorResource(id = designR.color.black_70)
             )
             Spacer(modifier = Modifier.height(dimensionResource(id = designR.dimen.spacing_l)))
             AppTextField(
@@ -196,8 +199,8 @@ private fun PreviewAuthScreen() {
             loading = false,
             onForgotPasswordClick = { },
             onLoginButtonClick = { },
-            onSignUpClick = { }) {
-
+            onSignUpClick = { }
+        ) {
         }
     }
 }
@@ -211,7 +214,6 @@ private fun PreviewSocialNetworkIcon() {
             contentDescriptionId = null,
             modifier = Modifier.padding(16.dp)
         ) {
-
         }
     }
 }

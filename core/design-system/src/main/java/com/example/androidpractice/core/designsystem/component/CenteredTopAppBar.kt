@@ -50,7 +50,7 @@ fun CenteredTopAppBar(
         ) {
             val composables = listOf(navigationIcon, title, actions)
             Layout(
-                contents = composables,
+                contents = composables
             ) { measurables, constraints ->
                 val placeables = measurables.map { measurables ->
                     measurables.map {
@@ -110,7 +110,8 @@ private fun PreviewTopAppBar() {
             actions = {
                 IconButton(onClick = { }) {
                     Icon(
-                        painterResource(id = R.drawable.ic_camera), null
+                        painterResource(id = R.drawable.ic_camera),
+                        null
                     )
                 }
             }

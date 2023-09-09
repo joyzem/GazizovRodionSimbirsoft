@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 val LightThemeColors
     @Composable get() = lightColors(
         primary = leaf,
-        onPrimary = whiteColor,
+        onPrimary = whiteColor
     )
 
 @Composable

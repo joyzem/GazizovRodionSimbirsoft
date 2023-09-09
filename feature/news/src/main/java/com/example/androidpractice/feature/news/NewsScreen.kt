@@ -54,7 +54,7 @@ internal fun NewsScreen(
                     start = dimensionResource(id = designR.dimen.spacing_xs),
                     top = dimensionResource(id = designR.dimen.spacing_xs),
                     end = dimensionResource(id = designR.dimen.spacing_xs),
-                    bottom = dimensionResource(id = designR.dimen.spacing_m),
+                    bottom = dimensionResource(id = designR.dimen.spacing_m)
                 )
             ) {
                 items(events, key = { it.id }) { event ->
