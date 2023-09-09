@@ -41,13 +41,13 @@ import com.example.androidpractice.core.designsystem.theme.OfficinaSansExtraBold
 import com.example.androidpractice.core.designsystem.theme.TextStyle10
 import com.example.androidpractice.core.designsystem.theme.turtleGreen
 import com.example.androidpractice.core.model.event.Event
-import com.example.androidpractice.feature.news.getEventDateText
+import com.example.androidpractice.feature.news.utils.getEventDateText
 import kotlinx.datetime.LocalDate
 import com.example.androidpractice.core.designsystem.R as designR
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun EventItem(
+internal fun EventItem(
     event: Event,
     onEventClick: (eventId: String) -> Unit,
     modifier: Modifier = Modifier
