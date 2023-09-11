@@ -15,8 +15,8 @@ import com.example.androidpractice.feature.news.databinding.FragmentFiltersBindi
 import kotlinx.coroutines.launch
 import com.example.androidpractice.core.designsystem.R as designR
 
-class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>(
-    R.id.newsNavigation,
+internal class FiltersFragment : BaseFragment<FragmentFiltersBinding, FiltersViewModel>(
+    com.example.androidpractice.core.ui.R.id.newsNavItem,
     FragmentFiltersBinding::inflate
 ) {
     override val viewModel: FiltersViewModel by viewModels {

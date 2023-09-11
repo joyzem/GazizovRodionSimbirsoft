@@ -1,6 +1,7 @@
-package com.example.androidpractice.feature.news
+package com.example.androidpractice.feature.news.utils
 
-import android.view.View
+import android.content.Context
+import com.example.androidpractice.feature.news.R
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
@@ -11,7 +12,7 @@ import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-fun getEventDateText(view: View, dateStart: LocalDate, dateEnd: LocalDate): String {
+internal fun getEventDateText(context: Context, dateStart: LocalDate, dateEnd: LocalDate): String {
     val dateText = if (dateStart == dateEnd) {
         val localDate = dateStart.toJavaLocalDate()
         val formatter = SimpleDateFormat("LLL d, y", Locale("ru"))
@@ -30,7 +31,7 @@ fun getEventDateText(view: View, dateStart: LocalDate, dateEnd: LocalDate): Stri
         val period = dateEnd.minus(today).days
 
         if (period >= 0) {
-            view.resources.getQuantityString(
+            context.resources.getQuantityString(
                 R.plurals.event_date,
                 period,
                 period.toString(),
@@ -38,7 +39,7 @@ fun getEventDateText(view: View, dateStart: LocalDate, dateEnd: LocalDate): Stri
                 lastDayFormatted
             )
         } else {
-            view.resources.getString(R.string.event_is_over, lastDayFormatted, firstDayFormatted)
+            context.resources.getString(R.string.event_is_over, lastDayFormatted, firstDayFormatted)
         }
     }
     return dateText

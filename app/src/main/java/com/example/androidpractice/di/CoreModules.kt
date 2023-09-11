@@ -13,7 +13,7 @@ import dagger.Module
         NetworkModule::class,
         RetrofitModule::class,
         DatabaseModule::class,
-        InteractorModule::class,
+        InteractorModule::class
     ]
 )
 interface CoreModules

@@ -8,12 +8,14 @@ import com.example.androidpractice.feature.profile.di.ProfileVMModule
 import com.example.androidpractice.feature.search.di.SearchVMModule
 import dagger.Module
 
-@Module(includes = [
-    AuthVMModule::class,
-    HelpVMModule::class,
-    SearchVMModule::class,
-    ProfileVMModule::class,
-    NewsVMModule::class,
-    NewsDetailsVMModule::class
-])
+@Module(
+    includes = [
+        AuthVMModule::class,
+        HelpVMModule::class,
+        SearchVMModule::class,
+        ProfileVMModule::class,
+        NewsVMModule::class,
+        NewsDetailsVMModule::class
+    ]
+)
 interface ViewModelsDiModule

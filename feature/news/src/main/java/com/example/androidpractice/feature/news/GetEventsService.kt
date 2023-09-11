@@ -12,7 +12,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class GetEventsService : IntentService("GetEventsService") {
+internal class GetEventsService : IntentService("GetEventsService") {
 
     @Inject
     lateinit var repo: EventsRepo
