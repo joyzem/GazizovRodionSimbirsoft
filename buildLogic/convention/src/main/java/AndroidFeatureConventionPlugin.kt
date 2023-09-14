@@ -21,6 +21,7 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(":core:design-system"))
                 implementation(project(":mvi"))
                 implementation(project(":core:domain"))
+
                 add("testImplementation", libs.findLibrary("junit4").get())
                 add("androidTestImplementation", libs.findLibrary("androidx-test-espresso").get())
                 add("androidTestImplementation", libs.findLibrary("androidx-test-ext").get())

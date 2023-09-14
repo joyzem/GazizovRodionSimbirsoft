@@ -1,4 +1,4 @@
-package com.example.androidpractice.core.ui
+package com.example.androidpractice.core.ui.edittext
 
 import android.view.MotionEvent
 import android.widget.EditText

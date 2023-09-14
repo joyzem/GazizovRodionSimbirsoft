@@ -24,4 +24,5 @@
     <string name="donation_notification_id">Пожертвования</string>
     <string name="thanks_for_donation_of">Спасибо, что пожертвовали %s! Будем признательны, если вы сможете пожертвовать ещё больше.</string>
     <string name="remind_later">Напомнить позже</string>
+    <string name="remind_you_we_will_be_pleasure">Напоминаем, что мы будем очень признательны, если вы сможете пожертвовать ещё больше.</string>
 </resources>

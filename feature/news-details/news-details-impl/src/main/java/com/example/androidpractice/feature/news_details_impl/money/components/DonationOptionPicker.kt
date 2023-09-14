@@ -26,11 +26,11 @@ import java.util.Currency
 import java.util.Locale
 
 @Composable
-fun DonationOptionPicker(
+internal fun DonationOptionPicker(
     selectedOption: Int,
     possibleOptions: List<Int>,
     onOptionSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier
@@ -41,7 +41,7 @@ fun DonationOptionPicker(
             DonationOption(
                 option = money,
                 selected = selectedOption == money,
-                onOptionSelected = onOptionSelected,
+                onOptionSelected = onOptionSelected
             )
         }
     }
@@ -80,7 +80,7 @@ fun MoneyPickerPreview() {
         DonationOptionPicker(
             500,
             listOf(100, 500, 1000, 2000),
-            {},
+            {}
         )
     }
 }

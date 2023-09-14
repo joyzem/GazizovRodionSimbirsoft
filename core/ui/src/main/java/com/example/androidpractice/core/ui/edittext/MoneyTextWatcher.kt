@@ -1,4 +1,4 @@
-package com.example.androidpractice.feature.news_details_impl.utils
+package com.example.androidpractice.core.ui.edittext
 
 import android.text.Editable
 import android.text.TextWatcher

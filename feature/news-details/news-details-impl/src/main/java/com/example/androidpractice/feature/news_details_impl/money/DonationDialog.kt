@@ -2,9 +2,7 @@ package com.example.androidpractice.feature.news_details_impl.money
 
 import android.Manifest
 import android.app.Dialog
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -12,8 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.core.app.NotificationCompat
-import androidx.core.app.PendingIntentCompat
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
@@ -27,11 +23,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.work.Constraints
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
+import com.example.androidpractice.core.ui.edittext.MoneyTextWatcher
+import com.example.androidpractice.feature.news_details.NewsDetailsFeatureApi.Companion.EVENT_ID_KEY
+import com.example.androidpractice.feature.news_details.NewsDetailsFeatureApi.Companion.EVENT_NAME_KEY
 import com.example.androidpractice.feature.news_details_impl.NewsDetailsComponentViewModel
-import com.example.androidpractice.feature.news_details_impl.R
 import com.example.androidpractice.feature.news_details_impl.databinding.DialogDonationBinding
 import com.example.androidpractice.feature.news_details_impl.money.components.DonationOptionPicker
-import com.example.androidpractice.feature.news_details_impl.utils.MoneyTextWatcher
 import com.example.androidpractice.feature.news_details_impl.workers.DonationWorker
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -40,7 +37,7 @@ import java.util.Currency
 import java.util.Locale
 import javax.inject.Inject
 
-class DonationDialog : DialogFragment() {
+internal class DonationDialog : DialogFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -57,10 +54,10 @@ class DonationDialog : DialogFragment() {
         }
 
     private val eventId by lazy {
-        requireArguments().getString(EVENT_ID)
+        requireArguments().getString(EVENT_ID_KEY)
     }
     private val eventName by lazy {
-        requireArguments().getString(EVENT_NAME)
+        requireArguments().getString(EVENT_NAME_KEY)
     }
 
     private val viewModel by viewModels<DonationViewModel> {
@@ -128,7 +125,6 @@ class DonationDialog : DialogFragment() {
 
     private fun setTextWatchersOnDonationEditText(savedInstanceState: Bundle?) {
         with(binding) {
-
             val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("ru", "RU")).apply {
                 currency = Currency.getInstance("RUB")
                 maximumFractionDigits = 0
@@ -202,16 +198,14 @@ class DonationDialog : DialogFragment() {
 
     companion object {
         private const val INPUT_MONEY = "input_money"
-        private const val EVENT_ID = "event_id"
-        private const val EVENT_NAME = "event_name"
 
         fun getInstance(
             eventId: String,
             eventName: String
         ) = DonationDialog().apply {
             arguments = bundleOf(
-                EVENT_ID to eventId,
-                EVENT_NAME to eventName
+                EVENT_ID_KEY to eventId,
+                EVENT_NAME_KEY to eventName
             )
         }
     }

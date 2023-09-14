@@ -8,10 +8,8 @@ import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.FragmentManager
-import com.example.androidpractice.R
 import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.core.ui.navigation.BottomBaseNavController
-import com.example.androidpractice.feature.auth.AuthFragment
 import com.example.androidpractice.feature.help.HelpFragment
 import com.example.androidpractice.feature.news.NewsFragment
 import com.example.androidpractice.feature.profile.ProfileFragment
@@ -72,6 +70,7 @@ class BottomNavController private constructor(
             fragmentContainer: FragmentContainerView,
             helpImageView: ImageButton,
             @IdRes containerId: Int,
+            startDestination: BaseFragment<*, *>,
             savedInstanceState: Bundle?
         ): BottomNavController {
             return BottomNavController(
@@ -83,7 +82,7 @@ class BottomNavController private constructor(
             ).apply {
                 initNavigation()
                 if (savedInstanceState == null) {
-                    navigate(AuthFragment.newInstance())
+                    navigate(startDestination)
                 } else {
                     restoreState(savedInstanceState)
                 }

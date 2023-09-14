@@ -1,7 +1,7 @@
 package com.example.androidpractice.feature.news_details_impl.di
 
-import com.example.androidpractice.feature.news_details_impl.money.DonationDialog
 import com.example.androidpractice.feature.news_details_impl.NewsDetailsFragment
+import com.example.androidpractice.feature.news_details_impl.money.DonationDialog
 import dagger.Component
 
 @Component(dependencies = [NewsDetailsDeps::class])

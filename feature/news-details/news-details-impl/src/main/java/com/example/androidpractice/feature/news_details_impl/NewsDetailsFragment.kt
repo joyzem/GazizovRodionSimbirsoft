@@ -1,14 +1,19 @@
 package com.example.androidpractice.feature.news_details_impl
 
+import android.app.PendingIntent
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract.Instances.EVENT_ID
 import android.text.Spannable
 import android.text.Spanned
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.view.View
+import androidx.core.app.PendingIntentCompat
 import androidx.core.os.bundleOf
 import androidx.core.text.buildSpannedString
 import androidx.core.text.toSpannable
@@ -19,6 +24,7 @@ import com.example.androidpractice.core.model.event.Event
 import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.core.ui.navigation.findNavController
 import com.example.androidpractice.core.ui.spans.PhoneNumberSpan
+import com.example.androidpractice.feature.news_details.NewsDetailsFeatureApi.Companion.EVENT_ID_KEY
 import com.example.androidpractice.feature.news_details_impl.databinding.FragmentEventDetailsBinding
 import com.example.androidpractice.feature.news_details_impl.money.DonationDialog
 import com.example.androidpractice.feature.news_details_impl.utils.getEventDateText
@@ -34,16 +40,15 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
     }
 
     override fun injectViewModelFactory() {
-        ViewModelProvider(this).get<NewsDetailsComponentViewModel>().newsDetailsComponent.inject(
-            this
-        )
+        ViewModelProvider(this).get<NewsDetailsComponentViewModel>()
+            .newsDetailsComponent.inject(this)
     }
 
     private val eventId by lazy {
-        arguments?.getString(EVENT_ID) ?: throw IllegalStateException()
+        checkNotNull(arguments?.getString(EVENT_ID))
     }
     private val eventName by lazy {
-        viewModel.events.value?.find { it.id == eventId }?.title ?: throw IllegalStateException()
+        checkNotNull(viewModel.events.value?.find { it.id == eventId }?.title)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -51,7 +56,7 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
 
         with(binding) {
             toolbar.setNavigationOnClickListener {
-                findNavController().onBackPressed()
+                if (!findNavController().onBackPressed()) requireActivity().finish()
             }
             donationTextView.setOnClickListener {
                 DonationDialog.getInstance(eventId, eventName).show(childFragmentManager, null)
@@ -154,13 +159,26 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
     }
 
     companion object {
-        const val EVENT_ID = "event_id"
         fun newInstance(eventId: String): NewsDetailsFragment {
             return NewsDetailsFragment().apply {
                 arguments = bundleOf(
-                    EVENT_ID to eventId
+                    EVENT_ID_KEY to eventId
                 )
             }
         }
+
+        fun getScreenDeepLinkIntent(context: Context, eventId: String) = PendingIntentCompat.getActivity(
+            context,
+            0,
+            Intent().apply {
+                component = ComponentName(
+                    "com.example.androidpractice",
+                    "com.example.androidpractice.MainActivity"
+                )
+                putExtra(EVENT_ID_KEY, eventId)
+            },
+            PendingIntent.FLAG_ONE_SHOT,
+            false
+        )
     }
 }

@@ -37,6 +37,7 @@
         <service
             android:name=".feature.news.GetEventsService"
             android:exported="false" />
+
     </application>
 
 </manifest>
