@@ -39,6 +39,13 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
         )
     }
 
+    private val eventId by lazy {
+        arguments?.getString(EVENT_ID) ?: throw IllegalStateException()
+    }
+    private val eventName by lazy {
+        viewModel.events.value?.find { it.id == eventId }?.title ?: throw IllegalStateException()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,7 +54,7 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
                 findNavController().onBackPressed()
             }
             donationTextView.setOnClickListener {
-                DonationDialog().show(childFragmentManager, null)
+                DonationDialog.getInstance(eventId, eventName).show(childFragmentManager, null)
             }
         }
 
@@ -55,7 +62,6 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
     }
 
     private fun observe() {
-        val eventId: String = arguments?.getString(EVENT_ID) ?: ""
         viewModel.events.observe(viewLifecycleOwner) { events ->
             if (events != null) {
                 val event = events.find {

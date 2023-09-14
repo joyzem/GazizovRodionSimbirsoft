@@ -1,11 +1,21 @@
 package com.example.androidpractice.feature.news_details_impl.money
 
+import android.Manifest
 import android.app.Dialog
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.core.app.NotificationCompat
+import androidx.core.app.PendingIntentCompat
+import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
@@ -14,13 +24,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.work.Constraints
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.androidpractice.feature.news_details_impl.NewsDetailsComponentViewModel
+import com.example.androidpractice.feature.news_details_impl.R
 import com.example.androidpractice.feature.news_details_impl.databinding.DialogDonationBinding
 import com.example.androidpractice.feature.news_details_impl.money.components.DonationOptionPicker
 import com.example.androidpractice.feature.news_details_impl.utils.MoneyTextWatcher
+import com.example.androidpractice.feature.news_details_impl.workers.DonationWorker
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.lang.RuntimeException
 import java.text.NumberFormat
 import java.util.Currency
 import java.util.Locale
@@ -32,7 +46,22 @@ class DonationDialog : DialogFragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private var _binding: DialogDonationBinding? = null
-    val binding get() = _binding!!
+    private val binding get() = _binding!!
+
+    private val registerNotificationPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (!granted) {
+                // Show explanation dialog
+            }
+            launchPaymentWorker()
+        }
+
+    private val eventId by lazy {
+        requireArguments().getString(EVENT_ID)
+    }
+    private val eventName by lazy {
+        requireArguments().getString(EVENT_NAME)
+    }
 
     private val viewModel by viewModels<DonationViewModel> {
         viewModelFactory
@@ -47,9 +76,7 @@ class DonationDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let { activity ->
-            val builder = AlertDialog.Builder(activity)
-            val inflater = requireActivity().layoutInflater
-            _binding = DialogDonationBinding.inflate(inflater)
+            val builder = createBuilder(activity)
             with(binding) {
                 moneyPickerContainer.setContent {
                     val selectedOption by viewModel.selectedOption.collectAsState()
@@ -63,46 +90,104 @@ class DonationDialog : DialogFragment() {
                         }
                     )
                 }
+
                 cancelButton.setOnClickListener {
                     dismiss()
                 }
-
-                val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("ru", "RU")).apply {
-                    currency = Currency.getInstance("RUB")
-                    maximumFractionDigits = 0
-                }
-                suggestedMoneyEditText.addTextChangedListener(
-                    MoneyTextWatcher(
-                        suggestedMoneyEditText,
-                        currencyFormatter
-                    )
-                )
-                suggestedMoneyEditText.doAfterTextChanged { editable ->
-                    if (savedInstanceState?.getString(INPUT_MONEY) != null) {
-                        savedInstanceState.remove(INPUT_MONEY)
-                        return@doAfterTextChanged
-                    }
-                    try {
-                        currencyFormatter.parse(editable?.toString() ?: "")?.toInt()?.let { money ->
-                            viewModel.selectOption(money)
-                        } ?: viewModel.selectOption(0)
-                    } catch (e: Exception) {
-                        editable?.toString()?.toIntOrNull()?.let { money ->
-                            viewModel.selectOption(money)
-                        } ?: viewModel.selectOption(0)
-                    }
-                }
-                lifecycleScope.launch {
-                    repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                        viewModel.isInputValid.collectLatest { valid ->
-                            transferButton.isEnabled = valid
+                transferButton.setOnClickListener {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        if (checkNotificationPermissionGranted()) {
+                            launchPaymentWorker()
+                        } else {
+                            registerNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
                         }
+                    } else {
+                        launchPaymentWorker()
                     }
                 }
+
+                setTextWatchersOnDonationEditText(savedInstanceState)
             }
+
+            observeValidInput()
+
             builder.setView(binding.root)
             builder.create()
         } ?: throw IllegalStateException()
+    }
+
+    private fun observeValidInput() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                viewModel.isInputValid.collectLatest { valid ->
+                    binding.transferButton.isEnabled = valid
+                }
+            }
+        }
+    }
+
+    private fun setTextWatchersOnDonationEditText(savedInstanceState: Bundle?) {
+        with(binding) {
+
+            val currencyFormatter = NumberFormat.getCurrencyInstance(Locale("ru", "RU")).apply {
+                currency = Currency.getInstance("RUB")
+                maximumFractionDigits = 0
+            }
+            suggestedMoneyEditText.addTextChangedListener(
+                MoneyTextWatcher(
+                    suggestedMoneyEditText,
+                    currencyFormatter
+                )
+            )
+            suggestedMoneyEditText.doAfterTextChanged { editable ->
+                if (savedInstanceState?.getString(INPUT_MONEY) != null) {
+                    savedInstanceState.remove(INPUT_MONEY)
+                    return@doAfterTextChanged
+                }
+                try {
+                    currencyFormatter.parse(editable?.toString() ?: "")?.toInt()?.let { money ->
+                        viewModel.selectOption(money)
+                    } ?: viewModel.selectOption(0)
+                } catch (e: Exception) {
+                    editable?.toString()?.toIntOrNull()?.let { money ->
+                        viewModel.selectOption(money)
+                    } ?: viewModel.selectOption(0)
+                }
+            }
+        }
+    }
+
+    private fun checkNotificationPermissionGranted(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            true
+        }
+    }
+
+    private fun launchPaymentWorker() {
+        val workRequest = OneTimeWorkRequestBuilder<DonationWorker>()
+            .setInputData(
+                DonationWorker.createInputData(
+                    checkNotNull(eventId),
+                    checkNotNull(eventName),
+                    viewModel.selectedOption.value
+                )
+            )
+            .setConstraints(Constraints(requiresCharging = true))
+            .build()
+        WorkManager.getInstance(requireContext()).enqueue(workRequest)
+        dismiss()
+    }
+
+    private fun createBuilder(activity: Context): AlertDialog.Builder {
+        val builder = AlertDialog.Builder(activity)
+        val inflater = requireActivity().layoutInflater
+        _binding = DialogDonationBinding.inflate(inflater)
+        return builder
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -117,5 +202,17 @@ class DonationDialog : DialogFragment() {
 
     companion object {
         private const val INPUT_MONEY = "input_money"
+        private const val EVENT_ID = "event_id"
+        private const val EVENT_NAME = "event_name"
+
+        fun getInstance(
+            eventId: String,
+            eventName: String
+        ) = DonationDialog().apply {
+            arguments = bundleOf(
+                EVENT_ID to eventId,
+                EVENT_NAME to eventName
+            )
+        }
     }
 }

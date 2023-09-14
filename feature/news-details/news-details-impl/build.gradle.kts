@@ -19,8 +19,11 @@ dependencies {
     implementation(project(":feature:news-details:news-details-api"))
     implementation(project(":utils"))
     implementation(libs.kotlinx.datetime)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.tooling.preview)
     debugImplementation(libs.androidx.compose.tooling)
+
+    implementation(libs.androidx.work.runtime)
 }

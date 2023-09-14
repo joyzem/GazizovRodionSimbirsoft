@@ -1,6 +1,7 @@
 package com.example.androidpractice
 
 import android.app.Application
+import androidx.core.app.NotificationManagerCompat
 import com.example.androidpractice.di.AppComponent
 import com.example.androidpractice.di.DaggerAppComponent
 import com.example.androidpractice.feature.auth.di.AuthDepsStore
@@ -24,5 +25,14 @@ class App : Application() {
         SearchDepsStore.deps = appComponent
         NewsDepsStore.deps = appComponent
         NewsDetailsDepsStore.deps = appComponent
+
+        createNotificationChannels()
+    }
+
+    private fun createNotificationChannels() {
+        val newsDetailsChannel = appComponent.newsDetailsFeatureApi.createNotificationChannel(this)
+        if (newsDetailsChannel != null) {
+            NotificationManagerCompat.from(this).createNotificationChannel(newsDetailsChannel)
+        }
     }
 }
