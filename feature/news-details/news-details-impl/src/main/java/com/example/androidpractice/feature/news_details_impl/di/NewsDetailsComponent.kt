@@ -1,5 +1,6 @@
 package com.example.androidpractice.feature.news_details_impl.di
 
+import com.example.androidpractice.feature.news_details_impl.money.DonationDialog
 import com.example.androidpractice.feature.news_details_impl.NewsDetailsFragment
 import dagger.Component
 
@@ -13,4 +14,6 @@ internal interface NewsDetailsComponent {
     }
 
     fun inject(fragment: NewsDetailsFragment)
+
+    fun inject(dialog: DonationDialog)
 }

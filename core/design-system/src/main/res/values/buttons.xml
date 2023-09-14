@@ -7,6 +7,11 @@
         <item name="android:textAppearance">@style/TextStyle7</item>
     </style>
 
+    <style name="Theme.AndroidPractice.OutlinedButton">
+        <item name="android:textAppearance">@style/TextStylePopupButton</item>
+        <item name="android:letterSpacing">0.5</item>
+    </style>
+
     <style name="Theme.AndroidPractice.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
         <item name="android:textSize">16sp</item>

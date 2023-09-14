@@ -20,6 +20,8 @@ import com.example.androidpractice.core.ui.BaseFragment
 import com.example.androidpractice.core.ui.navigation.findNavController
 import com.example.androidpractice.core.ui.spans.PhoneNumberSpan
 import com.example.androidpractice.feature.news_details_impl.databinding.FragmentEventDetailsBinding
+import com.example.androidpractice.feature.news_details_impl.money.DonationDialog
+import com.example.androidpractice.feature.news_details_impl.utils.getEventDateText
 import com.example.androidpractice.core.designsystem.R as designR
 
 class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetailsViewModel>(
@@ -39,8 +41,14 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener {
-            findNavController().onBackPressed()
+
+        with(binding) {
+            toolbar.setNavigationOnClickListener {
+                findNavController().onBackPressed()
+            }
+            donationTextView.setOnClickListener {
+                DonationDialog().show(childFragmentManager, null)
+            }
         }
 
         observe()

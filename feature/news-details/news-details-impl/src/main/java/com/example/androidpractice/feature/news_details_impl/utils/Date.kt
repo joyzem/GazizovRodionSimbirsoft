@@ -1,6 +1,7 @@
-package com.example.androidpractice.feature.news_details_impl
+package com.example.androidpractice.feature.news_details_impl.utils
 
 import android.view.View
+import com.example.androidpractice.feature.news_details_impl.R
 import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
