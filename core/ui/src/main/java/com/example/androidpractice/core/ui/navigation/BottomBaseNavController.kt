@@ -49,7 +49,8 @@ abstract class BottomBaseNavController(
      * @return [true] if the fragment was replaced, [false] - otherwise
      */
     override fun onBackPressed(): Boolean {
-        if (bottomNavStack.size == 1) {
+        if (bottomNavStack.empty()) return false
+        if (bottomNavStack.size == 1 && backStackMap[bottomNavStack.peek()] == 1) {
             return false // finish application
         }
         val currentItemId = bottomNavStack.peek()
@@ -94,6 +95,20 @@ abstract class BottomBaseNavController(
             addToBackStack(fragment.bottomNavigationId.toString())
             backStackMap[fragment.bottomNavigationId] =
                 backStackMap.getOrDefault(fragment.bottomNavigationId, 1) + 1
+        }
+    }
+
+    override fun navigateDeepLink(fragments: List<BaseFragment<*, *>>) {
+        bottomNavStack.push(fragments.first().bottomNavigationId)
+        fragmentManager.saveBackStack(fragments.first().bottomNavigationId.toString())
+        fragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(containerId, fragments.last())
+            fragments.forEach { fragment ->
+                addToBackStack(fragment.bottomNavigationId.toString())
+                backStackMap[fragment.bottomNavigationId] =
+                    backStackMap.getOrDefault(fragment.bottomNavigationId, 1) + 1
+            }
         }
     }
 

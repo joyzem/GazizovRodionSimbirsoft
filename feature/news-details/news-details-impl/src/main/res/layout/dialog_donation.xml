@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="21dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/TextStylePopupHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_xs"
+        android:gravity="center"
+        android:text="@string/thanks_for_desicion_to_help" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/TextStylePopupFieldTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_xs"
+        android:layout_marginTop="@dimen/spacing_s"
+        android:text="@string/choose_money_amount" />
+
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/moneyPickerContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        tools:composableName="com.example.androidpractice.feature.news_details_impl.money.components.DonationOptionPickerKt.MoneyPickerPreview" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/TextStylePopupFieldTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_l"
+        android:text="@string/or_enter_your_value" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/suggestedMoneyEditText"
+        style="@style/TextStylePopupPlaceholder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/spacing_l"
+        android:layout_marginTop="@dimen/spacing_xs"
+        android:background="@drawable/background_edit_text"
+        android:gravity="center"
+        android:textColorHint="@color/black_38"
+        android:hint="@string/input_the_amount"
+        android:inputType="numberDecimal"
+        android:paddingTop="10dp"
+        android:paddingBottom="15dp"
+        />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:padding="@dimen/spacing_xs">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancelButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextStylePopupButton" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/transferButton"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_xs"
+            android:text="@string/transfer"
+            android:textAllCaps="true"
+            android:textAppearance="@style/TextStylePopupButton" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</LinearLayout>

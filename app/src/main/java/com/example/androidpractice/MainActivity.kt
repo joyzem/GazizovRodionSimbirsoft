@@ -32,14 +32,18 @@ class MainActivity : AppCompatActivity(), NavController.NavControllerOwner {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
+
         setContentView(view)
 
+        val startDestination =
+            DeepLinkManager().getDeepLinkFragmentOrDefault(intent, AuthFragment.newInstance())
         navController = BottomNavController.newInstance(
             binding.bottomNavView,
             supportFragmentManager,
             binding.fragmentContainer,
             binding.helpButton,
             R.id.fragmentContainer,
+            startDestination,
             savedInstanceState
         )
 

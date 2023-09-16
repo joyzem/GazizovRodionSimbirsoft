@@ -98,7 +98,8 @@ internal fun EventItem(
                 Text(
                     text = event.title,
                     style = OfficinaSansExtraBoldSCC,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 20.dp)
                 )
                 Image(
                     painter = painterResource(id = designR.drawable.ic_event_decor),

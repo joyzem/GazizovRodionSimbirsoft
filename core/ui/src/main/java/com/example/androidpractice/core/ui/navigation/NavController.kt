@@ -19,6 +19,8 @@ interface NavController {
      */
     fun navigate(fragment: BaseFragment<*, *>)
 
+    fun navigateDeepLink(fragments: List<BaseFragment<*, *>>)
+
     fun navigateToBottomDestination(bottomNavId: Int, popCurrent: Boolean = false)
 
     fun restoreState(savedInstanceState: Bundle)
