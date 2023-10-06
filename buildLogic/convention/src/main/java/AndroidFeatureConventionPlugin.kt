@@ -22,6 +22,11 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 implementation(project(":mvi"))
                 implementation(project(":core:domain"))
 
+                add("testImplementation", libs.findLibrary("org-robolectric").get())
+                add("testImplementation", libs.findLibrary("androidx-test-core-ktx").get())
+                add("testImplementation", libs.findLibrary("androidx-test-ext-junit").get())
+                add("testImplementation", libs.findLibrary("io-mockk").get())
+                add("testImplementation", libs.findLibrary("androidx-arch-core-testing").get())
                 add("testImplementation", libs.findLibrary("junit4").get())
                 add("androidTestImplementation", libs.findLibrary("androidx-test-espresso").get())
                 add("androidTestImplementation", libs.findLibrary("androidx-test-ext").get())
