@@ -72,6 +72,7 @@ obj/
 /out/
 
 # User-specific configurations
+.idea
 .idea/caches/
 .idea/libraries/
 .idea/shelf/
@@ -136,3 +137,6 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio
+
+# Platform
+**/.DS_Store
