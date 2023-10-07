@@ -1,8 +1,10 @@
+import com.android.build.gradle.LibraryExtension
 import com.example.buildlogic.convention.getLibsCatalog
 import com.example.buildlogic.convention.implementation
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.getByType
 
 class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -11,6 +13,12 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
                 apply("com.example.convention.library")
                 apply("com.example.convention.dagger")
                 apply("com.example.convention.library.view")
+            }
+
+            extensions.getByType<LibraryExtension>().apply {
+                defaultConfig {
+                    testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+                }
             }
 
             val libs = getLibsCatalog()

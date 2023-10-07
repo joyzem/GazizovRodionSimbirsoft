@@ -23,5 +23,10 @@ dependencies {
     implementation(libs.io.coil.compose)
     implementation(libs.androidx.compose.material)
     implementation(libs.androidx.compose.tooling.preview)
+
+
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+    androidTestImplementation(libs.androidx.compose.test.junit4)
+    debugImplementation(libs.androidx.compose.test.manifest)
     debugImplementation(libs.androidx.compose.tooling)
 }
