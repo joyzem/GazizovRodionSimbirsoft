@@ -101,7 +101,7 @@ internal fun EventItem(
                     text = event.title,
                     style = OfficinaSansExtraBoldSCC,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 20.dp).semantics { testTag = "title_${event.id}" },
+                    modifier = Modifier.padding(horizontal = 20.dp).semantics { testTag = "title_${event.id}" }
                 )
                 Image(
                     painter = painterResource(id = designR.drawable.ic_event_decor),

@@ -58,16 +58,16 @@ class NewsViewModelTest {
 
     @Test
     fun `observing events when one filter applied returns events with only that filter`() = runTest {
-            every { categoriesRepo.appliedFilters } returns MutableStateFlow(mockCategoryFilters.filter { it.category.id == "1" })
-            viewModel = NewsViewModel(eventsRepo, categoriesRepo)
-            backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
-                viewModel.events.collect()
-            }
-            assertEquals(
-                mockEvents.filter { it.category == "1" }.size,
-                viewModel.events.value?.size
-            )
+        every { categoriesRepo.appliedFilters } returns MutableStateFlow(mockCategoryFilters.filter { it.category.id == "1" })
+        viewModel = NewsViewModel(eventsRepo, categoriesRepo)
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) {
+            viewModel.events.collect()
         }
+        assertEquals(
+            mockEvents.filter { it.category == "1" }.size,
+            viewModel.events.value?.size
+        )
+    }
 
     @After
     fun clear() {

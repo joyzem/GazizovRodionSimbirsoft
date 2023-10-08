@@ -27,7 +27,7 @@ class HelpViewModelTest {
     private val categories = listOf(
         Category("1", "Дети", "url"),
         Category("2", "Взрослые", "url"),
-        Category("3", "Животные", "url"),
+        Category("3", "Животные", "url")
     )
 
     @Before

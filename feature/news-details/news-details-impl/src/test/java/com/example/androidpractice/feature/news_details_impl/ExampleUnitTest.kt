@@ -1,6 +1,6 @@
 package com.example.androidpractice.feature.news_details_impl
 
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 /**
