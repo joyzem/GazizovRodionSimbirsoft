@@ -37,7 +37,7 @@ class ProfileFragmentTest {
             null,
             designR.style.Theme_AndroidPractice
         ) {
-            val profileFragment = spyk<ProfileFragment>().apply {
+            val profileFragment = spyk<ProfileFragment> {
                 every { injectViewModelFactory() } answers {}
                 every { viewModelFactory } returns viewModelProvider
             }
