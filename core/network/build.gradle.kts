@@ -15,4 +15,6 @@ dependencies {
     implementation(libs.squareup.okhttp3)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.kotlinx.datetime)
+    testImplementation(libs.junit4)
+    testImplementation(project(":utils"))
 }

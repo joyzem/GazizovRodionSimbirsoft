@@ -29,6 +29,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.testTag
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -99,7 +101,7 @@ internal fun EventItem(
                     text = event.title,
                     style = OfficinaSansExtraBoldSCC,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 20.dp)
+                    modifier = Modifier.padding(horizontal = 20.dp).semantics { testTag = "title_${event.id}" }
                 )
                 Image(
                     painter = painterResource(id = designR.drawable.ic_event_decor),

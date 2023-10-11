@@ -75,7 +75,7 @@ class NewsDetailsFragment : BaseFragment<FragmentEventDetailsBinding, NewsDetail
                 event?.let {
                     setEvent(it)
                     viewModel.readEvent(eventId)
-                }
+                } ?: throw IllegalStateException()
             }
         }
     }
